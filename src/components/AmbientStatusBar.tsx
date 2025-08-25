@@ -7,13 +7,15 @@ interface AmbientStatusBarProps {
   onInspirationToggle: () => void;
   memoryOpen: boolean;
   inspirationOpen: boolean;
+  onSettingsClick?: () => void;
 }
 
 export function AmbientStatusBar({
   onMemoryToggle,
   onInspirationToggle,
   memoryOpen,
-  inspirationOpen
+  inspirationOpen,
+  onSettingsClick
 }: AmbientStatusBarProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -104,7 +106,10 @@ export function AmbientStatusBar({
         </button>
 
         {/* Settings */}
-        <button className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105">
+        <button 
+          onClick={onSettingsClick}
+          className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105"
+        >
           <Settings size={16} className="text-[#E3DCD4]/60 hover:text-[#E3DCD4]" />
         </button>
 

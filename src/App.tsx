@@ -3,14 +3,17 @@ import { AmbientStatusBar } from './components/AmbientStatusBar';
 import { MemoryContextPanel } from './components/MemoryContextPanel';
 import { InspirationContextPanel } from './components/InspirationContextPanel';
 import { ConversationCanvas } from './components/ConversationCanvas';
-import { SmartContextDrawer } from './components/SmartContextDrawer';
 import { SplashScreen } from './components/SplashScreen';
+import { PreferencesModal } from './components/PreferencesModal';
+import { IncognitoInterface } from './components/IncognitoInterface';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [memoryPanelOpen, setMemoryPanelOpen] = useState(false);
   const [inspirationPanelOpen, setInspirationPanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
+  const [showPreferences, setShowPreferences] = useState(false);
+  const [incognitoMode, setIncognitoMode] = useState(false);
 
   // Handle responsive behavior
   useEffect(() => {
@@ -112,6 +115,10 @@ function App() {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
+  if (incognitoMode) {
+    return <IncognitoInterface onExitIncognito={() => setIncognitoMode(false)} />;
+  }
+
   return (
     <div className="h-screen bg-[#E3DCD4] overflow-hidden font-sans">
       {/* Ambient Top Status Bar - Ultra-thin, conversation-focused */}
@@ -120,6 +127,7 @@ function App() {
         onInspirationToggle={() => setInspirationPanelOpen(prev => !prev)}
         memoryOpen={memoryPanelOpen}
         inspirationOpen={inspirationPanelOpen}
+        onSettingsClick={() => setShowPreferences(true)}
       />
 
       {/* Main Conversation-Centric Layout */}
@@ -159,6 +167,13 @@ function App() {
           }}
         />
       )}
+
+      {/* Preferences Modal */}
+      <PreferencesModal 
+        isOpen={showPreferences} 
+        onClose={() => setShowPreferences(false)}
+        onActivateIncognito={() => setIncognitoMode(true)}
+      />
     </div>
   );
 }

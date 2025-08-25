@@ -193,13 +193,15 @@ export function MemoryContextPanel({
                 </div>
             </div>
 
-            {/* Status Footer */}
-            <div className="p-6 border-t border-[#E3DCD4]/20">
+            {/* Help & Support Footer */}
+            <div className="p-4 border-t border-[#E3DCD4]/20 mt-auto">
                 <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-[#E3DCD4] rounded-full animate-pulse"></div>
+                    <div className="w-8 h-8 bg-[#E3DCD4]/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <span className="text-[#E3DCD4] text-sm font-bold">?</span>
+                    </div>
                     <div>
-                        <div className="text-sm font-medium">Navigation Active</div>
-                        <div className="text-xs text-[#E3DCD4]/60">Contextual to conversation</div>
+                        <div className="text-sm font-medium">Help & Support</div>
+                        <div className="text-xs text-[#E3DCD4]/60">Get assistance anytime</div>
                     </div>
                 </div>
             </div>
