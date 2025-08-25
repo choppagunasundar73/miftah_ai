@@ -1,0 +1,210 @@
+import React, { useState } from 'react';
+import {
+    MessageCircle,
+    Lightbulb,
+    Compass,
+    Calendar,
+    Route,
+    ChevronLeft,
+    User,
+    Clock,
+    Star
+} from 'lucide-react';
+
+interface MemoryContextPanelProps {
+    isOpen: boolean;
+    onToggle: () => void;
+    activeSection: string;
+    onSectionChange: (section: string) => void;
+}
+
+export function MemoryContextPanel({
+    isOpen,
+    onToggle,
+    activeSection,
+    onSectionChange
+}: MemoryContextPanelProps) {
+    const navigationSections = [
+        {
+            id: 'chats',
+            label: 'Chats',
+            icon: MessageCircle,
+            description: 'Your conversations',
+            badge: 3
+        },
+        {
+            id: 'recommendations',
+            label: 'Recommendations',
+            icon: Lightbulb,
+            description: 'AI suggestions',
+            badge: null
+        },
+        {
+            id: 'discover',
+            label: 'Discover',
+            icon: Compass,
+            description: 'Explore experiences',
+            badge: null
+        },
+        {
+            id: 'booking',
+            label: 'Booking',
+            icon: Calendar,
+            description: 'Reservations',
+            badge: 2
+        },
+        {
+            id: 'calendar',
+            label: 'Calendar',
+            icon: Calendar,
+            description: 'Your schedule',
+            badge: null
+        },
+        {
+            id: 'itinerary',
+            label: 'Itinerary',
+            icon: Route,
+            description: 'Trip planning',
+            badge: null
+        }
+    ];
+
+    const recentActivity = [
+        { action: 'Booked dinner at Nobu', time: '2 hours ago', type: 'booking' },
+        { action: 'Saved Burj Al Arab', time: '1 day ago', type: 'saved' },
+        { action: 'Viewed desert safari', time: '2 days ago', type: 'viewed' }
+    ];
+
+    return (
+        <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-[#957D65] text-[#E3DCD4] transition-transform duration-300 z-30 shadow-2xl shadow-[#222635]/20 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+            } w-80 overflow-hidden backdrop-blur-sm`}>
+
+            {/* Header */}
+            <div className="p-6 border-b border-[#E3DCD4]/20">
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-[#E3DCD4]/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                            <User size={20} className="text-[#E3DCD4]" />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-serif font-medium tracking-wide">Memory</h2>
+                            <p className="text-xs text-[#E3DCD4]/70 tracking-wider">NAVIGATION</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onToggle}
+                        className="p-2 hover:bg-[#E3DCD4]/10 rounded-lg transition-all duration-200 hover:scale-105 lg:hidden"
+                    >
+                        <ChevronLeft size={18} />
+                    </button>
+                </div>
+
+                {/* Horizontal Scrollable Navigation */}
+                <div className="overflow-x-auto scrollbar-hide">
+                    <div className="flex space-x-2 pb-2 min-w-max">
+                        {navigationSections.map((section) => {
+                            const Icon = section.icon;
+                            const isActive = activeSection === section.id;
+
+                            return (
+                                <button
+                                    key={section.id}
+                                    onClick={() => onSectionChange(section.id)}
+                                    className={`flex-shrink-0 flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] ${isActive
+                                        ? 'bg-[#E3DCD4]/20 text-[#E3DCD4] border border-[#E3DCD4]/30 shadow-sm'
+                                        : 'bg-[#E3DCD4]/5 text-[#E3DCD4]/80 hover:bg-[#E3DCD4]/10 hover:text-[#E3DCD4]'
+                                        }`}
+                                >
+                                    <div className="relative">
+                                        <Icon size={18} />
+                                        {section.badge && (
+                                            <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#E3DCD4] rounded-full flex items-center justify-center">
+                                                <span className="text-[#957D65] text-xs font-bold">{section.badge}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <span className="font-medium tracking-wide whitespace-nowrap">{section.label}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto">
+                <div className="p-6 space-y-6">
+                    {/* Active Section Info */}
+                    <div className="bg-[#E3DCD4]/10 backdrop-blur-sm rounded-xl p-4 border border-[#E3DCD4]/20">
+                        <div className="flex items-center space-x-3 mb-2">
+                            {(() => {
+                                const activeItem = navigationSections.find(s => s.id === activeSection);
+                                const Icon = activeItem?.icon || MessageCircle;
+                                return <Icon size={20} className="text-[#E3DCD4]" />;
+                            })()}
+                            <h3 className="font-serif font-medium text-lg tracking-wide">
+                                {navigationSections.find(s => s.id === activeSection)?.label || 'Chats'}
+                            </h3>
+                        </div>
+                        <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
+                            {navigationSections.find(s => s.id === activeSection)?.description || 'Your conversations'}
+                        </p>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div>
+                        <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/80 mb-4">
+                            Recent Activity
+                        </h3>
+                        <div className="space-y-3">
+                            {recentActivity.map((activity, i) => (
+                                <div key={i} className="bg-[#E3DCD4]/5 backdrop-blur-sm rounded-lg p-3 border border-[#E3DCD4]/10">
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <p className="text-sm font-medium text-[#E3DCD4] mb-1">{activity.action}</p>
+                                            <div className="flex items-center space-x-2 text-xs text-[#E3DCD4]/60">
+                                                <Clock size={10} />
+                                                <span>{activity.time}</span>
+                                            </div>
+                                        </div>
+                                        <div className={`w-2 h-2 rounded-full mt-1 ${activity.type === 'booking' ? 'bg-[#E3DCD4]' :
+                                            activity.type === 'saved' ? 'bg-[#E3DCD4]/70' : 'bg-[#E3DCD4]/40'
+                                            }`}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Quick Stats */}
+                    <div>
+                        <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/80 mb-4">
+                            Quick Stats
+                        </h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-[#E3DCD4]/10 backdrop-blur-sm rounded-lg p-3 border border-[#E3DCD4]/20 text-center">
+                                <div className="text-lg font-serif font-medium text-[#E3DCD4]">12</div>
+                                <div className="text-xs text-[#E3DCD4]/60">Conversations</div>
+                            </div>
+                            <div className="bg-[#E3DCD4]/10 backdrop-blur-sm rounded-lg p-3 border border-[#E3DCD4]/20 text-center">
+                                <div className="text-lg font-serif font-medium text-[#E3DCD4]">5</div>
+                                <div className="text-xs text-[#E3DCD4]/60">Bookings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Status Footer */}
+            <div className="p-6 border-t border-[#E3DCD4]/20">
+                <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-[#E3DCD4] rounded-full animate-pulse"></div>
+                    <div>
+                        <div className="text-sm font-medium">Navigation Active</div>
+                        <div className="text-xs text-[#E3DCD4]/60">Contextual to conversation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
