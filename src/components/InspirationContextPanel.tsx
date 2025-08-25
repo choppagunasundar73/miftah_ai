@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Compass, Sparkles, TrendingUp, Clock, ChevronRight, ExternalLink } from 'lucide-react';
 
 interface InspirationContextPanelProps {

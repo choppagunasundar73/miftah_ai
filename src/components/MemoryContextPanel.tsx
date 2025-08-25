@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     MessageCircle,
     Lightbulb,
@@ -99,35 +99,33 @@ export function MemoryContextPanel({
                     </button>
                 </div>
 
-                {/* Horizontal Scrollable Navigation */}
-                <div className="overflow-x-auto scrollbar-hide">
-                    <div className="flex space-x-2 pb-2 min-w-max">
-                        {navigationSections.map((section) => {
-                            const Icon = section.icon;
-                            const isActive = activeSection === section.id;
+                {/* Vertical Navigation */}
+                <div className="space-y-2">
+                    {navigationSections.map((section) => {
+                        const Icon = section.icon;
+                        const isActive = activeSection === section.id;
 
-                            return (
-                                <button
-                                    key={section.id}
-                                    onClick={() => onSectionChange(section.id)}
-                                    className={`flex-shrink-0 flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] ${isActive
-                                        ? 'bg-[#E3DCD4]/20 text-[#E3DCD4] border border-[#E3DCD4]/30 shadow-sm'
-                                        : 'bg-[#E3DCD4]/5 text-[#E3DCD4]/80 hover:bg-[#E3DCD4]/10 hover:text-[#E3DCD4]'
-                                        }`}
-                                >
-                                    <div className="relative">
-                                        <Icon size={18} />
-                                        {section.badge && (
-                                            <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#E3DCD4] rounded-full flex items-center justify-center">
-                                                <span className="text-[#957D65] text-xs font-bold">{section.badge}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <span className="font-medium tracking-wide whitespace-nowrap">{section.label}</span>
-                                </button>
-                            );
-                        })}
-                    </div>
+                        return (
+                            <button
+                                key={section.id}
+                                onClick={() => onSectionChange(section.id)}
+                                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] ${isActive
+                                    ? 'bg-[#E3DCD4]/20 text-[#E3DCD4] border border-[#E3DCD4]/30 shadow-sm'
+                                    : 'bg-[#E3DCD4]/5 text-[#E3DCD4]/80 hover:bg-[#E3DCD4]/10 hover:text-[#E3DCD4]'
+                                    }`}
+                            >
+                                <div className="relative">
+                                    <Icon size={18} />
+                                    {section.badge && (
+                                        <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#E3DCD4] rounded-full flex items-center justify-center">
+                                            <span className="text-[#957D65] text-xs font-bold">{section.badge}</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <span className="font-medium tracking-wide">{section.label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
@@ -176,8 +174,8 @@ export function MemoryContextPanel({
                         </div>
                     </div>
 
-                    {/* Quick Stats */}
-                    <div>
+                    {/* Quick Stats - Commented out */}
+                    {/* <div>
                         <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/80 mb-4">
                             Quick Stats
                         </h3>
@@ -191,7 +189,7 @@ export function MemoryContextPanel({
                                 <div className="text-xs text-[#E3DCD4]/60">Bookings</div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AmbientStatusBar } from './components/AmbientStatusBar';
 import { MemoryContextPanel } from './components/MemoryContextPanel';
 import { InspirationContextPanel } from './components/InspirationContextPanel';
 import { ConversationCanvas } from './components/ConversationCanvas';
 import { SmartContextDrawer } from './components/SmartContextDrawer';
+import { SplashScreen } from './components/SplashScreen';
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [memoryPanelOpen, setMemoryPanelOpen] = useState(false);
   const [inspirationPanelOpen, setInspirationPanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
@@ -106,6 +108,10 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <div className="h-screen bg-[#E3DCD4] overflow-hidden font-sans">
       {/* Ambient Top Status Bar - Ultra-thin, conversation-focused */}
@@ -140,8 +146,8 @@ function App() {
         />
       </div>
 
-      {/* Smart Context Drawer - Contextual actions repositioned */}
-      <SmartContextDrawer />
+      {/* Smart Context Drawer - Contextual actions repositioned - Commented out */}
+      {/* <SmartContextDrawer /> */}
 
       {/* Overlay for mobile panel management */}
       {(memoryPanelOpen || inspirationPanelOpen) && window.innerWidth < 1024 && (
