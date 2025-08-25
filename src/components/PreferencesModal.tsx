@@ -232,7 +232,7 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes slide-in-right {
           from { transform: translateX(100%); opacity: 0; }
           to { transform: translateX(0); opacity: 1; }
