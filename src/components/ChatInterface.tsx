@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, MapPin, Calendar, Utensils, Camera, Star, ChevronRight } from 'lucide-react';
 import { PlaceholderImage } from './PlaceholderImage';
+import miftahLogo from '../assets/miftah_logo.png';
 
 interface Message {
   id: string;
@@ -30,12 +31,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
   const [isInitialState, setIsInitialState] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const mockChatHistory = [
-    { id: '1', title: 'Dubai Mall Shopping', preview: 'Looking for luxury brands...', time: '2 hours ago' },
-    { id: '2', title: 'Desert Safari Booking', preview: 'Best desert safari experience...', time: '1 day ago' },
-    { id: '3', title: 'Fine Dining Reservations', preview: 'Nobu Dubai reservation...', time: '2 days ago' },
-    { id: '4', title: 'Yacht Charter Inquiry', preview: 'Private yacht for weekend...', time: '3 days ago' },
-  ];
+
 
   const searchRecommendations = [
     { icon: MapPin, text: 'Best luxury hotels in Dubai Marina', category: 'Hotels' },
@@ -69,9 +65,9 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
 
     // Simulate AI response with booking cards for restaurant queries
     setTimeout(() => {
-      const isRestaurantQuery = currentInput.toLowerCase().includes('restaurant') || 
-                               currentInput.toLowerCase().includes('dinner') || 
-                               currentInput.toLowerCase().includes('dining');
+      const isRestaurantQuery = currentInput.toLowerCase().includes('restaurant') ||
+        currentInput.toLowerCase().includes('dinner') ||
+        currentInput.toLowerCase().includes('dining');
 
       let aiMessage: Message;
 
@@ -141,8 +137,12 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
           <div className="max-w-2xl w-full space-y-8 text-center">
             {/* Welcome message */}
             <div className="space-y-4">
-              <div className="w-16 h-16 bg-[#957D65]/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
-                <Sparkles size={32} className="text-[#957D65]" />
+              <div className="w-20 h-20 mx-auto mb-6">
+                <img
+                  src={miftahLogo}
+                  alt="Miftah AI"
+                  className="w-full h-full object-contain filter drop-shadow-lg"
+                />
               </div>
               <h2 className="text-3xl font-serif font-medium text-[#E3DCD4] tracking-wide">
                 How can I assist you today?
@@ -203,27 +203,8 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
       ) : (
         // Chat conversation state
         <>
-          {/* Chat history sidebar */}
-          <div className="absolute left-4 top-4 bottom-20 w-64 bg-[#E3DCD4]/10 backdrop-blur-sm rounded-xl border border-[#E3DCD4]/20 p-4 z-10">
-            <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/80 mb-4">
-              Recent Chats
-            </h3>
-            <div className="space-y-2">
-              {mockChatHistory.map((chat) => (
-                <button
-                  key={chat.id}
-                  className="w-full text-left p-3 bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-lg border border-[#E3DCD4]/10 transition-all duration-200"
-                >
-                  <p className="text-[#E3DCD4] font-medium text-sm truncate">{chat.title}</p>
-                  <p className="text-[#E3DCD4]/60 text-xs truncate">{chat.preview}</p>
-                  <p className="text-[#E3DCD4]/40 text-xs mt-1">{chat.time}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-8 pl-80">
+          <div className="flex-1 overflow-y-auto p-8">
             <div className="max-w-4xl mx-auto space-y-6">
               {messages.map((message) => (
                 <div key={message.id} className="space-y-4">
@@ -234,11 +215,10 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                       </div>
                     )}
                     <div
-                      className={`max-w-2xl p-4 rounded-2xl ${
-                        message.sender === 'user'
+                      className={`max-w-2xl p-4 rounded-2xl ${message.sender === 'user'
                           ? 'bg-[#957D65] text-[#E3DCD4] rounded-br-md'
                           : 'bg-[#E3DCD4]/10 text-[#E3DCD4] border border-[#E3DCD4]/20 rounded-bl-md'
-                      }`}
+                        }`}
                     >
                       <p className="leading-relaxed">{message.text}</p>
                       <p className="text-xs opacity-60 mt-2">
@@ -262,29 +242,28 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                             >
                               {/* Card Image */}
                               <PlaceholderImage height={192} className="w-full h-48 rounded-t-xl" />
-                              
+
                               {/* Card Content */}
                               <div className="p-4 space-y-3">
                                 <div>
                                   <h4 className="text-[#E3DCD4] font-serif font-medium text-lg">{card.title}</h4>
                                   <p className="text-[#E3DCD4]/70 text-sm">{card.subtitle}</p>
                                 </div>
-                                
+
                                 <p className="text-[#E3DCD4]/60 text-sm leading-relaxed">{card.description}</p>
-                                
+
                                 {/* Rating */}
                                 <div className="flex items-center space-x-1">
                                   {[...Array(5)].map((_, i) => (
                                     <Star
                                       key={i}
                                       size={16}
-                                      className={`${
-                                        i < card.rating ? 'text-[#957D65] fill-current' : 'text-[#E3DCD4]/30'
-                                      }`}
+                                      className={`${i < card.rating ? 'text-[#957D65] fill-current' : 'text-[#E3DCD4]/30'
+                                        }`}
                                     />
                                   ))}
                                 </div>
-                                
+
                                 {/* Action Buttons */}
                                 <div className="flex space-x-2 pt-2">
                                   <button className="flex-1 bg-[#957D65] hover:bg-[#957D65]/80 text-[#E3DCD4] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02] flex items-center justify-center space-x-2">
