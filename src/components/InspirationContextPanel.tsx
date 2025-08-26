@@ -124,7 +124,7 @@ export function InspirationContextPanel({ isOpen, onToggle }: InspirationContext
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#957D65]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#957D65]/50">
         {activeCategory === 'trending' && (
           <div className="p-6 space-y-4">
             <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/80 mb-4">
