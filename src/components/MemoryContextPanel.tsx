@@ -81,27 +81,8 @@ export function MemoryContextPanel({
         <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-[#E3DCD4] text-[#222635] transition-transform duration-300 z-30 shadow-2xl shadow-[#222635]/20 ${isOpen ? 'translate-x-0' : '-translate-x-full'
             } w-80 overflow-hidden backdrop-blur-sm`}>
 
-            {/* Header */}
-            <div className="p-6 border-b border-[#957D65]/20">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                            <User size={20} className="text-[#957D65]" />
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-serif font-medium tracking-wide text-[#222635]">{t('memory.title')}</h2>
-                            <p className="text-xs text-[#222635]/70 tracking-wider">{t('memory.navigation')}</p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={onToggle}
-                        className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105 lg:hidden"
-                    >
-                        <ChevronLeft size={18} />
-                    </button>
-                </div>
-
-                {/* Vertical Navigation */}
+            {/* Navigation */}
+            <div className="p-6">
                 <div className="space-y-2">
                     {navigationSections.map((section) => {
                         const Icon = section.icon;

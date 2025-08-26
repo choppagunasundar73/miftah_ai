@@ -139,7 +139,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
           <div className="max-w-2xl w-full space-y-8 text-center">
             {/* Welcome message */}
             <div className="space-y-4">
-              <div className="w-20 h-20 mx-auto mb-6">
+              <div className="w-32 h-32 mx-auto mb-6">
                 <img
                   src={miftahLogo}
                   alt="Miftah AI"
@@ -218,8 +218,8 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                     )}
                     <div
                       className={`max-w-2xl p-4 rounded-2xl ${message.sender === 'user'
-                          ? 'bg-[#957D65] text-[#E3DCD4] rounded-br-md'
-                          : 'bg-[#E3DCD4]/10 text-[#E3DCD4] border border-[#E3DCD4]/20 rounded-bl-md'
+                        ? 'bg-[#957D65] text-[#E3DCD4] rounded-br-md'
+                        : 'bg-[#E3DCD4]/10 text-[#E3DCD4] border border-[#E3DCD4]/20 rounded-bl-md'
                         }`}
                     >
                       <p className="leading-relaxed">{message.text}</p>
@@ -243,8 +243,8 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                               className="flex-shrink-0 w-80 bg-[#E3DCD4]/10 rounded-xl border border-[#E3DCD4]/20 overflow-hidden hover:bg-[#E3DCD4]/15 transition-all duration-200"
                             >
                               {/* Card Image */}
-                              <img 
-                                src={card.image} 
+                              <img
+                                src={card.image}
                                 alt={card.title}
                                 className="w-full h-48 object-cover rounded-t-xl"
                               />

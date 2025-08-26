@@ -75,26 +75,14 @@ export function AmbientStatusBar({
         </button>
       </div>
 
-      {/* Center Section - Location & Time */}
-      <div className="flex items-center space-x-6">
-        <div className="text-sm font-light tracking-wide">
-          {language === 'ar' ? 'الإمارات' : 'UAE'} • {formatTime(currentTime)}
-        </div>
-
-        {/* Concierge Status */}
-        <div className="hidden sm:flex items-center space-x-2">
-          <div className="w-2 h-2 bg-[#957D65] rounded-full animate-pulse shadow-sm shadow-[#957D65]/50"></div>
-          <span className="text-xs font-medium tracking-wide text-[#957D65]">{t('app.concierge_online')}</span>
-        </div>
-      </div>
 
       {/* Right Section - User Controls */}
       <div className="flex items-center space-x-3">
         {/* Connection Status */}
-        <div className="hidden sm:flex items-center space-x-2">
+        {/* <div className="hidden sm:flex items-center space-x-2">
           <Wifi size={14} className="text-[#957D65]" />
           <span className="text-xs text-[#E3DCD4]/60">{t('app.connected')}</span>
-        </div>
+        </div> */}
 
         {/* Notifications */}
         <button className="relative p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105">
