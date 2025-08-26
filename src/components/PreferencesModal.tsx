@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Shield, Heart, EyeOff, Lock, Check, AlertTriangle, Globe } from 'lucide-react';
+import { X, Shield, Heart, EyeOff, Lock, Check, AlertTriangle, Globe, Baby } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface PreferencesModalProps {
@@ -79,84 +79,6 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
 
         {/* Content */}
         <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
-          {/* Bambino Mode */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center">
-                  <Shield size={20} className="text-[#957D65]" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-[#E3DCD4]">
-                    {t('preferences.bambino_mode')}
-                  </h3>
-                  <p className="text-xs text-[#E3DCD4]/60">
-                    {t('preferences.child_friendly')}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={handleBambinoToggle}
-                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                  }`}
-              >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
-                  style={language === 'ar' ? {
-                    right: bambinoMode ? '0.25rem' : '1.75rem',
-                    left: 'auto',
-                    transition: 'right 0.2s ease-in-out'
-                  } : {
-                    transform: bambinoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
-                    transition: 'transform 0.2s ease-in-out'
-                  }}
-                />
-              </button>
-            </div>
-            <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
-              {t('preferences.bambino_description')}
-            </p>
-          </div>
-
-          {/* Halal Mode */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center">
-                  <Heart size={20} className="text-[#957D65]" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-[#E3DCD4]">
-                    {t('preferences.halal_mode')}
-                  </h3>
-                  <p className="text-xs text-[#E3DCD4]/60">
-                    {t('preferences.halal_friendly')}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={handleHalalToggle}
-                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${halalMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                  }`}
-              >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
-                  style={language === 'ar' ? {
-                    right: halalMode ? '0.25rem' : '1.75rem',
-                    left: 'auto',
-                    transition: 'right 0.2s ease-in-out'
-                  } : {
-                    transform: halalMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
-                    transition: 'transform 0.2s ease-in-out'
-                  }}
-                />
-              </button>
-            </div>
-            <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
-              {t('preferences.halal_description')}
-            </p>
-          </div>
-
           {/* Language Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -198,6 +120,45 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
             </div>
             <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
               {t('preferences.language_description')}
+            </p>
+          </div>
+
+          {/* Bambino Mode */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center">
+                  <Shield size={20} className="text-[#957D65]" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-[#E3DCD4]">
+                    {t('preferences.bambino_mode')}
+                  </h3>
+                  <p className="text-xs text-[#E3DCD4]/60">
+                    {t('preferences.child_friendly')}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleBambinoToggle}
+                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                  }`}
+              >
+                <div
+                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
+                  style={language === 'ar' ? {
+                    right: bambinoMode ? '0.25rem' : '1.75rem',
+                    left: 'auto',
+                    transition: 'right 0.2s ease-in-out'
+                  } : {
+                    transform: bambinoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
+                    transition: 'transform 0.2s ease-in-out'
+                  }}
+                />
+              </button>
+            </div>
+            <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
+              {t('preferences.bambino_description')}
             </p>
           </div>
 
@@ -246,6 +207,45 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
               {t('preferences.incognito_description')}
             </p>
           </div>
+
+          {/* Halal Mode - Commented Out */}
+          {/* <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center">
+                  <Heart size={20} className="text-[#957D65]" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-[#E3DCD4]">
+                    {t('preferences.halal_mode')}
+                  </h3>
+                  <p className="text-xs text-[#E3DCD4]/60">
+                    {t('preferences.halal_friendly')}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleHalalToggle}
+                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${halalMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                  }`}
+              >
+                <div
+                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
+                  style={language === 'ar' ? {
+                    right: halalMode ? '0.25rem' : '1.75rem',
+                    left: 'auto',
+                    transition: 'right 0.2s ease-in-out'
+                  } : {
+                    transform: halalMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
+                    transition: 'transform 0.2s ease-in-out'
+                  }}
+                />
+              </button>
+            </div>
+            <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
+              {t('preferences.halal_description')}
+            </p>
+          </div> */}
         </div>
 
         {/* Footer */}
@@ -257,11 +257,39 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
             {t('preferences.save')}
           </button>
         </div>
+
+        {/* Language Change Confirmation */}
+        {showLanguageConfirm && (
+          <div className="absolute top-4 right-4 bg-[#957D65] text-[#E3DCD4] p-4 rounded-xl shadow-lg animate-slide-in-right">
+            <div className="flex items-center space-x-3">
+              <Globe size={20} />
+              <div>
+                <p className="font-medium">
+                  {t('preferences.language_changed')}
+                </p>
+                <p className="text-xs opacity-80">
+                  {language === 'ar' ? t('preferences.interface_arabic') : t('preferences.interface_english')}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <style>{`
+          @keyframes slide-in-right {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+          
+          .animate-slide-in-right {
+            animation: slide-in-right 0.3s ease-out;
+          }
+        `}</style>
       </div>
 
       {/* PIN Prompt Modal */}
       {showPinPrompt && (
-        <div className="absolute inset-0 bg-black/70 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4">
           <div className="bg-[#222635] rounded-xl p-6 max-w-sm w-full">
             <div className="text-center space-y-4">
               <div className="w-12 h-12 bg-[#957D65]/20 rounded-full flex items-center justify-center mx-auto">
@@ -308,51 +336,6 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
           </div>
         </div>
       )}
-
-      {/* Halal Mode Confirmation */}
-      {showHalalConfirm && (
-        <div className="absolute top-4 right-4 bg-[#957D65] text-[#E3DCD4] p-4 rounded-xl shadow-lg animate-slide-in-right">
-          <div className="flex items-center space-x-3">
-            <Check size={20} />
-            <div>
-              <p className="font-medium">
-                {t('preferences.halal_active')}
-              </p>
-              <p className="text-xs opacity-80">
-                {t('preferences.halal_content')}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Language Change Confirmation */}
-      {showLanguageConfirm && (
-        <div className="absolute top-4 right-4 bg-[#957D65] text-[#E3DCD4] p-4 rounded-xl shadow-lg animate-slide-in-right">
-          <div className="flex items-center space-x-3">
-            <Globe size={20} />
-            <div>
-              <p className="font-medium">
-                {t('preferences.language_changed')}
-              </p>
-              <p className="text-xs opacity-80">
-                {language === 'ar' ? t('preferences.interface_arabic') : t('preferences.interface_english')}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes slide-in-right {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .animate-slide-in-right {
-          animation: slide-in-right 0.3s ease-out;
-        }
-      `}</style>
     </div>
   );
 }
