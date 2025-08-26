@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react';
 import { User, Bell, Settings, Wifi, Menu, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import miftahLogo from '../assets/miftah_logo.png';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface AmbientStatusBarProps {
   onMemoryToggle: () => void;
-  onInspirationToggle: () => void;
   memoryOpen: boolean;
-  inspirationOpen: boolean;
   onSettingsClick?: () => void;
 }
 
 export function AmbientStatusBar({
   onMemoryToggle,
-  onInspirationToggle,
   memoryOpen,
-  inspirationOpen,
   onSettingsClick
 }: AmbientStatusBarProps) {
+  const { t, language } = useLanguage();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -29,7 +27,8 @@ export function AmbientStatusBar({
   }, []);
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
+    const locale = language === 'ar' ? 'ar-AE' : 'en-US';
+    return date.toLocaleTimeString(locale, {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true,
@@ -49,7 +48,7 @@ export function AmbientStatusBar({
             ? 'bg-[#957D65]/20 text-[#957D65]'
             : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4] hover:bg-[#957D65]/5'
             }`}
-          title="Toggle Memory Panel"
+          title={t('status.toggle_memory')}
         >
           <ChevronRight size={16} className={`transition-transform duration-200 ${memoryOpen ? 'rotate-180' : ''}`} />
         </button>
@@ -62,8 +61,8 @@ export function AmbientStatusBar({
             className="h-8 w-auto"
           />
           <div className="hidden sm:block">
-            <div className="text-lg font-serif font-medium tracking-wide">MIFTAH AI</div>
-            <div className="text-xs text-[#E3DCD4]/60 tracking-wider">LUXURY CONCIERGE</div>
+            <div className="text-lg font-serif font-medium tracking-wide">{t('app.title')}</div>
+            <div className="text-xs text-[#E3DCD4]/60 tracking-wider">{t('app.subtitle')}</div>
           </div>
         </div>
 
@@ -79,13 +78,13 @@ export function AmbientStatusBar({
       {/* Center Section - Location & Time */}
       <div className="flex items-center space-x-6">
         <div className="text-sm font-light tracking-wide">
-          UAE • {formatTime(currentTime)}
+          {language === 'ar' ? 'الإمارات' : 'UAE'} • {formatTime(currentTime)}
         </div>
 
         {/* Concierge Status */}
         <div className="hidden sm:flex items-center space-x-2">
           <div className="w-2 h-2 bg-[#957D65] rounded-full animate-pulse shadow-sm shadow-[#957D65]/50"></div>
-          <span className="text-xs font-medium tracking-wide text-[#957D65]">CONCIERGE ONLINE</span>
+          <span className="text-xs font-medium tracking-wide text-[#957D65]">{t('app.concierge_online')}</span>
         </div>
       </div>
 
@@ -94,7 +93,7 @@ export function AmbientStatusBar({
         {/* Connection Status */}
         <div className="hidden sm:flex items-center space-x-2">
           <Wifi size={14} className="text-[#957D65]" />
-          <span className="text-xs text-[#E3DCD4]/60">Connected</span>
+          <span className="text-xs text-[#E3DCD4]/60">{t('app.connected')}</span>
         </div>
 
         {/* Notifications */}
@@ -116,25 +115,15 @@ export function AmbientStatusBar({
         {/* User Profile */}
         <div className="flex items-center space-x-3">
           <div className="hidden sm:block text-right">
-            <div className="text-sm font-medium">Sarah Al-Mansouri</div>
-            <div className="text-xs text-[#E3DCD4]/60">Premium Member</div>
+            <div className="text-sm font-medium">{t('status.user_name')}</div>
+            <div className="text-xs text-[#E3DCD4]/60">{t('status.premium_member')}</div>
           </div>
           <div className="w-8 h-8 bg-gradient-to-br from-[#957D65] to-[#957D65]/80 rounded-full flex items-center justify-center shadow-sm ring-2 ring-[#957D65]/20">
             <User size={16} className="text-[#222635]" />
           </div>
         </div>
 
-        {/* Inspiration Panel Toggle */}
-        <button
-          onClick={onInspirationToggle}
-          className={`p-2 rounded-lg transition-all duration-200 hover:scale-105 ${inspirationOpen
-            ? 'bg-[#957D65]/20 text-[#957D65]'
-            : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4] hover:bg-[#957D65]/5'
-            }`}
-          title="Toggle Inspiration Panel"
-        >
-          <ChevronLeft size={16} className={`transition-transform duration-200 ${inspirationOpen ? 'rotate-180' : ''}`} />
-        </button>
+
       </div>
 
       {/* Mobile Menu Dropdown */}
@@ -151,20 +140,9 @@ export function AmbientStatusBar({
                 : 'text-[#E3DCD4]/80 hover:bg-[#957D65]/5'
                 }`}
             >
-              Memory Panel
+              {t('status.memory_panel')}
             </button>
-            <button
-              onClick={() => {
-                onInspirationToggle();
-                setShowMobileMenu(false);
-              }}
-              className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${inspirationOpen
-                ? 'bg-[#957D65]/20 text-[#957D65]'
-                : 'text-[#E3DCD4]/80 hover:bg-[#957D65]/5'
-                }`}
-            >
-              Inspiration Panel
-            </button>
+
           </div>
         </div>
       )}

@@ -1,0 +1,145 @@
+/* RTL Support Styles */
+.rtl {
+  direction: rtl;
+}
+
+.rtl .space-x-3>*+* {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+.rtl .space-x-2>*+* {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+.rtl .space-x-4>*+* {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+.rtl .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+.rtl .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+.rtl .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+.rtl .pl-12 {
+  padding-left: 0;
+  padding-right: 3rem;
+}
+
+.rtl .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+.rtl .left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+.rtl .right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+.rtl .text-left {
+  text-align: right;
+}
+
+.rtl .text-right {
+  text-align: left;
+}
+
+/* Fixed positioning for RTL */
+.rtl .fixed.left-0 {
+  left: auto;
+  right: 0;
+}
+
+.rtl .fixed.right-0 {
+  right: auto;
+  left: 0;
+}
+
+/* Memory panel positioning for RTL */
+.rtl .ml-80 {
+  margin-left: 0;
+  margin-right: 20rem;
+}
+
+/* Transform adjustments for RTL */
+.rtl .-translate-x-full {
+  transform: translateX(100%);
+}
+
+.rtl .translate-x-full {
+  transform: translateX(-100%);
+}
+
+.rtl .ml-80 {
+  margin-left: 0;
+  margin-right: 20rem;
+}
+
+.rtl .mr-80 {
+  margin-right: 0;
+  margin-left: 20rem;
+}
+
+/* Flex direction adjustments */
+.rtl .justify-end {
+  justify-content: flex-start;
+}
+
+.rtl .justify-start {
+  justify-content: flex-end;
+}
+
+/* Border radius adjustments for chat bubbles */
+.rtl .rounded-br-md {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0.375rem;
+}
+
+.rtl .rounded-bl-md {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0.375rem;
+}
+
+/* Toggle switch RTL fixes */
+.rtl .translate-x-7 {
+  transform: translateX(-1.75rem);
+}
+
+.rtl .translate-x-1 {
+  transform: translateX(-0.25rem);
+}
+
+/* Specific toggle positioning for RTL */
+.rtl button[class*="w-12 h-6"] .absolute {
+  right: 0.25rem;
+  left: auto;
+}
+
+.rtl button[class*="w-12 h-6"] .absolute.translate-x-7 {
+  right: 1.75rem;
+  left: auto;
+  transform: none;
+}
+
+.rtl button[class*="w-12 h-6"] .absolute.translate-x-1 {
+  right: 0.25rem;
+  left: auto;
+  transform: none;
+}

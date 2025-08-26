@@ -14,8 +14,10 @@ import {
   Star,
   MoreVertical
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function CalendarContent() {
+  const { t } = useLanguage();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('month');
   const [selectedDate, setSelectedDate] = useState(new Date());

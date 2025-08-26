@@ -15,8 +15,10 @@ import {
   Globe,
   Zap
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function DiscoverContent() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('trending');
   const [searchQuery, setSearchQuery] = useState('');
 

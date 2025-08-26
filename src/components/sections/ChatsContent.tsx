@@ -12,15 +12,17 @@ import {
   Video,
   Archive
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ChatsContent() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
 
   const filters = [
-    { id: 'all', label: 'All Chats', count: 12 },
-    { id: 'active', label: 'Active', count: 5 },
-    { id: 'archived', label: 'Archived', count: 7 }
+    { id: 'all', label: t('chats.all_chats'), count: 12 },
+    { id: 'active', label: t('chats.active'), count: 5 },
+    { id: 'archived', label: t('chats.archived'), count: 7 }
   ];
 
   const conversations = [
@@ -133,10 +135,10 @@ export function ChatsContent() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-              Conversations
+              {t('chats.conversations')}
             </h1>
             <p className="text-[#222635]/60 leading-relaxed">
-              Your personalized chat history with AI concierge services
+              {t('chats.personalized_history')}
             </p>
           </div>
           <button className="group p-4 bg-gradient-to-r from-[#957D65] to-[#957D65]/90 text-[#E3DCD4] rounded-2xl hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20 hover:shadow-xl">
@@ -149,7 +151,7 @@ export function ChatsContent() {
           <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#222635]/40" />
           <input
             type="text"
-            placeholder="Search conversations..."
+            placeholder={t('chats.search_conversations')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-white/60 border border-[#957D65]/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 text-[#222635] placeholder-[#222635]/40 transition-all duration-200 backdrop-blur-sm"
@@ -265,12 +267,12 @@ export function ChatsContent() {
             <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
               <MessageCircle size={32} className="text-[#957D65]" />
             </div>
-            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">No conversations found</h3>
+            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">{t('chats.no_conversations')}</h3>
             <p className="text-[#222635]/40 max-w-md leading-relaxed">
-              {searchQuery ? 'Try adjusting your search terms' : 'Start a new conversation with your AI concierge'}
+              {searchQuery ? t('chats.adjust_search') : t('chats.start_new')}
             </p>
             <button className="mt-6 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20">
-              Start New Chat
+              {t('chats.start_new_chat')}
             </button>
           </div>
         )}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, MapPin, Calendar, Utensils, Camera, Star, ChevronRight } from 'lucide-react';
 import { PlaceholderImage } from './PlaceholderImage';
 import miftahLogo from '../assets/miftah_logo.png';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface Message {
   id: string;
@@ -26,6 +27,7 @@ interface ChatInterfaceProps {
 }
 
 export function ChatInterface({ isActive }: ChatInterfaceProps) {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isInitialState, setIsInitialState] = useState(true);
@@ -34,10 +36,10 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
 
 
   const searchRecommendations = [
-    { icon: MapPin, text: 'Best luxury hotels in Dubai Marina', category: 'Hotels' },
-    { icon: Utensils, text: 'Can you suggest a romantic dinner place in Dubai?', category: 'Dining' },
-    { icon: Calendar, text: 'Weekend desert safari with private guide', category: 'Experiences' },
-    { icon: Camera, text: 'Photography spots for Instagram in Dubai', category: 'Attractions' },
+    { icon: MapPin, text: t('chat.best_luxury_hotels'), category: t('chat.hotels') },
+    { icon: Utensils, text: t('chat.romantic_dinner'), category: t('chat.dining') },
+    { icon: Calendar, text: t('chat.weekend_safari'), category: t('chat.experiences') },
+    { icon: Camera, text: t('chat.photography_spots'), category: t('chat.attractions') },
   ];
 
   useEffect(() => {
@@ -84,7 +86,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
               subtitle: 'Modern French classics overlooking the Seine',
               description: 'French haute cuisine by Alain Ducasse. Elegant dining with a...',
               rating: 5,
-              image: '/api/placeholder/300/200',
+              image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop&crop=center',
               price: '$$$'
             },
             {
@@ -93,7 +95,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
               subtitle: 'French haute cuisine by Alain Ducasse. Elegant dining with a...',
               description: 'Exquisite French dining experience',
               rating: 4,
-              image: '/api/placeholder/300/200',
+              image: 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop&crop=center',
               price: '$$$$'
             },
             {
@@ -102,7 +104,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
               subtitle: 'Seafood restaurant over water with Burj Al Arab views',
               description: 'Overwater dining with stunning views and fresh seafood',
               rating: 5,
-              image: '/api/placeholder/300/200',
+              image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop&crop=center',
               price: '$$$$'
             }
           ]
@@ -145,10 +147,10 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                 />
               </div>
               <h2 className="text-3xl font-serif font-medium text-[#E3DCD4] tracking-wide">
-                How can I assist you today?
+                {t('chat.how_can_help')}
               </h2>
               <p className="text-[#E3DCD4]/70 text-lg leading-relaxed">
-                Your luxury concierge is ready to help with reservations, experiences, and personalized recommendations across the UAE.
+                {t('chat.luxury_concierge_ready')}
               </p>
             </div>
 
@@ -160,7 +162,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Ask me anything about luxury experiences in the UAE..."
+                  placeholder={t('chat.ask_anything')}
                   className="flex-1 bg-transparent text-[#E3DCD4] placeholder-[#E3DCD4]/50 text-lg focus:outline-none"
                 />
                 <button
@@ -175,7 +177,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
             {/* Search recommendations */}
             <div className="space-y-4">
               <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/60">
-                Popular Requests
+                {t('chat.popular_requests')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {searchRecommendations.map((rec, index) => {
@@ -232,7 +234,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                     <div className="ml-13">
                       <div className="bg-[#E3DCD4]/5 backdrop-blur-sm rounded-2xl border border-[#E3DCD4]/20 p-6">
                         <h3 className="text-[#E3DCD4] font-serif text-lg mb-4 tracking-wide">
-                          Miftah Recommended restaurants in Dubai
+                          {t('chat.recommended_restaurants')}
                         </h3>
                         <div className="flex space-x-4 overflow-x-auto pb-2">
                           {message.bookingCards.map((card) => (
@@ -241,7 +243,11 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                               className="flex-shrink-0 w-80 bg-[#E3DCD4]/10 rounded-xl border border-[#E3DCD4]/20 overflow-hidden hover:bg-[#E3DCD4]/15 transition-all duration-200"
                             >
                               {/* Card Image */}
-                              <PlaceholderImage height={192} className="w-full h-48 rounded-t-xl" />
+                              <img 
+                                src={card.image} 
+                                alt={card.title}
+                                className="w-full h-48 object-cover rounded-t-xl"
+                              />
 
                               {/* Card Content */}
                               <div className="p-4 space-y-3">
@@ -268,10 +274,10 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                                 <div className="flex space-x-2 pt-2">
                                   <button className="flex-1 bg-[#957D65] hover:bg-[#957D65]/80 text-[#E3DCD4] px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02] flex items-center justify-center space-x-2">
                                     <Calendar size={16} />
-                                    <span>Book now</span>
+                                    <span>{t('chat.book_now')}</span>
                                   </button>
                                   <button className="px-4 py-2 border border-[#E3DCD4]/30 text-[#E3DCD4] rounded-lg hover:bg-[#E3DCD4]/10 transition-all duration-200 hover:scale-[1.02] flex items-center space-x-1">
-                                    <span>Explore</span>
+                                    <span>{t('chat.explore')}</span>
                                     <ChevronRight size={16} />
                                   </button>
                                 </div>
@@ -297,7 +303,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Continue the conversation..."
+                  placeholder={t('chat.continue_conversation')}
                   className="flex-1 bg-transparent text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none"
                 />
                 <button

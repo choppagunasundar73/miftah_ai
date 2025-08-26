@@ -17,8 +17,10 @@ import {
   Filter,
   Plus
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function BookingContent() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('upcoming');
   const [filterStatus, setFilterStatus] = useState('all');
 

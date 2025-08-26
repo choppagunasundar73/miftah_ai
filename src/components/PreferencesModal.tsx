@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { X, Shield, Heart, EyeOff, Lock, Check, AlertTriangle } from 'lucide-react';
+import { X, Shield, Heart, EyeOff, Lock, Check, AlertTriangle, Globe } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface PreferencesModalProps {
   isOpen: boolean;
@@ -8,11 +9,13 @@ interface PreferencesModalProps {
 }
 
 export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: PreferencesModalProps) {
+  const { language, setLanguage, t } = useLanguage();
   const [bambinoMode, setBambinoMode] = useState(false);
   const [halalMode, setHalalMode] = useState(false);
   const [incognitoMode, setIncognitoMode] = useState(false);
   const [showPinPrompt, setShowPinPrompt] = useState(false);
   const [showHalalConfirm, setShowHalalConfirm] = useState(false);
+  const [showLanguageConfirm, setShowLanguageConfirm] = useState(false);
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState('');
 
@@ -34,7 +37,7 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
       setPin('');
       setPinError('');
     } else {
-      setPinError('Incorrect PIN. Please try again.');
+      setPinError(t('preferences.incorrect_pin'));
     }
   };
 
@@ -48,6 +51,12 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
     }
   };
 
+  const handleLanguageChange = (newLanguage: 'en' | 'ar') => {
+    setLanguage(newLanguage);
+    setShowLanguageConfirm(true);
+    setTimeout(() => setShowLanguageConfirm(false), 3000);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -57,7 +66,7 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
         <div className="p-6 border-b border-[#957D65]/20">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
-              Preferences
+              {t('preferences.title')}
             </h2>
             <button
               onClick={onClose}
@@ -78,8 +87,12 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   <Shield size={20} className="text-[#957D65]" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#E3DCD4]">Bambino Mode</h3>
-                  <p className="text-xs text-[#E3DCD4]/60">Child-friendly content only</p>
+                  <h3 className="font-medium text-[#E3DCD4]">
+                    {t('preferences.bambino_mode')}
+                  </h3>
+                  <p className="text-xs text-[#E3DCD4]/60">
+                    {t('preferences.child_friendly')}
+                  </p>
                 </div>
               </div>
               <button
@@ -88,13 +101,20 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   }`}
               >
                 <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${bambinoMode ? 'translate-x-7' : 'translate-x-1'
-                    }`}
+                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
+                  style={language === 'ar' ? {
+                    right: bambinoMode ? '0.25rem' : '1.75rem',
+                    left: 'auto',
+                    transition: 'right 0.2s ease-in-out'
+                  } : {
+                    transform: bambinoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
+                    transition: 'transform 0.2s ease-in-out'
+                  }}
                 />
               </button>
             </div>
             <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
-              Ensures all content, images, and recommendations are filtered to be age-appropriate for children.
+              {t('preferences.bambino_description')}
             </p>
           </div>
 
@@ -106,8 +126,12 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   <Heart size={20} className="text-[#957D65]" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#E3DCD4]">Halal Mode</h3>
-                  <p className="text-xs text-[#E3DCD4]/60">Halal-friendly options only</p>
+                  <h3 className="font-medium text-[#E3DCD4]">
+                    {t('preferences.halal_mode')}
+                  </h3>
+                  <p className="text-xs text-[#E3DCD4]/60">
+                    {t('preferences.halal_friendly')}
+                  </p>
                 </div>
               </div>
               <button
@@ -116,13 +140,64 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   }`}
               >
                 <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${halalMode ? 'translate-x-7' : 'translate-x-1'
-                    }`}
+                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
+                  style={language === 'ar' ? {
+                    right: halalMode ? '0.25rem' : '1.75rem',
+                    left: 'auto',
+                    transition: 'right 0.2s ease-in-out'
+                  } : {
+                    transform: halalMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
+                    transition: 'transform 0.2s ease-in-out'
+                  }}
                 />
               </button>
             </div>
             <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
-              All recommendations will include only Halal-certified options for dining and experiences.
+              {t('preferences.halal_description')}
+            </p>
+          </div>
+
+          {/* Language Selection */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#957D65]/20 rounded-xl flex items-center justify-center">
+                  <Globe size={20} className="text-[#957D65]" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-[#E3DCD4]">{t('preferences.language')}</h3>
+                  <p className="text-xs text-[#E3DCD4]/60">{t('preferences.interface_language')}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handleLanguageChange('en')}
+                className={`flex-1 p-3 rounded-lg border transition-all duration-200 ${language === 'en'
+                  ? 'bg-[#957D65] text-[#E3DCD4] border-[#957D65]'
+                  : 'bg-[#E3DCD4]/5 text-[#E3DCD4] border-[#E3DCD4]/20 hover:bg-[#E3DCD4]/10'
+                  }`}
+              >
+                <div className="text-center">
+                  <div className="font-medium">English</div>
+                  <div className="text-xs opacity-70">🇺🇸</div>
+                </div>
+              </button>
+              <button
+                onClick={() => handleLanguageChange('ar')}
+                className={`flex-1 p-3 rounded-lg border transition-all duration-200 ${language === 'ar'
+                  ? 'bg-[#957D65] text-[#E3DCD4] border-[#957D65]'
+                  : 'bg-[#E3DCD4]/5 text-[#E3DCD4] border-[#E3DCD4]/20 hover:bg-[#E3DCD4]/10'
+                  }`}
+              >
+                <div className="text-center">
+                  <div className="font-medium">العربية</div>
+                  <div className="text-xs opacity-70">🇦🇪</div>
+                </div>
+              </button>
+            </div>
+            <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
+              {t('preferences.language_description')}
             </p>
           </div>
 
@@ -134,8 +209,12 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   <EyeOff size={20} className="text-[#957D65]" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-[#E3DCD4]">Incognito Mode</h3>
-                  <p className="text-xs text-[#E3DCD4]/60">Private browsing experience</p>
+                  <h3 className="font-medium text-[#E3DCD4]">
+                    {t('preferences.incognito_mode')}
+                  </h3>
+                  <p className="text-xs text-[#E3DCD4]/60">
+                    {t('preferences.private_browsing')}
+                  </p>
                 </div>
               </div>
               <button
@@ -151,13 +230,20 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   }`}
               >
                 <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${incognitoMode ? 'translate-x-7' : 'translate-x-1'
-                    }`}
+                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
+                  style={language === 'ar' ? {
+                    right: incognitoMode ? '0.25rem' : '1.75rem',
+                    left: 'auto',
+                    transition: 'right 0.2s ease-in-out'
+                  } : {
+                    transform: incognitoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
+                    transition: 'transform 0.2s ease-in-out'
+                  }}
                 />
               </button>
             </div>
             <p className="text-sm text-[#E3DCD4]/70 leading-relaxed">
-              Minimal interface with private conversations. No history saved, trending recommendations available.
+              {t('preferences.incognito_description')}
             </p>
           </div>
         </div>
@@ -168,7 +254,7 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
             onClick={onClose}
             className="w-full py-3 bg-[#957D65] hover:bg-[#957D65]/80 text-[#E3DCD4] rounded-xl font-medium tracking-wide transition-all duration-200 hover:scale-[1.02]"
           >
-            Save Preferences
+            {t('preferences.save')}
           </button>
         </div>
       </div>
@@ -181,20 +267,24 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
               <div className="w-12 h-12 bg-[#957D65]/20 rounded-full flex items-center justify-center mx-auto">
                 <Lock size={24} className="text-[#957D65]" />
               </div>
-              <h3 className="text-lg font-medium text-[#E3DCD4]">Enter Parental PIN</h3>
+              <h3 className="text-lg font-medium text-[#E3DCD4]">
+                {t('preferences.enter_pin')}
+              </h3>
               <p className="text-sm text-[#E3DCD4]/70">
-                Please enter your PIN to disable Bambino Mode
+                {t('preferences.pin_description')}
               </p>
               <input
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                placeholder="Enter PIN"
+                placeholder={t('preferences.enter_pin_placeholder')}
                 className="w-full p-3 bg-[#E3DCD4]/10 border border-[#E3DCD4]/20 rounded-lg text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:border-[#957D65]"
                 maxLength={4}
               />
               {pinError && (
-                <p className="text-red-400 text-sm">{pinError}</p>
+                <p className="text-red-400 text-sm">
+                  {pinError}
+                </p>
               )}
               <div className="flex space-x-3">
                 <button
@@ -205,13 +295,13 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                   }}
                   className="flex-1 py-2 border border-[#E3DCD4]/20 text-[#E3DCD4] rounded-lg hover:bg-[#E3DCD4]/5 transition-all duration-200"
                 >
-                  Cancel
+                  {t('preferences.cancel')}
                 </button>
                 <button
                   onClick={handlePinSubmit}
                   className="flex-1 py-2 bg-[#957D65] text-[#E3DCD4] rounded-lg hover:bg-[#957D65]/80 transition-all duration-200"
                 >
-                  Confirm
+                  {t('preferences.confirm')}
                 </button>
               </div>
             </div>
@@ -225,8 +315,29 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
           <div className="flex items-center space-x-3">
             <Check size={20} />
             <div>
-              <p className="font-medium">Halal Mode Active</p>
-              <p className="text-xs opacity-80">All content is now Halal-friendly</p>
+              <p className="font-medium">
+                {t('preferences.halal_active')}
+              </p>
+              <p className="text-xs opacity-80">
+                {t('preferences.halal_content')}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Language Change Confirmation */}
+      {showLanguageConfirm && (
+        <div className="absolute top-4 right-4 bg-[#957D65] text-[#E3DCD4] p-4 rounded-xl shadow-lg animate-slide-in-right">
+          <div className="flex items-center space-x-3">
+            <Globe size={20} />
+            <div>
+              <p className="font-medium">
+                {t('preferences.language_changed')}
+              </p>
+              <p className="text-xs opacity-80">
+                {language === 'ar' ? t('preferences.interface_arabic') : t('preferences.interface_english')}
+              </p>
             </div>
           </div>
         </div>

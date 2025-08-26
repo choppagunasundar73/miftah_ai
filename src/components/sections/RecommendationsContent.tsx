@@ -13,17 +13,19 @@ import {
   Eye,
   ChevronRight
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function RecommendationsContent() {
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
 
   const filters = [
-    { id: 'all', label: 'All Recommendations', count: 24 },
-    { id: 'dining', label: 'Dining', count: 8 },
-    { id: 'experiences', label: 'Experiences', count: 6 },
-    { id: 'shopping', label: 'Shopping', count: 4 },
-    { id: 'culture', label: 'Culture', count: 6 }
+    { id: 'all', label: t('recommendations.all_recommendations'), count: 24 },
+    { id: 'dining', label: t('recommendations.dining'), count: 8 },
+    { id: 'experiences', label: t('recommendations.experiences'), count: 6 },
+    { id: 'shopping', label: t('recommendations.shopping'), count: 4 },
+    { id: 'culture', label: t('recommendations.culture'), count: 6 }
   ];
 
   const recommendations = [
@@ -148,10 +150,10 @@ export function RecommendationsContent() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-              AI Recommendations
+              {t('recommendations.title')}
             </h1>
             <p className="text-[#222635]/60 leading-relaxed">
-              Personalized suggestions curated by artificial intelligence based on your preferences
+              {t('recommendations.subtitle')}
             </p>
           </div>
           <div className="flex items-center space-x-3">
@@ -165,7 +167,7 @@ export function RecommendationsContent() {
                   viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
                 }`}
               >
-                Grid
+                {t('recommendations.grid')}
               </button>
               <button 
                 onClick={() => setViewMode('list')}
@@ -173,7 +175,7 @@ export function RecommendationsContent() {
                   viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
                 }`}
               >
-                List
+                {t('recommendations.list')}
               </button>
             </div>
           </div>
@@ -233,11 +235,11 @@ export function RecommendationsContent() {
                   {recommendation.trending && (
                     <div className="flex items-center space-x-1 bg-[#957D65] px-2 py-1 rounded-full">
                       <TrendingUp size={10} className="text-[#E3DCD4]" />
-                      <span className="text-xs font-bold text-[#E3DCD4]">TRENDING</span>
+                      <span className="text-xs font-bold text-[#E3DCD4]">{t('recommendations.trending')}</span>
                     </div>
                   )}
                   <div className={`px-2 py-1 rounded-full text-xs font-medium ${getConfidenceColor(recommendation.confidence)}`}>
-                    {recommendation.confidence}% Match
+                    {recommendation.confidence}% {t('recommendations.match')}
                   </div>
                 </div>
 
@@ -319,7 +321,7 @@ export function RecommendationsContent() {
                     <Sparkles size={14} className="text-[#957D65] mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-[#222635]/70 leading-relaxed">
-                        <span className="font-medium text-[#957D65]">AI Insight:</span> {recommendation.aiReason}
+                        <span className="font-medium text-[#957D65]">{t('recommendations.ai_insight')}</span> {recommendation.aiReason}
                       </p>
                     </div>
                   </div>
@@ -328,7 +330,7 @@ export function RecommendationsContent() {
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-3">
                   <button className="flex-1 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-[1.02] transition-all duration-200 shadow-lg shadow-[#957D65]/20 flex items-center justify-center space-x-2">
-                    <span>Learn More & Book</span>
+                    <span>{t('recommendations.learn_more')}</span>
                     <ChevronRight size={16} />
                   </button>
                   <button className="p-3 bg-[#222635]/5 text-[#222635] rounded-xl hover:bg-[#222635]/10 transition-all duration-200 hover:scale-105">
@@ -345,9 +347,9 @@ export function RecommendationsContent() {
             <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
               <Lightbulb size={32} className="text-[#957D65]" />
             </div>
-            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">No recommendations found</h3>
+            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">{t('recommendations.no_found')}</h3>
             <p className="text-[#222635]/40 max-w-md leading-relaxed">
-              Try selecting a different category or check back later for new AI-powered suggestions
+              {t('recommendations.try_different')}
             </p>
           </div>
         )}

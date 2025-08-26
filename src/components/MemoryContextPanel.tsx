@@ -10,6 +10,7 @@ import {
     Clock,
     Star
 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface MemoryContextPanelProps {
     isOpen: boolean;
@@ -24,55 +25,56 @@ export function MemoryContextPanel({
     activeSection,
     onSectionChange
 }: MemoryContextPanelProps) {
+    const { t } = useLanguage();
     const navigationSections = [
         {
             id: 'chats',
-            label: 'Chats',
+            label: t('memory.chats'),
             icon: MessageCircle,
-            description: 'Your conversations',
+            description: t('memory.your_conversations'),
             badge: 3
         },
         {
             id: 'recommendations',
-            label: 'Recommendations',
+            label: t('memory.recommendations'),
             icon: Lightbulb,
-            description: 'AI suggestions',
+            description: t('memory.ai_suggestions'),
             badge: null
         },
         {
             id: 'discover',
-            label: 'Discover',
+            label: t('memory.discover'),
             icon: Compass,
-            description: 'Explore experiences',
+            description: t('memory.explore_experiences'),
             badge: null
         },
         {
             id: 'booking',
-            label: 'Booking',
+            label: t('memory.booking'),
             icon: Calendar,
-            description: 'Reservations',
+            description: t('memory.reservations'),
             badge: 2
         },
         {
             id: 'calendar',
-            label: 'Calendar',
+            label: t('memory.calendar'),
             icon: Calendar,
-            description: 'Your schedule',
+            description: t('memory.your_schedule'),
             badge: null
         },
         {
             id: 'itinerary',
-            label: 'Itinerary',
+            label: t('memory.itinerary'),
             icon: Route,
-            description: 'Trip planning',
+            description: t('memory.trip_planning'),
             badge: null
         }
     ];
 
     const recentActivity = [
-        { action: 'Booked dinner at Nobu', time: '2 hours ago', type: 'booking' },
-        { action: 'Saved Burj Al Arab', time: '1 day ago', type: 'saved' },
-        { action: 'Viewed desert safari', time: '2 days ago', type: 'viewed' }
+        { action: t('activity.booked_dinner'), time: `2 ${t('time.hours_ago')}`, type: 'booking' },
+        { action: t('activity.saved_burj'), time: `1 ${t('time.yesterday')}`, type: 'saved' },
+        { action: t('activity.viewed_safari'), time: `2 ${t('time.days_ago')}`, type: 'viewed' }
     ];
 
     return (
@@ -87,8 +89,8 @@ export function MemoryContextPanel({
                             <User size={20} className="text-[#957D65]" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-serif font-medium tracking-wide text-[#222635]">Memory</h2>
-                            <p className="text-xs text-[#222635]/70 tracking-wider">NAVIGATION</p>
+                            <h2 className="text-xl font-serif font-medium tracking-wide text-[#222635]">{t('memory.title')}</h2>
+                            <p className="text-xs text-[#222635]/70 tracking-wider">{t('memory.navigation')}</p>
                         </div>
                     </div>
                     <button
@@ -152,7 +154,7 @@ export function MemoryContextPanel({
                     {/* Recent Activity */}
                     <div>
                         <h3 className="text-sm font-medium uppercase tracking-widest text-[#222635]/80 mb-4">
-                            Recent Activity
+                            {t('memory.recent_activity')}
                         </h3>
                         <div className="space-y-3">
                             {recentActivity.map((activity, i) => (
@@ -200,8 +202,8 @@ export function MemoryContextPanel({
                         <span className="text-[#957D65] text-sm font-bold">?</span>
                     </div>
                     <div className="flex-1">
-                        <div className="text-sm font-medium text-[#222635] mb-1">Help & Support</div>
-                        <div className="text-xs text-[#222635]/60 leading-relaxed">Get assistance anytime</div>
+                        <div className="text-sm font-medium text-[#222635] mb-1">{t('memory.help_support')}</div>
+                        <div className="text-xs text-[#222635]/60 leading-relaxed">{t('memory.get_assistance')}</div>
                     </div>
                 </div>
             </div>

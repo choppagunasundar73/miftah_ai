@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { AmbientStatusBar } from './components/AmbientStatusBar';
 import { MemoryContextPanel } from './components/MemoryContextPanel';
-import { InspirationContextPanel } from './components/InspirationContextPanel';
+// import { InspirationContextPanel } from './components/InspirationContextPanel';
 import { ConversationCanvas } from './components/ConversationCanvas';
 import { SplashScreen } from './components/SplashScreen';
 import { PreferencesModal } from './components/PreferencesModal';
 import { IncognitoInterface } from './components/IncognitoInterface';
+import { LanguageProvider } from './contexts/LanguageContext';
+import './styles/rtl.css';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [memoryPanelOpen, setMemoryPanelOpen] = useState(false);
-  const [inspirationPanelOpen, setInspirationPanelOpen] = useState(false);
+  // const [inspirationPanelOpen, setInspirationPanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
   const [showPreferences, setShowPreferences] = useState(false);
   const [incognitoMode, setIncognitoMode] = useState(false);
@@ -20,11 +22,9 @@ function App() {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
         setMemoryPanelOpen(false);
-        setInspirationPanelOpen(false);
       } else {
-        // Auto-open panels on desktop for better UX
+        // Auto-open memory panel on desktop for better UX
         setMemoryPanelOpen(true);
-        setInspirationPanelOpen(true);
       }
     };
 
@@ -69,15 +69,14 @@ function App() {
             e.preventDefault();
             setMemoryPanelOpen(prev => !prev);
             break;
-          case ']':
-            e.preventDefault();
-            setInspirationPanelOpen(prev => !prev);
-            break;
+          // case ']':
+          //   e.preventDefault();
+          //   setInspirationPanelOpen(prev => !prev);
+          //   break;
           case 'Escape':
             e.preventDefault();
-            // Close all panels for focus mode
+            // Close memory panel for focus mode
             setMemoryPanelOpen(false);
-            setInspirationPanelOpen(false);
             break;
           case '1':
             e.preventDefault();
@@ -120,61 +119,59 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-[#E3DCD4] overflow-hidden font-sans">
+    <LanguageProvider>
+      <div className="h-screen bg-[#E3DCD4] overflow-hidden font-sans">
       {/* Ambient Top Status Bar - Ultra-thin, conversation-focused */}
-      <AmbientStatusBar 
+      <AmbientStatusBar
         onMemoryToggle={() => setMemoryPanelOpen(prev => !prev)}
-        onInspirationToggle={() => setInspirationPanelOpen(prev => !prev)}
         memoryOpen={memoryPanelOpen}
-        inspirationOpen={inspirationPanelOpen}
         onSettingsClick={() => setShowPreferences(true)}
       />
 
       {/* Main Conversation-Centric Layout */}
       <div className="flex relative h-[calc(100vh-4rem)]">
         {/* Left Context Panel - Memory (Sand theme) */}
-        <MemoryContextPanel 
-          isOpen={memoryPanelOpen} 
+        <MemoryContextPanel
+          isOpen={memoryPanelOpen}
           onToggle={() => setMemoryPanelOpen(prev => !prev)}
           activeSection={activeSection}
           onSectionChange={setActiveSection}
         />
 
         {/* Central Conversation Canvas - Primary interaction surface */}
-        <ConversationCanvas 
+        <ConversationCanvas
           memoryOpen={memoryPanelOpen}
-          inspirationOpen={inspirationPanelOpen}
           activeSection={activeSection}
         />
 
         {/* Right Context Panel - Inspiration (Navy theme) */}
-        <InspirationContextPanel 
+        {/* <InspirationContextPanel 
           isOpen={inspirationPanelOpen} 
           onToggle={() => setInspirationPanelOpen(prev => !prev)} 
-        />
+        /> */}
       </div>
 
       {/* Smart Context Drawer - Contextual actions repositioned - Commented out */}
       {/* <SmartContextDrawer /> */}
 
       {/* Overlay for mobile panel management */}
-      {(memoryPanelOpen || inspirationPanelOpen) && window.innerWidth < 1024 && (
-        <div 
+      {memoryPanelOpen && window.innerWidth < 1024 && (
+        <div
           className="fixed inset-0 bg-[#222635]/20 backdrop-blur-sm z-20 lg:hidden"
           onClick={() => {
             setMemoryPanelOpen(false);
-            setInspirationPanelOpen(false);
           }}
         />
       )}
 
       {/* Preferences Modal */}
-      <PreferencesModal 
-        isOpen={showPreferences} 
+      <PreferencesModal
+        isOpen={showPreferences}
         onClose={() => setShowPreferences(false)}
         onActivateIncognito={() => setIncognitoMode(true)}
       />
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }
 

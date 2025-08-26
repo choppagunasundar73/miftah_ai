@@ -21,8 +21,10 @@ import {
   Mountain,
   Building
 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function ItineraryContent() {
+  const { t } = useLanguage();
   const [activeItinerary, setActiveItinerary] = useState('dubai-weekend');
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
 

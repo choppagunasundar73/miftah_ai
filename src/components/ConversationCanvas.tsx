@@ -9,11 +9,10 @@ import { ItineraryContent } from './sections/ItineraryContent';
 
 interface ConversationCanvasProps {
     memoryOpen: boolean;
-    inspirationOpen: boolean;
     activeSection: string;
 }
 
-export function ConversationCanvas({ memoryOpen, inspirationOpen, activeSection }: ConversationCanvasProps) {
+export function ConversationCanvas({ memoryOpen, activeSection }: ConversationCanvasProps) {
     const renderSectionContent = () => {
         switch (activeSection) {
             case 'chats':
@@ -34,7 +33,7 @@ export function ConversationCanvas({ memoryOpen, inspirationOpen, activeSection 
     };
 
     return (
-        <div className={`flex-1 flex flex-col bg-[#E3DCD4] transition-all duration-300 ${memoryOpen && inspirationOpen ? 'mx-80' : memoryOpen ? 'ml-80' : inspirationOpen ? 'mr-80' : ''
+        <div className={`flex-1 flex flex-col bg-[#E3DCD4] transition-all duration-300 ${memoryOpen ? 'ml-80' : ''
             }`}>
 
             {/* Section Content */}
