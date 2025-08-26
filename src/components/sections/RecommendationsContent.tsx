@@ -11,14 +11,17 @@ import {
   TrendingUp,
   Sparkles,
   Eye,
-  ChevronRight
+  ChevronRight,
+  Search
 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import miftahKeyLogo from '../../assets/miftah_key_logo.png';
 
 export function RecommendationsContent() {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filters = [
     { id: 'all', label: t('recommendations.all_recommendations'), count: 24 },
@@ -181,6 +184,18 @@ export function RecommendationsContent() {
           </div>
         </div>
 
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#957D65]/60" size={16} />
+          <input
+            type="text"
+            placeholder="Search recommendations..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 bg-white/50 border border-[#957D65]/20 rounded-xl text-[#222635] placeholder-[#957D65]/60 focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 transition-all duration-200 backdrop-blur-sm"
+          />
+        </div>
+
         {/* Filters */}
         <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
           {filters.map((filter) => (
@@ -279,7 +294,11 @@ export function RecommendationsContent() {
                   <h3 className="text-xl font-serif font-medium text-[#222635] group-hover:text-[#957D65] transition-colors">
                     {recommendation.title}
                   </h3>
-                  <Lightbulb size={18} className="text-[#957D65] mt-1 flex-shrink-0 ml-2" />
+                  <img 
+                    src={miftahKeyLogo} 
+                    alt="Miftah Key Logo" 
+                    className="w-8 h-8 object-contain rounded-sm mt-1 flex-shrink-0 ml-2 bg-transparent mix-blend-multiply"
+                  />
                 </div>
 
                 <p className="text-[#222635]/70 leading-relaxed mb-4 line-clamp-2">
@@ -345,7 +364,11 @@ export function RecommendationsContent() {
         {filteredRecommendations.length === 0 && (
           <div className="flex flex-col items-center justify-center h-64 text-center p-8">
             <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
-              <Lightbulb size={32} className="text-[#957D65]" />
+              <img 
+                src={miftahKeyLogo} 
+                alt="Miftah Key Logo" 
+                className="w-10 h-10 object-contain rounded-sm bg-transparent mix-blend-multiply"
+              />
             </div>
             <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">{t('recommendations.no_found')}</h3>
             <p className="text-[#222635]/40 max-w-md leading-relaxed">

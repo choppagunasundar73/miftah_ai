@@ -8,9 +8,11 @@ import {
     ChevronLeft,
     User,
     Clock,
-    Star
+    Star,
+    Users
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import miftahKeyLogo from '../assets/miftah_key_logo.png';
 
 interface MemoryContextPanelProps {
     isOpen: boolean;
@@ -60,6 +62,13 @@ export function MemoryContextPanel({
             label: t('memory.calendar'),
             icon: Calendar,
             description: t('memory.your_schedule'),
+            badge: null
+        },
+        {
+            id: 'community',
+            label: 'Community',
+            icon: Users,
+            description: 'Connect with fellow travelers',
             badge: null
         }
     ];

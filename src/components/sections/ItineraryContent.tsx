@@ -19,7 +19,8 @@ import {
   Bed,
   ShoppingBag,
   Mountain,
-  Building
+  Building,
+  Search
 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -27,6 +28,7 @@ export function ItineraryContent() {
   const { t } = useLanguage();
   const [activeItinerary, setActiveItinerary] = useState('dubai-weekend');
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const itineraries = [
     {
@@ -356,6 +358,18 @@ export function ItineraryContent() {
                 {currentItinerary?.status}
               </span>
             </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#957D65]/60" size={16} />
+            <input
+              type="text"
+              placeholder="Search itinerary activities..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white/50 border border-[#957D65]/20 rounded-xl text-[#222635] placeholder-[#957D65]/60 focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 transition-all duration-200 backdrop-blur-sm"
+            />
           </div>
 
           {/* Summary Stats */}

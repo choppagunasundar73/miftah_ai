@@ -12,7 +12,8 @@ import {
   Grid3X3,
   Bell,
   Star,
-  MoreVertical
+  MoreVertical,
+  Search
 } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -21,6 +22,7 @@ export function CalendarContent() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('month');
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [searchQuery, setSearchQuery] = useState('');
 
   const events = [
     {
@@ -255,6 +257,18 @@ export function CalendarContent() {
                 <span className="font-medium">Add Event</span>
               </button>
             </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#957D65]/60" size={16} />
+            <input
+              type="text"
+              placeholder="Search calendar events..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white/50 border border-[#957D65]/20 rounded-xl text-[#222635] placeholder-[#957D65]/60 focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 transition-all duration-200 backdrop-blur-sm"
+            />
           </div>
 
           {/* Calendar Navigation */}
