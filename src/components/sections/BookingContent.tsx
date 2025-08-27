@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Calendar, 
   Clock, 
   MapPin, 
   User, 
-  CreditCard, 
   CheckCircle, 
   AlertCircle, 
   XCircle,
@@ -17,24 +16,22 @@ import {
   Filter,
   Plus
 } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
 
 export function BookingContent() {
-  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('upcoming');
   const [filterStatus, setFilterStatus] = useState('all');
 
   const tabs = [
-    { id: 'upcoming', label: 'Upcoming', count: 5 },
-    { id: 'past', label: 'Past', count: 12 },
-    { id: 'cancelled', label: 'Cancelled', count: 2 }
+    { id: 'upcoming', label: 'Current Reservations', count: 5 },
+    { id: 'past', label: 'Experience History', count: 12 },
+    { id: 'cancelled', label: 'Archived', count: 2 }
   ];
 
   const statusFilters = [
-    { id: 'all', label: 'All Status' },
-    { id: 'confirmed', label: 'Confirmed' },
-    { id: 'pending', label: 'Pending' },
-    { id: 'cancelled', label: 'Cancelled' }
+    { id: 'all', label: 'All Experiences' },
+    { id: 'confirmed', label: 'Reserved' },
+    { id: 'pending', label: 'By Invitation' },
+    { id: 'cancelled', label: 'Archived' }
   ];
 
   const bookings = [
@@ -51,17 +48,19 @@ export function BookingContent() {
       totalAmount: 1200,
       currency: 'AED',
       bookingRef: 'NOB-2025-001',
-      contactPerson: 'Restaurant Manager',
+      contactPerson: 'Executive Chef Concierge',
       contactPhone: '+971 4 426 2626',
       contactEmail: 'reservations@nobudubai.com',
-      specialRequests: 'Window table with ocean view, dietary restrictions: no shellfish',
+      specialRequests: 'Private oceanfront table, curated wine pairing, dietary preferences accommodated',
       paymentStatus: 'paid',
-      cancellationPolicy: 'Free cancellation until 24 hours before',
-      category: 'upcoming'
+      cancellationPolicy: 'White-glove service included',
+      category: 'upcoming',
+      exclusivity: 'Members Only',
+      tier: 'Platinum'
     },
     {
       id: 2,
-      title: 'Desert Safari with Falconry Experience',
+      title: 'Private Desert Sanctuary with Royal Falconry',
       type: 'adventure',
       date: '2025-01-18',
       time: '15:00',
@@ -72,17 +71,19 @@ export function BookingContent() {
       totalAmount: 2400,
       currency: 'AED',
       bookingRef: 'DSF-2025-002',
-      contactPerson: 'Safari Guide Ahmed',
+      contactPerson: 'Master Falconer Ahmed Al-Rashid',
       contactPhone: '+971 50 123 4567',
       contactEmail: 'ahmed@desertsafari.ae',
-      specialRequests: 'Photography equipment allowed, vegetarian dinner option',
+      specialRequests: 'Private helicopter transfer, professional photographer, bespoke dining experience',
       paymentStatus: 'paid',
-      cancellationPolicy: 'Free cancellation until 48 hours before',
-      category: 'upcoming'
+      cancellationPolicy: 'Dedicated experience curator assigned',
+      category: 'upcoming',
+      exclusivity: 'Exclusive',
+      tier: 'Diamond'
     },
     {
       id: 3,
-      title: 'Spa Day at Talise Spa',
+      title: 'Royal Suite Wellness Sanctuary',
       type: 'wellness',
       date: '2025-01-20',
       time: '10:00',
@@ -93,13 +94,15 @@ export function BookingContent() {
       totalAmount: 1800,
       currency: 'AED',
       bookingRef: 'SPA-2025-003',
-      contactPerson: 'Spa Coordinator',
+      contactPerson: 'Wellness Curator Amira',
       contactPhone: '+971 4 301 7777',
       contactEmail: 'spa@burjalarab.com',
-      specialRequests: 'Couples massage suite, aromatherapy preference',
+      specialRequests: 'Private royal suite, personalized aromatherapy blend, champagne service',
       paymentStatus: 'pending',
-      cancellationPolicy: 'Free cancellation until 24 hours before',
-      category: 'upcoming'
+      cancellationPolicy: 'Personal wellness concierge included',
+      category: 'upcoming',
+      exclusivity: 'By Invitation',
+      tier: 'Platinum'
     },
     {
       id: 4,
@@ -151,21 +154,21 @@ export function BookingContent() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'confirmed': return <CheckCircle size={16} className="text-green-600" />;
-      case 'pending': return <AlertCircle size={16} className="text-yellow-600" />;
-      case 'cancelled': return <XCircle size={16} className="text-red-600" />;
-      case 'completed': return <CheckCircle size={16} className="text-[#957D65]" />;
-      default: return <AlertCircle size={16} className="text-gray-600" />;
+      case 'confirmed': return <CheckCircle size={10} className="text-white/90" />;
+      case 'pending': return <AlertCircle size={10} className="text-white/90" />;
+      case 'cancelled': return <XCircle size={10} className="text-white/90" />;
+      case 'completed': return <CheckCircle size={10} className="text-white/90" />;
+      default: return <AlertCircle size={10} className="text-slate-600" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-700 border-green-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'cancelled': return 'bg-red-100 text-red-700 border-red-200';
-      case 'completed': return 'bg-[#957D65]/10 text-[#957D65] border-[#957D65]/20';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'confirmed': return 'bg-emerald-500/90 text-white/95 border-emerald-500/90';
+      case 'pending': return 'bg-amber-400/90 text-white/95 border-amber-400/90';
+      case 'cancelled': return 'bg-slate-400/80 text-white/90 border-slate-400/80';
+      case 'completed': return 'bg-[#957D65]/90 text-white/95 border-[#957D65]/90';
+      default: return 'bg-slate-300/80 text-slate-700 border-slate-300/80';
     }
   };
 
@@ -182,46 +185,50 @@ export function BookingContent() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-gradient-to-br from-[#E3DCD4] via-[#E3DCD4] to-[#E3DCD4]/95">
-      {/* Header */}
-      <div className="p-8 border-b border-[#957D65]/10 bg-white/20 backdrop-blur-sm">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-              Booking Management
+    <div className="h-full flex flex-col bg-[#222635]">
+      {/* Luxury Header */}
+      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
+        <div className="flex items-start justify-between mb-6">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-4" 
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              Reservation Management
             </h1>
-            <p className="text-[#222635]/60 leading-relaxed">
-              Manage all your reservations and bookings in one place
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
+               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Your curated collection of exclusive experiences and premium reservations
             </p>
           </div>
-          <div className="flex items-center space-x-3">
-            <button className="p-3 bg-white/50 border border-[#957D65]/20 text-[#222635] rounded-xl hover:scale-105 transition-all duration-200 hover:bg-white/70">
-              <Filter size={20} />
+          <div className="flex items-center space-x-6">
+            <button className="p-4 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20 hover:border-[#957D65]/50">
+              <Filter size={24} />
             </button>
-            <button className="flex items-center space-x-2 px-4 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20">
+            <button className="flex items-center space-x-2 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 hover:shadow-[#957D65]/40"
+                    style={{ fontFamily: "'Avenir Next', sans-serif", fontWeight: 500, letterSpacing: '0.5px' }}>
               <Plus size={20} />
-              <span className="font-medium">New Booking</span>
+              <span className="text-sm uppercase tracking-wider">Reserve Experience</span>
             </button>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex space-x-1 bg-white/40 rounded-lg p-1 mb-6">
+        {/* Luxury Navigation Tabs */}
+        <div className="flex space-x-2 bg-[#E3DCD4]/5 rounded-2xl p-2 mb-6">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`flex-1 flex items-center justify-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-400 ${
                 activeTab === tab.id
-                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-sm'
-                  : 'text-[#222635]/70 hover:text-[#222635] hover:bg-white/50'
+                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-xl shadow-[#957D65]/20'
+                  : 'text-[#E3DCD4]/70 hover:text-[#E3DCD4] hover:bg-[#E3DCD4]/10'
               }`}
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}
             >
-              <span>{tab.label}</span>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${
+              <span className="tracking-wide">{tab.label}</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                 activeTab === tab.id 
                   ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                  : 'bg-[#957D65]/10 text-[#957D65]'
+                  : 'bg-[#957D65]/20 text-[#957D65]'
               }`}>
                 {tab.count}
               </span>
@@ -229,17 +236,23 @@ export function BookingContent() {
           ))}
         </div>
 
-        {/* Status Filter */}
-        <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
+        {/* Premium Status Filters */}
+        <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
           {statusFilters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setFilterStatus(filter.id)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 hover:scale-105 ${
+              className={`flex-shrink-0 px-6 py-3 rounded-full text-base font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
                 filterStatus === filter.id
-                  ? 'bg-[#222635] text-[#E3DCD4]'
-                  : 'bg-white/40 text-[#222635]/70 hover:bg-white/60 hover:text-[#222635] border border-[#957D65]/10'
+                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                  : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
               }`}
+              style={{ 
+                fontFamily: "'Avenir Next', sans-serif", 
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase' as const,
+                fontSize: '14px'
+              }}
             >
               {filter.label}
             </button>
@@ -247,130 +260,180 @@ export function BookingContent() {
         </div>
       </div>
 
-      {/* Bookings List */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6 space-y-4">
+      {/* Luxury Reservations Gallery */}
+      <div className="flex-1 overflow-y-auto bg-[#222635]">
+        <div className="px-8 py-6 space-y-6">
           {filteredBookings.map((booking) => (
             <div
               key={booking.id}
-              className="group bg-white/60 hover:bg-white/80 rounded-2xl border border-[#957D65]/10 hover:border-[#957D65]/20 transition-all duration-300 hover:scale-[1.01] shadow-sm hover:shadow-lg backdrop-blur-sm"
+              className="group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-xl border-none transition-all duration-500 hover:scale-[1.005] shadow-lg hover:shadow-xl backdrop-blur-sm"
+              style={{ 
+                padding: '16px',
+                marginBottom: '12px',
+                boxShadow: '0px 4px 16px rgba(34, 38, 53, 0.08)',
+                transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0px 8px 24px rgba(34, 38, 53, 0.12)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0px)';
+                e.currentTarget.style.boxShadow = '0px 4px 16px rgba(34, 38, 53, 0.08)';
+              }}
             >
-              <div className="p-6">
-                {/* Header */}
+              <div>
+                {/* Luxury Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start space-x-4">
                     <div className="text-2xl">{getTypeIcon(booking.type)}</div>
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-xl font-serif font-medium text-[#222635] group-hover:text-[#957D65] transition-colors">
-                          {booking.title}
-                        </h3>
-                        <span className={`flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(booking.status)}`}>
+                      <div className="flex items-start justify-between mb-2">
+                        <div>
+                          <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors mb-2 leading-tight"
+                              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+                            {booking.title}
+                          </h3>
+                          {(booking as any).exclusivity && (
+                            <div className="flex items-center space-x-2 mb-2">
+                              <span className="px-3 py-1 bg-[#957D65] text-[#E3DCD4] rounded-full text-xs font-medium uppercase tracking-wider"
+                                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                                {(booking as any).exclusivity}
+                              </span>
+                              <span className="px-3 py-1 bg-[#222635] text-[#E3DCD4] rounded-full text-xs font-medium uppercase tracking-wider"
+                                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                                {(booking as any).tier} Member
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}
+                              style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.3px', textTransform: 'uppercase' as const }}>
                           {getStatusIcon(booking.status)}
-                          <span className="capitalize">{booking.status}</span>
+                          <span>{booking.status === 'confirmed' ? 'Reserved' : booking.status === 'pending' ? 'By Invitation' : booking.status}</span>
                         </span>
                       </div>
-                      <p className="text-[#222635]/60 text-sm">Booking Reference: {booking.bookingRef}</p>
+                      <p className="text-[#222635]/50 text-sm font-light" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                        Reservation Reference: {booking.bookingRef}
+                      </p>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <div className="text-right">
-                      <div className="text-lg font-serif font-medium text-[#222635]">
-                        {booking.totalAmount} {booking.currency}
+                </div>
+                
+                {/* Premium Pricing Display */}
+                <div className="flex items-center justify-end space-x-3 mb-4">
+                  <div className="text-right">
+                    <div className="text-xl font-medium text-[#957D65] mb-1" 
+                         style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                      <span className="text-sm opacity-80 mr-1">AED</span>
+                      {booking.totalAmount.toLocaleString()}
+                    </div>
+                    <div className={`text-xs font-medium ${
+                      booking.paymentStatus === 'paid' ? 'text-[#957D65]' : 
+                      booking.paymentStatus === 'pending' ? 'text-[#222635]/60' : 'text-[#222635]/60'
+                    }`} style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px', textTransform: 'uppercase' as const }}>
+                      {booking.paymentStatus === 'paid' ? '✓ Secured' : 
+                       booking.paymentStatus === 'pending' ? '⏳ Processing' : '↩ Refunded'}
+                    </div>
+                  </div>
+                  <button className="p-2 opacity-0 group-hover:opacity-100 hover:bg-[#957D65]/10 rounded-xl transition-all duration-400">
+                    <MoreVertical size={18} className="text-[#222635]/60" />
+                  </button>
+                </div>
+
+                {/* Luxury Details Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                  <div className="flex items-center space-x-3 p-3 bg-[#222635]/5 rounded-xl">
+                    <Calendar size={18} className="text-[#957D65]" />
+                    <div>
+                      <div className="text-sm font-medium text-[#222635] mb-1" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                        {new Date(booking.date).toLocaleDateString('en-US', { 
+                          weekday: 'short', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
                       </div>
-                      <div className={`text-xs ${
-                        booking.paymentStatus === 'paid' ? 'text-green-600' : 
-                        booking.paymentStatus === 'pending' ? 'text-yellow-600' : 'text-red-600'
-                      }`}>
-                        {booking.paymentStatus === 'paid' ? '✓ Paid' : 
-                         booking.paymentStatus === 'pending' ? '⏳ Pending' : '↩ Refunded'}
+                      <div className="text-xs text-[#222635]/60 uppercase tracking-wider" style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                        Date
                       </div>
                     </div>
-                    <button className="p-2 opacity-0 group-hover:opacity-100 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200">
-                      <MoreVertical size={16} className="text-[#222635]/60" />
-                    </button>
                   </div>
-                </div>
-
-                {/* Details Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <div className="flex items-center space-x-3 p-3 bg-white/40 rounded-lg">
-                    <Calendar size={16} className="text-[#957D65]" />
+                  
+                  <div className="flex items-center space-x-3 p-3 bg-[#222635]/5 rounded-xl">
+                    <Clock size={18} className="text-[#957D65]" />
                     <div>
-                      <div className="text-sm font-medium text-[#222635]">{booking.date}</div>
-                      <div className="text-xs text-[#222635]/60">Date</div>
+                      <div className="text-sm font-medium text-[#222635] mb-1" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                        {booking.time}
+                      </div>
+                      <div className="text-xs text-[#222635]/60 uppercase tracking-wider" style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                        {booking.duration}
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 bg-white/40 rounded-lg">
-                    <Clock size={16} className="text-[#957D65]" />
+                  <div className="flex items-center space-x-3 p-3 bg-[#222635]/5 rounded-xl">
+                    <User size={18} className="text-[#957D65]" />
                     <div>
-                      <div className="text-sm font-medium text-[#222635]">{booking.time}</div>
-                      <div className="text-xs text-[#222635]/60">{booking.duration}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3 p-3 bg-white/40 rounded-lg">
-                    <User size={16} className="text-[#957D65]" />
-                    <div>
-                      <div className="text-sm font-medium text-[#222635]">{booking.guests} Guests</div>
-                      <div className="text-xs text-[#222635]/60">Party Size</div>
+                      <div className="text-sm font-medium text-[#222635] mb-1" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                        {booking.guests} {booking.guests === 1 ? 'Guest' : 'Guests'}
+                      </div>
+                      <div className="text-xs text-[#222635]/60 uppercase tracking-wider" style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                        Party Size
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Location */}
-                <div className="flex items-center space-x-2 mb-4 p-3 bg-[#957D65]/5 rounded-lg">
-                  <MapPin size={16} className="text-[#957D65]" />
-                  <span className="text-[#222635] font-medium">{booking.location}</span>
+                {/* Premium Location */}
+                <div className="flex items-center space-x-3 mb-4 p-3 bg-[#957D65]/10 rounded-xl border border-[#957D65]/20">
+                  <MapPin size={18} className="text-[#957D65]" />
+                  <span className="text-sm text-[#222635] font-medium" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                    {booking.location}
+                  </span>
                 </div>
 
-                {/* Special Requests */}
+                {/* Luxury Service Details */}
                 {booking.specialRequests && (
-                  <div className="mb-4 p-3 bg-[#222635]/5 rounded-lg">
-                    <h4 className="text-sm font-medium text-[#222635] mb-1">Special Requests</h4>
-                    <p className="text-sm text-[#222635]/70">{booking.specialRequests}</p>
+                  <div className="mb-4 p-3 bg-[#222635]/5 rounded-xl">
+                    <h4 className="text-sm font-semibold text-[#222635] mb-2 uppercase tracking-wider" 
+                        style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                      Experience Details
+                    </h4>
+                    <p className="text-sm text-[#222635]/80 leading-relaxed" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                      {booking.specialRequests}
+                    </p>
                   </div>
                 )}
 
-                {/* Contact & Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-[#957D65]/10">
-                  <div className="flex items-center space-x-4 text-sm text-[#222635]/60">
+                {/* Concierge Contact & Actions */}
+                <div className="flex items-center justify-between pt-4 border-t border-[#957D65]/20">
+                  <div className="flex items-center space-x-4 text-sm text-[#222635]/70" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                     <div className="flex items-center space-x-2">
-                      <User size={14} />
-                      <span>{booking.contactPerson}</span>
+                      <User size={14} className="text-[#957D65]" />
+                      <span className="font-medium">{booking.contactPerson}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Phone size={14} />
+                      <Phone size={14} className="text-[#957D65]" />
                       <span>{booking.contactPhone}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Mail size={14} />
-                      <span>{booking.contactEmail}</span>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                     {booking.status !== 'cancelled' && booking.status !== 'completed' && (
-                      <button className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-110">
+                      <button className="p-2 hover:bg-[#957D65]/10 rounded-xl transition-all duration-400 hover:scale-110">
                         <Edit size={16} className="text-[#957D65]" />
                       </button>
                     )}
-                    <button className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-110">
+                    <button className="p-2 hover:bg-[#957D65]/10 rounded-xl transition-all duration-400 hover:scale-110">
                       <Download size={16} className="text-[#957D65]" />
                     </button>
-                    {booking.status === 'confirmed' && (
-                      <button className="p-2 hover:bg-red-50 rounded-lg transition-all duration-200 hover:scale-110">
-                        <Trash2 size={16} className="text-red-600" />
-                      </button>
-                    )}
                   </div>
                 </div>
 
-                {/* Cancellation Policy */}
-                <div className="mt-3 text-xs text-[#222635]/50">
-                  <span className="font-medium">Cancellation Policy:</span> {booking.cancellationPolicy}
+                {/* Premium Service Policy */}
+                <div className="mt-3 text-sm text-[#222635]/60" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                  <span className="font-medium uppercase tracking-wider text-xs">Service:</span>
+                  <span className="ml-2">{booking.cancellationPolicy}</span>
                 </div>
               </div>
             </div>
@@ -378,17 +441,22 @@ export function BookingContent() {
         </div>
 
         {filteredBookings.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-64 text-center p-8">
-            <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
-              <Calendar size={32} className="text-[#957D65]" />
+          <div className="flex flex-col items-center justify-center h-96 text-center px-16 py-20">
+            <div className="w-32 h-32 bg-[#957D65]/10 rounded-3xl flex items-center justify-center mb-12">
+              <Calendar size={48} className="text-[#957D65]" />
             </div>
-            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">No bookings found</h3>
-            <p className="text-[#222635]/40 max-w-md leading-relaxed">
-              {activeTab === 'upcoming' ? 'You have no upcoming bookings' : 
-               activeTab === 'past' ? 'No past bookings to display' : 'No cancelled bookings'}
+            <h3 className="text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-6" 
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+              No Reservations Found
+            </h3>
+            <p className="text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed mb-12" 
+               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              {activeTab === 'upcoming' ? 'Your exclusive experiences await curation' : 
+               activeTab === 'past' ? 'No experience history to display' : 'No archived reservations'}
             </p>
-            <button className="mt-6 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20">
-              Make New Booking
+            <button className="px-12 py-6 bg-[#957D65] text-[#E3DCD4] rounded-2xl font-medium tracking-wider hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 text-lg uppercase"
+                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+              Curate New Experience
             </button>
           </div>
         )}

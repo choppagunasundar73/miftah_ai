@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
-  Lightbulb, 
   Star, 
   MapPin, 
   Clock, 
@@ -14,21 +13,19 @@ import {
   ChevronRight,
   Search
 } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
 import miftahKeyLogo from '../../assets/miftah_key_logo.png';
 
 export function RecommendationsContent() {
-  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filters = [
-    { id: 'all', label: t('recommendations.all_recommendations'), count: 24 },
-    { id: 'dining', label: t('recommendations.dining'), count: 8 },
-    { id: 'experiences', label: t('recommendations.experiences'), count: 6 },
-    { id: 'shopping', label: t('recommendations.shopping'), count: 4 },
-    { id: 'culture', label: t('recommendations.culture'), count: 6 }
+    { id: 'all', label: 'Curated Selection', count: 24 },
+    { id: 'dining', label: 'Exclusive Dining', count: 8 },
+    { id: 'experiences', label: 'Premium Experiences', count: 6 },
+    { id: 'shopping', label: 'Luxury Shopping', count: 4 },
+    { id: 'culture', label: 'Cultural Immersion', count: 6 }
   ];
 
   const recommendations = [
@@ -147,70 +144,83 @@ export function RecommendationsContent() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-gradient-to-br from-[#E3DCD4] via-[#E3DCD4] to-[#E3DCD4]/95">
-      {/* Header */}
-      <div className="p-8 border-b border-[#957D65]/10 bg-white/20 backdrop-blur-sm">
+    <div className="h-full flex flex-col bg-[#222635]">
+      {/* Luxury Header */}
+      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-              {t('recommendations.title')}
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2" 
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              Curated Recommendations
             </h1>
-            
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
+               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Personally selected experiences tailored to your refined preferences
+            </p>
           </div>
-          <div className="flex items-center space-x-3">
-            <button className="p-3 bg-white/50 border border-[#957D65]/20 text-[#222635] rounded-xl hover:scale-105 transition-all duration-200 hover:bg-white/70">
+          <div className="flex items-center space-x-4">
+            <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
               <Filter size={20} />
             </button>
-            <div className="flex bg-white/40 rounded-lg p-1 border border-[#957D65]/10">
+            <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
               <button 
                 onClick={() => setViewMode('grid')}
-                className={`px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                  viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
+                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
+                  viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                 }`}
+                style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
-                {t('recommendations.grid')}
+                Gallery
               </button>
               <button 
                 onClick={() => setViewMode('list')}
-                className={`px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                  viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
+                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
+                  viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                 }`}
+                style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
-                {t('recommendations.list')}
+                Details
               </button>
             </div>
           </div>
         </div>
 
-        {/* Search Bar */}
+        {/* Luxury Search Bar */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#957D65]/60" size={16} />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={18} style={{ opacity: 1 }} />
           <input
             type="text"
-            placeholder="Search recommendations..."
+            placeholder="Discover exclusive experiences..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white/50 border border-[#957D65]/20 rounded-xl text-[#222635] placeholder-[#957D65]/60 focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 transition-all duration-200 backdrop-blur-sm"
+            className="w-full pl-12 pr-6 py-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 rounded-2xl text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:ring-2 focus:ring-[#957D65]/40 focus:border-[#957D65]/50 transition-all duration-400 backdrop-blur-sm text-sm"
+            style={{ fontFamily: "'Avenir Next', sans-serif" }}
           />
         </div>
 
-        {/* Filters */}
-        <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+        {/* Premium Filters */}
+        <div className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
-              className={`flex-shrink-0 flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 hover:scale-105 ${
+              className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
                 activeFilter === filter.id
-                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/20'
-                  : 'bg-white/40 text-[#222635]/70 hover:bg-white/60 hover:text-[#222635] border border-[#957D65]/10'
+                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                  : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
               }`}
+              style={{ 
+                fontFamily: "'Avenir Next', sans-serif", 
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase' as const,
+                fontSize: '12px'
+              }}
             >
               <span>{filter.label}</span>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${
+              <span className={`px-2 py-1 rounded-full text-xs ${
                 activeFilter === filter.id 
                   ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                  : 'bg-[#957D65]/10 text-[#957D65]'
+                  : 'bg-[#957D65]/20 text-[#957D65]'
               }`}>
                 {filter.count}
               </span>
@@ -219,19 +229,31 @@ export function RecommendationsContent() {
         </div>
       </div>
 
-      {/* Recommendations Grid/List */}
-      <div className="flex-1 overflow-y-auto">
-        <div className={`p-6 ${viewMode === 'grid' ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}`}>
+      {/* Luxury Recommendations Gallery */}
+      <div className="flex-1 overflow-y-auto bg-[#222635]">
+        <div className={`px-8 py-6 ${viewMode === 'grid' ? 'grid grid-cols-1 lg:grid-cols-2 gap-8' : 'space-y-6'}`}>
           {filteredRecommendations.map((recommendation) => (
             <div
               key={recommendation.id}
-              className={`group bg-white/60 hover:bg-white/80 rounded-2xl border border-[#957D65]/10 hover:border-[#957D65]/20 transition-all duration-300 hover:scale-[1.02] overflow-hidden shadow-sm hover:shadow-lg backdrop-blur-sm ${
-                viewMode === 'list' ? 'flex items-center space-x-6 p-6' : ''
+              className={`group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-3xl border-none transition-all duration-500 hover:scale-[1.01] overflow-hidden shadow-2xl hover:shadow-3xl backdrop-blur-sm ${
+                viewMode === 'list' ? 'flex items-center space-x-8 p-8' : ''
               }`}
+              style={{ 
+                boxShadow: '0px 12px 32px rgba(34, 38, 53, 0.12)',
+                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0px 16px 40px rgba(34, 38, 53, 0.18)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0px)';
+                e.currentTarget.style.boxShadow = '0px 12px 32px rgba(34, 38, 53, 0.12)';
+              }}
             >
               {/* Image */}
               <div className={`relative bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden ${
-                viewMode === 'list' ? 'w-32 h-24 rounded-xl flex-shrink-0' : 'h-48'
+                viewMode === 'list' ? 'w-24 h-18 rounded-xl flex-shrink-0' : 'h-32'
               }`}>
                 <img 
                   src={recommendation.image} 
@@ -248,11 +270,11 @@ export function RecommendationsContent() {
                   {recommendation.trending && (
                     <div className="flex items-center space-x-1 bg-[#957D65] px-2 py-1 rounded-full">
                       <TrendingUp size={10} className="text-[#E3DCD4]" />
-                      <span className="text-xs font-bold text-[#E3DCD4]">{t('recommendations.trending')}</span>
+                      <span className="text-xs font-bold text-[#E3DCD4]">TRENDING</span>
                     </div>
                   )}
                   <div className={`px-2 py-1 rounded-full text-xs font-medium ${getConfidenceColor(recommendation.confidence)}`}>
-                    {recommendation.confidence}% {t('recommendations.match')}
+                    {recommendation.confidence}% MATCH
                   </div>
                 </div>
 
@@ -287,36 +309,37 @@ export function RecommendationsContent() {
               </div>
 
               {/* Content */}
-              <div className={viewMode === 'list' ? 'flex-1' : 'p-6'}>
+              <div className={viewMode === 'list' ? 'flex-1 pl-4' : 'p-4'}>
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-serif font-medium text-[#222635] group-hover:text-[#957D65] transition-colors">
+                  <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors leading-tight"
+                      style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
                     {recommendation.title}
                   </h3>
                   <img 
                     src={miftahKeyLogo} 
                     alt="Miftah Key Logo" 
-                    className="w-8 h-8 object-contain rounded-sm mt-1 flex-shrink-0 ml-2 bg-transparent mix-blend-multiply"
+                    className="w-6 h-6 object-contain rounded-sm mt-1 flex-shrink-0 ml-2 bg-transparent mix-blend-multiply"
                   />
                 </div>
 
-                <p className="text-[#222635]/70 leading-relaxed mb-4 line-clamp-2">
+                <p className="text-sm text-[#222635]/70 leading-relaxed mb-3 line-clamp-2">
                   {recommendation.description}
                 </p>
 
                 {/* Details */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center space-x-2 text-sm text-[#222635]/60">
-                    <MapPin size={14} />
+                <div className="space-y-1 mb-3">
+                  <div className="flex items-center space-x-2 text-xs text-[#222635]/60">
+                    <MapPin size={12} />
                     <span>{recommendation.location}</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-[#222635]/60">
-                    <Clock size={14} />
+                  <div className="flex items-center space-x-2 text-xs text-[#222635]/60">
+                    <Clock size={12} />
                     <span>{recommendation.estimatedTime}</span>
                   </div>
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-1 mb-3">
                   {recommendation.tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
@@ -333,25 +356,25 @@ export function RecommendationsContent() {
                 </div>
 
                 {/* AI Reason */}
-                <div className="p-3 bg-gradient-to-r from-[#957D65]/5 to-[#957D65]/10 rounded-xl border border-[#957D65]/10 mb-4">
+                <div className="p-2 bg-gradient-to-r from-[#957D65]/5 to-[#957D65]/10 rounded-xl border border-[#957D65]/10 mb-3">
                   <div className="flex items-start space-x-2">
-                    <Sparkles size={14} className="text-[#957D65] mt-0.5 flex-shrink-0" />
+                    <Sparkles size={12} className="text-[#957D65] mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-xs text-[#222635]/70 leading-relaxed">
-                        <span className="font-medium text-[#957D65]">{t('recommendations.ai_insight')}</span> {recommendation.aiReason}
+                        <span className="font-medium text-[#957D65]">AI INSIGHT:</span> {recommendation.aiReason}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center space-x-3">
-                  <button className="flex-1 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-[1.02] transition-all duration-200 shadow-lg shadow-[#957D65]/20 flex items-center justify-center space-x-2">
-                    <span>{t('recommendations.learn_more')}</span>
-                    <ChevronRight size={16} />
+                <div className="flex items-center space-x-2">
+                  <button className="flex-1 py-2 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-[1.02] transition-all duration-200 shadow-lg shadow-[#957D65]/20 flex items-center justify-center space-x-2 text-sm">
+                    <span>EXPLORE EXPERIENCE</span>
+                    <ChevronRight size={14} />
                   </button>
-                  <button className="p-3 bg-[#222635]/5 text-[#222635] rounded-xl hover:bg-[#222635]/10 transition-all duration-200 hover:scale-105">
-                    <Bookmark size={16} />
+                  <button className="p-2 bg-[#222635]/5 text-[#222635] rounded-xl hover:bg-[#222635]/10 transition-all duration-200 hover:scale-105">
+                    <Bookmark size={14} />
                   </button>
                 </div>
               </div>
@@ -368,9 +391,9 @@ export function RecommendationsContent() {
                 className="w-10 h-10 object-contain rounded-sm bg-transparent mix-blend-multiply"
               />
             </div>
-            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">{t('recommendations.no_found')}</h3>
-            <p className="text-[#222635]/40 max-w-md leading-relaxed">
-              {t('recommendations.try_different')}
+            <h3 className="text-xl font-serif font-medium text-[#E3DCD4]/60 mb-3">No Recommendations Found</h3>
+            <p className="text-[#E3DCD4]/40 max-w-md leading-relaxed">
+              Try adjusting your preferences to discover curated experiences
             </p>
           </div>
         )}

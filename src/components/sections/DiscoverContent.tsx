@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Compass, 
   MapPin, 
@@ -15,19 +15,18 @@ import {
   Globe,
   Zap
 } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+
 
 export function DiscoverContent() {
-  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('trending');
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
-    { id: 'trending', label: 'Trending Now', icon: TrendingUp, count: 12 },
-    { id: 'hidden-gems', label: 'Hidden Gems', icon: Compass, count: 8 },
-    { id: 'local-favorites', label: 'Local Favorites', icon: Heart, count: 15 },
-    { id: 'seasonal', label: 'Seasonal', icon: Clock, count: 6 },
-    { id: 'exclusive', label: 'Exclusive Access', icon: Award, count: 4 }
+    { id: 'trending', label: 'Curated Selection', icon: TrendingUp, count: 12 },
+    { id: 'hidden-gems', label: 'Private Access', icon: Compass, count: 8 },
+    { id: 'local-favorites', label: 'Insider Favorites', icon: Heart, count: 15 },
+    { id: 'seasonal', label: 'Seasonal Exclusives', icon: Clock, count: 6 },
+    { id: 'exclusive', label: 'Members Only', icon: Award, count: 4 }
   ];
 
   const discoveries = [
@@ -186,60 +185,69 @@ export function DiscoverContent() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-gradient-to-br from-[#E3DCD4] via-[#E3DCD4] to-[#E3DCD4]/95">
-      {/* Header */}
-      <div className="p-8 border-b border-[#957D65]/10 bg-white/20 backdrop-blur-sm">
+    <div className="h-full flex flex-col bg-[#222635]">
+      {/* Luxury Header */}
+      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-              Discover Experiences
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2" 
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              Exclusive Discoveries
             </h1>
-            <p className="text-[#222635]/60 leading-relaxed">
-              Uncover hidden gems and unique experiences curated by local experts
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
+               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Uncover extraordinary experiences reserved for discerning travelers
             </p>
           </div>
-          <div className="flex items-center space-x-3">
-            <button className="p-3 bg-white/50 border border-[#957D65]/20 text-[#222635] rounded-xl hover:scale-105 transition-all duration-200 hover:bg-white/70">
+          <div className="flex items-center space-x-4">
+            <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
               <Filter size={20} />
             </button>
-            <button className="p-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20">
+            <button className="p-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30">
               <Globe size={20} />
             </button>
           </div>
         </div>
 
-        {/* Search */}
+        {/* Luxury Search */}
         <div className="relative mb-6">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#222635]/40" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#957D65] z-10" style={{ opacity: 1 }} />
           <input
             type="text"
-            placeholder="Search experiences, locations, or activities..."
+            placeholder="Discover extraordinary experiences..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white/60 border border-[#957D65]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 text-[#222635] placeholder-[#222635]/40 transition-all duration-200 backdrop-blur-sm"
+            className="w-full pl-12 pr-6 py-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 rounded-2xl text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:ring-2 focus:ring-[#957D65]/40 focus:border-[#957D65]/50 transition-all duration-400 backdrop-blur-sm text-sm"
+            style={{ fontFamily: "'Avenir Next', sans-serif" }}
           />
         </div>
 
-        {/* Categories */}
-        <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+        {/* Premium Categories */}
+        <div className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`flex-shrink-0 flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 hover:scale-105 ${
+                className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
                   activeCategory === category.id
-                    ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/20'
-                    : 'bg-white/40 text-[#222635]/70 hover:bg-white/60 hover:text-[#222635] border border-[#957D65]/10'
+                    ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                    : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
                 }`}
+                style={{ 
+                  fontFamily: "'Avenir Next', sans-serif", 
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase' as const,
+                  fontSize: '12px'
+                }}
               >
                 <Icon size={16} />
                 <span>{category.label}</span>
-                <span className={`px-2 py-0.5 rounded-full text-xs ${
+                <span className={`px-2 py-1 rounded-full text-xs ${
                   activeCategory === category.id 
                     ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                    : 'bg-[#957D65]/10 text-[#957D65]'
+                    : 'bg-[#957D65]/20 text-[#957D65]'
                 }`}>
                   {category.count}
                 </span>
@@ -249,16 +257,28 @@ export function DiscoverContent() {
         </div>
       </div>
 
-      {/* Discoveries Grid */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Luxury Discoveries Gallery */}
+      <div className="flex-1 overflow-y-auto bg-[#222635]">
+        <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredDiscoveries.map((discovery) => (
             <div
               key={discovery.id}
-              className="group bg-white/60 hover:bg-white/80 rounded-2xl border border-[#957D65]/10 hover:border-[#957D65]/20 transition-all duration-300 hover:scale-[1.02] overflow-hidden shadow-sm hover:shadow-lg backdrop-blur-sm"
+              className="group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-3xl border-none transition-all duration-500 hover:scale-[1.01] overflow-hidden shadow-2xl hover:shadow-3xl backdrop-blur-sm"
+              style={{ 
+                boxShadow: '0px 12px 32px rgba(34, 38, 53, 0.12)',
+                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0px 16px 40px rgba(34, 38, 53, 0.18)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0px)';
+                e.currentTarget.style.boxShadow = '0px 12px 32px rgba(34, 38, 53, 0.12)';
+              }}
             >
               {/* Image */}
-              <div className="relative h-48 bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden">
+              <div className="relative h-32 bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden">
                 <img 
                   src={discovery.image} 
                   alt={discovery.title}
@@ -325,20 +345,21 @@ export function DiscoverContent() {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-serif font-medium text-[#222635] group-hover:text-[#957D65] transition-colors line-clamp-2">
+                  <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors line-clamp-2 leading-tight"
+                      style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
                     {discovery.title}
                   </h3>
-                  <Compass size={18} className="text-[#957D65] mt-1 flex-shrink-0 ml-2" />
+                  <Compass size={16} className="text-[#957D65] mt-1 flex-shrink-0 ml-2" />
                 </div>
 
-                <p className="text-[#222635]/70 leading-relaxed mb-4 line-clamp-3">
+                <p className="text-sm text-[#222635]/70 leading-relaxed mb-3 line-clamp-2">
                   {discovery.description}
                 </p>
 
                 {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
                   <div className="flex items-center space-x-2 text-[#222635]/60">
                     <MapPin size={12} />
                     <span className="truncate">{discovery.location}</span>
@@ -360,13 +381,13 @@ export function DiscoverContent() {
                 </div>
 
                 {/* Best Time */}
-                <div className="flex items-center space-x-2 mb-4 p-2 bg-[#957D65]/5 rounded-lg">
-                  <Zap size={14} className="text-[#957D65]" />
-                  <span className="text-sm text-[#957D65] font-medium">Best Time: {discovery.bestTime}</span>
+                <div className="flex items-center space-x-2 mb-3 p-2 bg-[#957D65]/5 rounded-lg">
+                  <Zap size={12} className="text-[#957D65]" />
+                  <span className="text-xs text-[#957D65] font-medium">Best Time: {discovery.bestTime}</span>
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-1 mb-3">
                   {discovery.tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
@@ -383,8 +404,8 @@ export function DiscoverContent() {
                 </div>
 
                 {/* Action Button */}
-                <button className="w-full py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-[1.02] transition-all duration-200 shadow-lg shadow-[#957D65]/20 flex items-center justify-center space-x-2">
-                  <Compass size={16} />
+                <button className="w-full py-2 bg-[#957D65] text-[#E3DCD4] rounded-xl font-medium tracking-wide hover:scale-[1.02] transition-all duration-200 shadow-lg shadow-[#957D65]/20 flex items-center justify-center space-x-2 text-sm">
+                  <Compass size={14} />
                   <span>Explore Experience</span>
                 </button>
               </div>
@@ -393,13 +414,17 @@ export function DiscoverContent() {
         </div>
 
         {filteredDiscoveries.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-64 text-center p-8">
-            <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
-              <Compass size={32} className="text-[#957D65]" />
+          <div className="flex flex-col items-center justify-center h-96 text-center px-16 py-20">
+            <div className="w-32 h-32 bg-[#957D65]/10 rounded-3xl flex items-center justify-center mb-12">
+              <Compass size={48} className="text-[#957D65]" />
             </div>
-            <h3 className="text-xl font-serif font-medium text-[#222635]/60 mb-3">No experiences found</h3>
-            <p className="text-[#222635]/40 max-w-md leading-relaxed">
-              Try adjusting your search or explore different categories to discover amazing experiences
+            <h3 className="text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-6" 
+                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+              No Experiences Found
+            </h3>
+            <p className="text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed" 
+               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Refine your search to discover extraordinary experiences curated for discerning travelers
             </p>
           </div>
         )}

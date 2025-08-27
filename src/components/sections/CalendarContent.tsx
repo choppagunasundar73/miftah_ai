@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Calendar, 
   ChevronLeft, 
@@ -15,10 +15,9 @@ import {
   MoreVertical,
   Search
 } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+
 
 export function CalendarContent() {
-  const { t } = useLanguage();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('month');
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -156,7 +155,7 @@ export function CalendarContent() {
     // Day headers
     dayNames.forEach(day => {
       days.push(
-        <div key={day} className="p-3 text-center text-sm font-medium text-[#222635]/60 border-b border-[#957D65]/10">
+        <div key={day} className="p-3 text-center text-sm font-medium text-[#E3DCD4]/80 border-b border-[#957D65]/20 bg-[#222635]">
           {day}
         </div>
       );
@@ -164,7 +163,7 @@ export function CalendarContent() {
 
     // Empty cells for days before month starts
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="p-3 border-b border-r border-[#957D65]/5"></div>);
+      days.push(<div key={`empty-${i}`} className="p-3 border-b border-r border-[#957D65]/20 bg-[#222635]"></div>);
     }
 
     // Days of the month
@@ -178,12 +177,12 @@ export function CalendarContent() {
         <div
           key={day}
           onClick={() => setSelectedDate(date)}
-          className={`p-3 border-b border-r border-[#957D65]/5 cursor-pointer hover:bg-[#957D65]/5 transition-all duration-200 min-h-[100px] ${
-            isSelected ? 'bg-[#957D65]/10 border-[#957D65]/20' : ''
-          } ${isToday ? 'bg-[#222635]/5' : ''}`}
+          className={`p-3 border-b border-r border-[#957D65]/20 cursor-pointer hover:bg-[#957D65]/10 transition-all duration-200 min-h-[100px] bg-[#222635] ${
+            isSelected ? 'bg-[#957D65]/20 border-[#957D65]/40' : ''
+          } ${isToday ? 'bg-[#957D65]/10' : ''}`}
         >
           <div className={`text-sm font-medium mb-2 ${
-            isToday ? 'text-[#957D65] font-bold' : 'text-[#222635]'
+            isToday ? 'text-[#957D65] font-bold' : 'text-[#E3DCD4]'
           }`}>
             {day}
             {isToday && <div className="w-2 h-2 bg-[#957D65] rounded-full mx-auto mt-1"></div>}
@@ -193,7 +192,7 @@ export function CalendarContent() {
             {dayEvents.slice(0, 2).map(event => (
               <div
                 key={event.id}
-                className="text-xs p-1 rounded bg-white/60 border border-[#957D65]/20 truncate hover:bg-white/80 transition-colors"
+                className="text-xs p-1 rounded bg-[#E3DCD4]/90 border border-[#957D65]/20 truncate hover:bg-[#E3DCD4] transition-colors text-[#222635]"
                 style={{ borderLeftColor: event.color, borderLeftWidth: '3px' }}
               >
                 <div className="font-medium">{event.time}</div>
@@ -216,58 +215,64 @@ export function CalendarContent() {
   const selectedDateEvents = getEventsForDate(selectedDate);
 
   return (
-    <div className="h-full flex bg-gradient-to-br from-[#E3DCD4] via-[#E3DCD4] to-[#E3DCD4]/95">
+    <div className="h-full flex bg-[#222635]">
       {/* Calendar View */}
       <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <div className="p-8 border-b border-[#957D65]/10 bg-white/20 backdrop-blur-sm">
+        {/* Luxury Header */}
+        <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
-                Personal Calendar
+              <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2" 
+                  style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+                Executive Calendar
               </h1>
-              <p className="text-[#222635]/60 leading-relaxed">
-                Your intelligent travel calendar with synchronized bookings and activities
+              <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
+                 style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                Your curated schedule of exclusive experiences and premium engagements
               </p>
             </div>
-            <div className="flex items-center space-x-3">
-              <button className="p-3 bg-white/50 border border-[#957D65]/20 text-[#222635] rounded-xl hover:scale-105 transition-all duration-200 hover:bg-white/70">
+            <div className="flex items-center space-x-4">
+              <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
                 <Filter size={20} />
               </button>
-              <div className="flex bg-white/40 rounded-lg p-1 border border-[#957D65]/10">
+              <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
                 <button 
                   onClick={() => setViewMode('month')}
-                  className={`px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                    viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
+                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
+                    viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                   }`}
+                  style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
                   <Grid3X3 size={16} />
                 </button>
                 <button 
                   onClick={() => setViewMode('list')}
-                  className={`px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                    viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#222635]/60 hover:text-[#222635]'
+                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
+                    viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                   }`}
+                  style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
                   <List size={16} />
                 </button>
               </div>
-              <button className="flex items-center space-x-2 px-4 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-105 transition-all duration-200 shadow-lg shadow-[#957D65]/20">
+              <button className="flex items-center space-x-2 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30"
+                      style={{ fontFamily: "'Avenir Next', sans-serif", fontWeight: 500, letterSpacing: '0.5px' }}>
                 <Plus size={20} />
-                <span className="font-medium">Add Event</span>
+                <span className="text-sm uppercase tracking-wider">Add Event</span>
               </button>
             </div>
           </div>
 
-          {/* Search Bar */}
+          {/* Luxury Search Bar */}
           <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#957D65]/60" size={16} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={18} style={{ opacity: 1 }} />
             <input
               type="text"
-              placeholder="Search calendar events..."
+              placeholder="Search exclusive events..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white/50 border border-[#957D65]/20 rounded-xl text-[#222635] placeholder-[#957D65]/60 focus:outline-none focus:ring-2 focus:ring-[#957D65]/30 focus:border-[#957D65]/40 transition-all duration-200 backdrop-blur-sm"
+              className="w-full pl-12 pr-6 py-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 rounded-2xl text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:ring-2 focus:ring-[#957D65]/40 focus:border-[#957D65]/50 transition-all duration-400 backdrop-blur-sm text-sm"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}
             />
           </div>
 

@@ -1,0 +1,253 @@
+/* Luxury Concierge Interface Styles */
+
+/* Premium Typography */
+.luxury-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.luxury-subheading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+.luxury-body {
+    font-family: 'Avenir Next', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.luxury-label {
+    font-family: 'Avenir Next', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Premium Card Styles */
+.luxury-card {
+    background: #E3DCD4;
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0px 12px 32px rgba(34, 38, 53, 0.12);
+    padding: 48px;
+    margin: 24px 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.luxury-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 20px 48px rgba(34, 38, 53, 0.20);
+}
+
+/* Premium Status Indicators */
+.premium-status {
+    background: #957D65;
+    color: #E3DCD4;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-family: 'Avenir Next', sans-serif;
+}
+
+.premium-status.exclusive {
+    background: #222635;
+    color: #E3DCD4;
+}
+
+.premium-status.invitation {
+    background: rgba(149, 125, 101, 0.8);
+    color: #E3DCD4;
+}
+
+/* Luxury Price Display */
+.luxury-price {
+    font-size: 28px;
+    font-weight: 500;
+    color: #957D65;
+    text-align: right;
+    margin-bottom: 8px;
+    font-family: 'Avenir Next', sans-serif;
+}
+
+.price-currency {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-right: 4px;
+}
+
+/* Premium Buttons */
+.luxury-button {
+    background: #957D65;
+    color: #E3DCD4;
+    padding: 16px 32px;
+    border-radius: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Avenir Next', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 24px rgba(149, 125, 101, 0.3);
+}
+
+.luxury-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 32px rgba(149, 125, 101, 0.4);
+}
+
+.luxury-button.secondary {
+    background: rgba(227, 220, 212, 0.1);
+    color: #E3DCD4;
+    border: 1px solid rgba(149, 125, 101, 0.3);
+}
+
+/* Premium Animations */
+@keyframes luxuryFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.luxury-fade-in {
+    animation: luxuryFadeIn 0.6s ease-out;
+}
+
+@keyframes luxurySlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.luxury-slide-in {
+    animation: luxurySlideIn 0.5s ease-out;
+}
+
+/* Premium Hover Effects */
+.luxury-hover {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.luxury-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(34, 38, 53, 0.15);
+}
+
+/* Exclusive Badges */
+.exclusive-badge {
+    background: linear-gradient(135deg, #957D65, #222635);
+    color: #E3DCD4;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Avenir Next', sans-serif;
+}
+
+/* Premium Scrollbar */
+.luxury-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-track {
+    background: rgba(149, 125, 101, 0.1);
+    border-radius: 4px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(149, 125, 101, 0.3);
+    border-radius: 4px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(149, 125, 101, 0.5);
+}
+
+/* Luxury Spacing */
+.luxury-spacing-xs {
+    margin: 8px 0;
+}
+
+.luxury-spacing-sm {
+    margin: 16px 0;
+}
+
+.luxury-spacing-md {
+    margin: 24px 0;
+}
+
+.luxury-spacing-lg {
+    margin: 32px 0;
+}
+
+.luxury-spacing-xl {
+    margin: 48px 0;
+}
+
+.luxury-spacing-2xl {
+    margin: 64px 0;
+}
+
+/* Premium Focus States */
+.luxury-focus:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(149, 125, 101, 0.3);
+    border-color: #957D65;
+}
+
+/* Luxury Glass Effect */
+.luxury-glass {
+    background: rgba(227, 220, 212, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(149, 125, 101, 0.2);
+}
+
+/* Premium Gradients */
+.luxury-gradient-bg {
+    background: linear-gradient(135deg, #222635 0%, #2a2f42 50%, #222635 100%);
+}
+
+.luxury-gradient-text {
+    background: linear-gradient(135deg, #957D65, #222635);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Responsive Luxury */
+@media (max-width: 768px) {
+    .luxury-card {
+        padding: 32px;
+        margin: 16px 0;
+    }
+
+    .luxury-heading {
+        font-size: 2rem;
+    }
+
+    .luxury-price {
+        font-size: 24px;
+    }
+}

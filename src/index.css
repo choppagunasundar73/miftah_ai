@@ -1,3 +1,6 @@
+/* Import luxury styles */
+@import './styles/luxury.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
