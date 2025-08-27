@@ -155,9 +155,7 @@ export function RecommendationsContent() {
             <h1 className="text-3xl font-serif font-medium text-[#222635] tracking-wide mb-2">
               {t('recommendations.title')}
             </h1>
-            <p className="text-[#222635]/60 leading-relaxed">
-              {t('recommendations.subtitle')}
-            </p>
+            
           </div>
           <div className="flex items-center space-x-3">
             <button className="p-3 bg-white/50 border border-[#957D65]/20 text-[#222635] rounded-xl hover:scale-105 transition-all duration-200 hover:bg-white/70">

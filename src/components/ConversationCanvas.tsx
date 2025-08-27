@@ -3,7 +3,6 @@ import { RecommendationsContent } from './sections/RecommendationsContent';
 import { DiscoverContent } from './sections/DiscoverContent';
 import { BookingContent } from './sections/BookingContent';
 import { CalendarContent } from './sections/CalendarContent';
-import { ItineraryContent } from './sections/ItineraryContent';
 import { CommunityContent } from './sections/CommunityContent';
 
 
@@ -27,7 +26,7 @@ export function ConversationCanvas({ memoryOpen, activeSection }: ConversationCa
             case 'calendar':
                 return <CalendarContent />;
             case 'itinerary':
-                return <ItineraryContent />;
+                return <BookingContent />;
             case 'community':
                 return <CommunityContent />;
             default:

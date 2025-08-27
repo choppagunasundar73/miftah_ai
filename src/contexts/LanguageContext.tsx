@@ -113,8 +113,7 @@ const translations = {
     'activity.viewed_safari': 'Viewed desert safari',
     
     // Recommendations
-    'recommendations.title': 'AI Recommendations',
-    'recommendations.subtitle': 'Personalized suggestions curated by artificial intelligence based on your preferences',
+    'recommendations.title': 'Miftah Recommendations',
     'recommendations.all_recommendations': 'All Recommendations',
     'recommendations.dining': 'Dining',
     'recommendations.experiences': 'Experiences',
