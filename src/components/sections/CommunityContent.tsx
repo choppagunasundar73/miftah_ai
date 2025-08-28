@@ -7,11 +7,13 @@ import {
   Building2,
   Target,
   Gem,
-  Handshake
+  Handshake,
+  Search
 } from 'lucide-react';
 
 export function CommunityContent() {
   const [activeTab, setActiveTab] = useState('individual');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const tabs = [
     { id: 'individual', label: 'Individual', icon: User, description: 'Personal membership for discerning travelers' },
@@ -41,6 +43,19 @@ export function CommunityContent() {
               <Plus size={24} className="group-hover:rotate-90 transition-transform duration-400" />
             </button>
           </div>
+        </div>
+
+        {/* Luxury Search */}
+        <div className="relative mb-6">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#957D65] z-10" style={{ opacity: 1 }} />
+          <input
+            type="text"
+            placeholder="Search professionals, communities, or partnerships..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-12 pr-6 py-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 rounded-2xl text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:ring-2 focus:ring-[#957D65]/40 focus:border-[#957D65]/50 transition-all duration-400 backdrop-blur-sm text-sm"
+            style={{ fontFamily: "'Avenir Next', sans-serif" }}
+          />
         </div>
 
         {/* Luxury Navigation Tabs */}
