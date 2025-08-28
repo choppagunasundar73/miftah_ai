@@ -44,8 +44,6 @@ const translations = {
     'chat.ask_anything': 'Ask me anything about luxury experiences in the UAE...',
     'chat.popular_requests': 'Popular Requests',
     'chat.continue_conversation': 'Continue the conversation...',
-    'chat.hotels': 'Hotels',
-    'chat.dining': 'Dining',
     'chat.experiences': 'Experiences',
     'chat.attractions': 'Attractions',
     'chat.best_luxury_hotels': 'Best luxury hotels in Dubai Marina',

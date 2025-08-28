@@ -4,6 +4,7 @@ import { DiscoverContent } from './sections/DiscoverContent';
 import { BookingContent } from './sections/BookingContent';
 import { CalendarContent } from './sections/CalendarContent';
 import { CommunityContent } from './sections/CommunityContent';
+import { WalletContent } from './sections/WalletContent';
 
 
 
@@ -29,6 +30,8 @@ export function ConversationCanvas({ memoryOpen, activeSection }: ConversationCa
                 return <BookingContent />;
             case 'community':
                 return <CommunityContent />;
+            case 'wallet':
+                return <WalletContent />;
             default:
                 return <ChatInterface isActive={true} />;
         }

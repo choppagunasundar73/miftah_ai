@@ -27,6 +27,7 @@ import {
   CloudFog
 } from 'lucide-react';
 
+
 export function CalendarContent() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('month');
@@ -44,10 +45,12 @@ export function CalendarContent() {
     weatherCode: null
   });
 
-  // Tomorrow.io API key
+
+  // Tomorrow.io API key - replace with your free API key
   const TOMORROW_API_KEY = 'f3PixpvpjHM9P1Pdte8hg5nFksw1Rno2';
 
-  // Update time every second
+
+  // Update time every second for live clock
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -55,123 +58,162 @@ export function CalendarContent() {
     return () => clearInterval(timer);
   }, []);
 
-  // IP-based location only (NO browser permission required)
+
+  // Get location and weather on component mount (only once)
   useEffect(() => {
-    const getLocationAndWeather = async () => {
-      // Check for cached data first (30 minutes cache)
+    const initializeLocationAndWeather = async () => {
+      // Check if we have cached weather data that's still fresh (within 30 minutes)
       const cachedWeather = localStorage.getItem('calendarWeatherData');
       const cachedLocation = localStorage.getItem('calendarLocationData');
       const lastFetch = localStorage.getItem('calendarWeatherLastFetch');
-      
-      const now = Date.now();
-      const thirtyMinutes = 30 * 60 * 1000;
 
-      // Use cached data if available and fresh
+
+      const now = Date.now();
+      const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+
+      // If we have fresh cached data, use it
       if (cachedWeather && cachedLocation && lastFetch && (now - parseInt(lastFetch)) < thirtyMinutes) {
         const weatherData = JSON.parse(cachedWeather);
         const locationData = JSON.parse(cachedLocation);
-        
+
+
         setWeather(weatherData);
         setUserLocation(locationData.location);
         setCoordinates(locationData.coordinates);
         return;
       }
 
-      // Fetch fresh IP-based location
-      try {
-        // Primary: ip-api.com (45 requests/min free)
-        const response = await fetch('http://ip-api.com/json/');
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-          const locationName = `${data.city}, ${data.country}`;
-          const coords = { lat: data.lat, lon: data.lon };
-          
-          setUserLocation(locationName);
-          setCoordinates(coords);
-          
-          // Cache location data
-          localStorage.setItem('calendarLocationData', JSON.stringify({
-            location: locationName,
-            coordinates: coords
-          }));
-          
-          // Fetch weather with coordinates
-          await fetchWeather(data.lat, data.lon);
-        }
-      } catch (error) {
-        console.error('Primary IP location failed:', error);
-        
-        // Fallback: freeipapi.com (60 requests/min free)
-        try {
-          const backupResponse = await fetch('https://freeipapi.com/api/json/');
-          const backupData = await backupResponse.json();
-          
-          const locationName = `${backupData.cityName}, ${backupData.countryName}`;
-          const coords = { lat: backupData.latitude, lon: backupData.longitude };
-          
-          setUserLocation(locationName);
-          setCoordinates(coords);
-          
-          localStorage.setItem('calendarLocationData', JSON.stringify({
-            location: locationName,
-            coordinates: coords
-          }));
-          
-          await fetchWeather(backupData.latitude, backupData.longitude);
-        } catch (backupError) {
-          console.error('All IP location services failed:', backupError);
-          setUserLocation('Location unavailable');
-        }
+
+      // Otherwise, fetch fresh data
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            const coords = { lat: latitude, lon: longitude };
+            setCoordinates(coords);
+
+
+            // Get location name using free BigDataCloud API
+            let locationName = 'Location found';
+            try {
+              const locationResponse = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+              );
+              const locationData = await locationResponse.json();
+              locationName = `${locationData.city || locationData.locality}, ${locationData.countryName}`;
+            } catch (error) {
+              console.error('Location name fetch failed:', error);
+            }
+
+
+            setUserLocation(locationName);
+
+
+            // Cache location data
+            localStorage.setItem('calendarLocationData', JSON.stringify({
+              location: locationName,
+              coordinates: coords
+            }));
+
+
+            // Get weather data
+            await fetchWeather(latitude, longitude);
+          },
+          async (error) => {
+            console.error('Geolocation failed:', error);
+            // Fallback to IP-based location
+            try {
+              const ipResponse = await fetch('http://ip-api.com/json/');
+              const ipData = await ipResponse.json();
+              const locationName = `${ipData.city}, ${ipData.country}`;
+              const coords = { lat: ipData.lat, lon: ipData.lon };
+
+
+              setUserLocation(locationName);
+              setCoordinates(coords);
+
+
+              // Cache location data
+              localStorage.setItem('calendarLocationData', JSON.stringify({
+                location: locationName,
+                coordinates: coords
+              }));
+
+
+              await fetchWeather(ipData.lat, ipData.lon);
+            } catch (err) {
+              console.error('IP location failed:', err);
+              setUserLocation('Location unavailable');
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 1800000 // Cache geolocation for 30 minutes
+          }
+        );
+      } else {
+        setUserLocation('Geolocation not supported');
       }
     };
 
-    getLocationAndWeather();
+
+    initializeLocationAndWeather();
   }, []);
 
-  // Fetch weather from Tomorrow.io
+
+  // Fetch weather from Tomorrow.io with caching
   const fetchWeather = async (lat, lon) => {
     try {
       const response = await fetch(
         `https://api.tomorrow.io/v4/timelines?location=${lat},${lon}&fields=temperature,weatherCode,humidity,windSpeed,visibility&timesteps=current&units=metric&apikey=${TOMORROW_API_KEY}`
       );
 
+
       if (!response.ok) {
         throw new Error(`Weather API error: ${response.status}`);
       }
 
+
       const data = await response.json();
       const current = data.data.timelines[0].intervals[0].values;
+
 
       const weatherData = {
         temperature: Math.round(current.temperature),
         condition: getWeatherCondition(current.weatherCode),
         humidity: Math.round(current.humidity),
-        windSpeed: Math.round(current.windSpeed * 3.6),
-        visibility: Math.round(current.visibility / 1000),
+        windSpeed: Math.round(current.windSpeed * 3.6), // m/s to km/h
+        visibility: Math.round(current.visibility / 1000), // m to km
         weatherCode: current.weatherCode
       };
 
+
       setWeather(weatherData);
+
 
       // Cache weather data with timestamp
       localStorage.setItem('calendarWeatherData', JSON.stringify(weatherData));
       localStorage.setItem('calendarWeatherLastFetch', Date.now().toString());
 
+
     } catch (error) {
       console.error('Weather fetch failed:', error);
-      setWeather(prev => ({
-        ...prev,
+      const errorWeather = {
         condition: 'error',
         temperature: '--',
         humidity: '--',
         windSpeed: '--',
-        visibility: '--'
-      }));
+        visibility: '--',
+        weatherCode: null
+      };
+      setWeather(errorWeather);
     }
   };
 
-  // Auto-refresh weather every 30 minutes
+
+  // Update weather every 30 minutes (only if component stays mounted)
   useEffect(() => {
     if (coordinates) {
       const weatherTimer = setInterval(() => {
@@ -179,53 +221,100 @@ export function CalendarContent() {
         const now = Date.now();
         const thirtyMinutes = 30 * 60 * 1000;
 
+
+        // Only fetch if it's been more than 30 minutes since last fetch
         if (!lastFetch || (now - parseInt(lastFetch)) >= thirtyMinutes) {
           fetchWeather(coordinates.lat, coordinates.lon);
         }
-      }, 30 * 60 * 1000);
+      }, 30 * 60 * 1000); // Check every 30 minutes
+
 
       return () => clearInterval(weatherTimer);
     }
   }, [coordinates]);
 
-  // Weather condition mapping
+
+  // Tomorrow.io weather code mapping
   const getWeatherCondition = (code) => {
     const conditions = {
-      1000: 'clear', 1100: 'mostly_clear', 1101: 'partly_cloudy',
-      1102: 'mostly_cloudy', 1001: 'cloudy', 4000: 'drizzle',
-      4200: 'drizzle', 4001: 'rain', 4201: 'rain', 5000: 'snow',
-      5001: 'snow', 5100: 'snow', 5101: 'snow', 6000: 'freezing_rain',
-      6001: 'freezing_rain', 6200: 'freezing_rain', 6201: 'freezing_rain',
-      7000: 'ice_pellets', 7101: 'ice_pellets', 7102: 'ice_pellets',
-      8000: 'thunderstorm', 2000: 'fog', 2100: 'fog'
+      // Clear
+      1000: 'clear',
+      // Cloudy
+      1100: 'mostly_clear',
+      1101: 'partly_cloudy',
+      1102: 'mostly_cloudy',
+      1001: 'cloudy',
+      // Drizzle
+      4000: 'drizzle',
+      4200: 'drizzle',
+      // Rain
+      4001: 'rain',
+      4201: 'rain',
+      // Snow
+      5000: 'snow',
+      5001: 'snow',
+      5100: 'snow',
+      5101: 'snow',
+      // Freezing Rain
+      6000: 'freezing_rain',
+      6001: 'freezing_rain',
+      6200: 'freezing_rain',
+      6201: 'freezing_rain',
+      // Ice Pellets
+      7000: 'ice_pellets',
+      7101: 'ice_pellets',
+      7102: 'ice_pellets',
+      // Thunderstorm
+      8000: 'thunderstorm',
+      // Fog
+      2000: 'fog',
+      2100: 'fog'
     };
     return conditions[code] || 'unknown';
   };
 
-  // Weather icons
+
+  // Get weather icon component
   const getWeatherIcon = (condition) => {
-    const iconProps = { size: 20 };
-    
+    const iconProps = { size: 20, className: "text-[#957D65]" };
+
+
     switch (condition) {
-      case 'clear': return <Sun {...iconProps} className="text-yellow-500" />;
-      case 'mostly_clear': return <Sun {...iconProps} className="text-yellow-400" />;
-      case 'partly_cloudy': return <Cloud {...iconProps} className="text-gray-300" />;
-      case 'mostly_cloudy': return <Cloud {...iconProps} className="text-gray-400" />;
-      case 'cloudy': return <Cloud {...iconProps} className="text-gray-500" />;
-      case 'drizzle': return <CloudDrizzle {...iconProps} className="text-blue-400" />;
-      case 'rain': return <CloudRain {...iconProps} className="text-blue-500" />;
-      case 'snow': return <CloudSnow {...iconProps} className="text-blue-200" />;
-      case 'freezing_rain': return <CloudRain {...iconProps} className="text-cyan-400" />;
-      case 'ice_pellets': return <CloudSnow {...iconProps} className="text-gray-300" />;
-      case 'thunderstorm': return <CloudLightning {...iconProps} className="text-purple-500" />;
-      case 'fog': return <CloudFog {...iconProps} className="text-gray-400" />;
-      case 'loading': return <Cloud {...iconProps} className="text-gray-400 animate-pulse" />;
-      case 'error': return <Cloud {...iconProps} className="text-red-400" />;
-      default: return <Sun {...iconProps} className="text-yellow-500" />;
+      case 'clear':
+        return <Sun {...iconProps} className="text-yellow-500" />;
+      case 'mostly_clear':
+        return <Sun {...iconProps} className="text-yellow-400" />;
+      case 'partly_cloudy':
+        return <Cloud {...iconProps} className="text-gray-300" />;
+      case 'mostly_cloudy':
+        return <Cloud {...iconProps} className="text-gray-400" />;
+      case 'cloudy':
+        return <Cloud {...iconProps} className="text-gray-500" />;
+      case 'drizzle':
+        return <CloudDrizzle {...iconProps} className="text-blue-400" />;
+      case 'rain':
+        return <CloudRain {...iconProps} className="text-blue-500" />;
+      case 'snow':
+        return <CloudSnow {...iconProps} className="text-blue-200" />;
+      case 'freezing_rain':
+        return <CloudRain {...iconProps} className="text-cyan-400" />;
+      case 'ice_pellets':
+        return <CloudSnow {...iconProps} className="text-gray-300" />;
+      case 'thunderstorm':
+        return <CloudLightning {...iconProps} className="text-purple-500" />;
+      case 'fog':
+        return <CloudFog {...iconProps} className="text-gray-400" />;
+      case 'loading':
+        return <Cloud {...iconProps} className="text-gray-400 animate-pulse" />;
+      case 'error':
+        return <Cloud {...iconProps} className="text-red-400" />;
+      default:
+        return <Sun {...iconProps} className="text-yellow-500" />;
     }
   };
 
-  // Time formatting
+
+  // Format time with timezone
   const formatTime = (date) => {
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
@@ -235,86 +324,168 @@ export function CalendarContent() {
     });
   };
 
-  // Weather condition display text
+
+  // Get weather condition display text
   const getWeatherDisplayText = (condition) => {
     const displayTexts = {
-      'clear': 'Clear', 'mostly_clear': 'Mostly Clear', 'partly_cloudy': 'Partly Cloudy',
-      'mostly_cloudy': 'Mostly Cloudy', 'cloudy': 'Cloudy', 'drizzle': 'Drizzle',
-      'rain': 'Rainy', 'snow': 'Snowy', 'freezing_rain': 'Freezing Rain',
-      'ice_pellets': 'Ice Pellets', 'thunderstorm': 'Thunderstorm', 'fog': 'Foggy',
-      'loading': 'Loading...', 'error': 'Unavailable'
+      'clear': 'Clear',
+      'mostly_clear': 'Mostly Clear',
+      'partly_cloudy': 'Partly Cloudy',
+      'mostly_cloudy': 'Mostly Cloudy',
+      'cloudy': 'Cloudy',
+      'drizzle': 'Drizzle',
+      'rain': 'Rainy',
+      'snow': 'Snowy',
+      'freezing_rain': 'Freezing Rain',
+      'ice_pellets': 'Ice Pellets',
+      'thunderstorm': 'Thunderstorm',
+      'fog': 'Foggy',
+      'loading': 'Loading...',
+      'error': 'Unavailable'
     };
     return displayTexts[condition] || 'Unknown';
   };
 
-  // Events data
+
+  // Your existing events array and helper functions remain the same
   const events = [
     {
-      id: 1, title: 'Nobu Dubai Dinner', type: 'dining', date: '2025-01-15',
-      time: '20:00', duration: '3 hours', location: 'Atlantis The Palm',
-      attendees: 2, status: 'confirmed'
+      id: 1,
+      title: 'Nobu Dubai Dinner',
+      type: 'dining',
+      date: '2025-01-15',
+      time: '20:00',
+      duration: '3 hours',
+      location: 'Atlantis The Palm',
+      attendees: 2,
+      status: 'confirmed',
+      priority: 'high',
+      color: '#957D65'
     },
     {
-      id: 2, title: 'Desert Safari Adventure', type: 'adventure', date: '2025-01-18',
-      time: '15:00', duration: '6 hours', location: 'Dubai Desert',
-      attendees: 4, status: 'confirmed'
+      id: 2,
+      title: 'Desert Safari Adventure',
+      type: 'adventure',
+      date: '2025-01-18',
+      time: '15:00',
+      duration: '6 hours',
+      location: 'Dubai Desert',
+      attendees: 4,
+      status: 'confirmed',
+      priority: 'medium',
+      color: '#222635'
     },
     {
-      id: 3, title: 'Spa Appointment', type: 'wellness', date: '2025-01-20',
-      time: '10:00', duration: '4 hours', location: 'Burj Al Arab Spa',
-      attendees: 1, status: 'pending'
+      id: 3,
+      title: 'Spa Appointment',
+      type: 'wellness',
+      date: '2025-01-20',
+      time: '10:00',
+      duration: '4 hours',
+      location: 'Burj Al Arab Spa',
+      attendees: 1,
+      status: 'pending',
+      priority: 'low',
+      color: '#957D65'
     },
     {
-      id: 4, title: 'Business Meeting', type: 'business', date: '2025-01-22',
-      time: '14:00', duration: '2 hours', location: 'DIFC Office',
-      attendees: 5, status: 'confirmed'
+      id: 4,
+      title: 'Business Meeting',
+      type: 'business',
+      date: '2025-01-22',
+      time: '14:00',
+      duration: '2 hours',
+      location: 'DIFC Office',
+      attendees: 5,
+      status: 'confirmed',
+      priority: 'high',
+      color: '#222635'
     },
     {
-      id: 5, title: 'Art Gallery Opening', type: 'culture', date: '2025-01-25',
-      time: '18:00', duration: '3 hours', location: 'Alserkal Avenue',
-      attendees: 2, status: 'tentative'
+      id: 5,
+      title: 'Art Gallery Opening',
+      type: 'culture',
+      date: '2025-01-25',
+      time: '18:00',
+      duration: '3 hours',
+      location: 'Alserkal Avenue',
+      attendees: 2,
+      status: 'tentative',
+      priority: 'medium',
+      color: '#957D65'
     }
   ];
 
-  // Helper functions
-  const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  const getFirstDayOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+  // Your existing helper functions remain the same
+  const getDaysInMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  };
+
+
+  const getFirstDayOfMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
 
   const navigateMonth = (direction) => {
     setCurrentDate(prev => {
       const newDate = new Date(prev);
-      newDate.setMonth(prev.getMonth() + (direction === 'prev' ? -1 : 1));
+      if (direction === 'prev') {
+        newDate.setMonth(prev.getMonth() - 1);
+      } else {
+        newDate.setMonth(prev.getMonth() + 1);
+      }
       return newDate;
     });
   };
+
 
   const getEventsForDate = (date) => {
     const dateStr = date.toISOString().split('T')[0];
     return events.filter(event => event.date === dateStr);
   };
 
+
   const formatDate = (date) => {
     return date.toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
   };
 
+
   const getTypeIcon = (type) => {
     const icons = {
-      dining: '🍽️', adventure: '🏜️', wellness: '🧘',
-      business: '💼', culture: '🎨', shopping: '🛍️'
+      dining: '🍽️',
+      adventure: '🏜️',
+      wellness: '🧘',
+      business: '💼',
+      culture: '🎨',
+      shopping: '🛍️'
     };
     return icons[type] || '📅';
   };
 
-  
 
-  // Calendar grid rendering
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'high': return 'bg-red-100 text-red-700 border-red-200';
+      case 'medium': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      case 'low': return 'bg-green-100 text-green-700 border-green-200';
+      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+  };
+
+
   const renderCalendarGrid = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
     const days = [];
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 
     // Day headers
     dayNames.forEach((day, index) => {
@@ -325,12 +496,12 @@ export function CalendarContent() {
       );
     });
 
-    // Empty cells before month starts
+
+    // Empty cells for days before month starts
     for (let i = 0; i < firstDay; i++) {
-      days.push(
-        <div key={`empty-${i}`} className={`p-3 border-b border-r border-[#957D65]/20 bg-[#222635] ${i === 0 ? 'pl-11' : ''}`}></div>
-      );
+      days.push(<div key={`empty-${i}`} className={`p-3 border-b border-r border-[#957D65]/20 bg-[#222635] ${i === 0 ? 'pl-11' : ''}`}></div>);
     }
+
 
     // Days of the month
     for (let day = 1; day <= daysInMonth; day++) {
@@ -338,21 +509,26 @@ export function CalendarContent() {
       const dayEvents = getEventsForDate(date);
       const isToday = date.toDateString() === new Date().toDateString();
       const isSelected = date.toDateString() === selectedDate.toDateString();
+
+
+      // Calculate if this day is in the first column (Sunday)
       const dayOfWeek = (firstDay + day - 1) % 7;
       const isFirstColumn = dayOfWeek === 0;
+
 
       days.push(
         <div
           key={day}
           onClick={() => setSelectedDate(date)}
-          className={`p-3 border-b border-r border-[#957D65]/20 cursor-pointer hover:bg-[#957D65]/10 transition-all duration-200 min-h-[100px] bg-[#222635] ${
-            isSelected ? 'bg-[#957D65]/20 border-[#957D65]/40' : ''
-          } ${isToday ? 'bg-[#957D65]/10' : ''} ${isFirstColumn ? 'pl-11' : ''}`}
+          className={`p-3 border-b border-r border-[#957D65]/20 cursor-pointer hover:bg-[#957D65]/10 transition-all duration-200 min-h-[100px] bg-[#222635] ${isSelected ? 'bg-[#957D65]/20 border-[#957D65]/40' : ''
+            } ${isToday ? 'bg-[#957D65]/10' : ''} ${isFirstColumn ? 'pl-11' : ''}`}
         >
-          <div className={`text-sm font-medium mb-2 ${isToday ? 'text-[#957D65] font-bold' : 'text-[#E3DCD4]'}`}>
+          <div className={`text-sm font-medium mb-2 ${isToday ? 'text-[#957D65] font-bold' : 'text-[#E3DCD4]'
+            }`}>
             {day}
             {isToday && <div className="w-2 h-2 bg-[#957D65] rounded-full mx-auto mt-1"></div>}
           </div>
+
 
           <div className="space-y-1">
             {dayEvents.slice(0, 2).map(event => (
@@ -366,23 +542,28 @@ export function CalendarContent() {
               </div>
             ))}
             {dayEvents.length > 2 && (
-              <div className="text-xs text-[#957D65] font-medium">+{dayEvents.length - 2} more</div>
+              <div className="text-xs text-[#957D65] font-medium">
+                +{dayEvents.length - 2} more
+              </div>
             )}
           </div>
         </div>
       );
     }
 
+
     return days;
   };
 
+
   const selectedDateEvents = getEventsForDate(selectedDate);
+
 
   return (
     <div className="h-full flex bg-[#222635]">
-      {/* Main Calendar Area */}
+      {/* Calendar View */}
       <div className="flex-1 flex flex-col">
-        {/* Header */}
+        {/* Your existing header remains the same */}
         <div className="pl-16 pr-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -402,18 +583,16 @@ export function CalendarContent() {
               <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
                 <button
                   onClick={() => setViewMode('month')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
-                    viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                    }`}
                   style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
                   <Grid3X3 size={16} />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
-                    viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                    }`}
                   style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
                   <List size={16} />
@@ -427,9 +606,10 @@ export function CalendarContent() {
             </div>
           </div>
 
+
           {/* Search Bar */}
           <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={18} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={18} style={{ opacity: 1 }} />
             <input
               type="text"
               placeholder="Search exclusive events..."
@@ -440,20 +620,28 @@ export function CalendarContent() {
             />
           </div>
 
+
           {/* Calendar Navigation */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <button onClick={() => navigateMonth('prev')} className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105">
+              <button
+                onClick={() => navigateMonth('prev')}
+                className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105"
+              >
                 <ChevronLeft size={20} className="text-[#E3DCD4]" />
               </button>
               <h2 className="text-2xl font-serif font-medium text-[#E3DCD4] min-w-[200px] text-center">
                 {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
               </h2>
-              <button onClick={() => navigateMonth('next')} className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105">
+              <button
+                onClick={() => navigateMonth('next')}
+                className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105"
+              >
                 <ChevronRight size={20} className="text-[#E3DCD4]" />
               </button>
             </div>
-            
+
+
             <button
               onClick={() => setCurrentDate(new Date())}
               className="px-4 py-2 bg-[#E3DCD4]/20 text-[#E3DCD4] rounded-lg hover:bg-[#E3DCD4]/30 transition-all duration-200 text-sm font-medium"
@@ -463,7 +651,8 @@ export function CalendarContent() {
           </div>
         </div>
 
-        {/* Calendar Grid or List View */}
+
+        {/* Calendar Grid */}
         {viewMode === 'month' ? (
           <div className="flex-1 overflow-hidden">
             <div className="grid grid-cols-7 h-full">
@@ -474,14 +663,19 @@ export function CalendarContent() {
           <div className="flex-1 overflow-y-auto pl-16 pr-6 py-6">
             <div className="space-y-4">
               {events.map(event => (
-                <div key={event.id} className="bg-[#E3DCD4]/10 hover:bg-[#E3DCD4]/20 rounded-2xl border border-[#957D65]/10 hover:border-[#957D65]/20 transition-all duration-300 hover:scale-[1.01] p-6 shadow-sm hover:shadow-lg backdrop-blur-sm">
+                <div
+                  key={event.id}
+                  className="bg-[#E3DCD4]/10 hover:bg-[#E3DCD4]/20 rounded-2xl border border-[#957D65]/10 hover:border-[#957D65]/20 transition-all duration-300 hover:scale-[1.01] p-6 shadow-sm hover:shadow-lg backdrop-blur-sm"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4">
                       <div className="text-2xl">{getTypeIcon(event.type)}</div>
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
                           <h3 className="text-lg font-serif font-medium text-[#E3DCD4]">{event.title}</h3>
-                          
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(event.priority)}`}>
+                            {event.priority}
+                          </span>
                         </div>
                         <div className="grid grid-cols-2 gap-4 text-sm text-[#E3DCD4]/60">
                           <div className="flex items-center space-x-2">
@@ -514,18 +708,18 @@ export function CalendarContent() {
         )}
       </div>
 
-      {/* Sidebar */}
+
+      {/* Sidebar - Updated with Live Data */}
       <div className="w-80 border-l border-[#957D65]/20 bg-[#222635]">
         <div className="p-6">
-          {/* Selected Date */}
+          {/* Selected Date Events */}
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-serif font-medium text-[#E3DCD4]" style={{ fontFamily: "'Playfair Display', serif" }}>
               {formatDate(selectedDate)}
             </h3>
           </div>
-
-          {/* Live Time, Location & Weather */}
-          <div className="mb-6 p-4 bg-[#E3DCD4]/10 rounded-2xl border border-[#957D65]/20">
+          {/* Current Time & Location with Live Weather */}
+          <div className="mb-6 p-4 glassmorphic glassmorphic-animated rounded-2xl border border-[#957D65]/20">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 <Clock size={16} className="text-[#957D65]" />
@@ -538,6 +732,7 @@ export function CalendarContent() {
               </button>
             </div>
 
+
             <div className="flex items-center space-x-2 mb-3">
               <MapPin size={14} className="text-[#957D65]" />
               <span className="text-sm text-[#E3DCD4]/80" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
@@ -545,8 +740,9 @@ export function CalendarContent() {
               </span>
             </div>
 
-            {/* Weather Display */}
-            <div className="flex items-center justify-between p-3 bg-[#957D65]/10 rounded-xl">
+
+            {/* Live Weather Information */}
+            <div className="flex items-center justify-between p-3 bg-[#957D65]/10 rounded-xl liquid-float">
               <div className="flex items-center space-x-3">
                 {getWeatherIcon(weather.condition)}
                 <div>
@@ -575,11 +771,16 @@ export function CalendarContent() {
             </div>
           </div>
 
-          {/* Selected Date Events */}
+
+
+
           {selectedDateEvents.length > 0 ? (
             <div className="space-y-4">
               {selectedDateEvents.map(event => (
-                <div key={event.id} className="bg-[#E3DCD4]/10 rounded-xl border border-[#957D65]/20 p-4 hover:bg-[#E3DCD4]/20 transition-all duration-200">
+                <div
+                  key={event.id}
+                  className="bg-[#E3DCD4]/10 rounded-xl border border-[#957D65]/20 p-4 hover:bg-[#E3DCD4]/20 transition-all duration-200"
+                >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center space-x-2">
                       <div className="text-lg">{getTypeIcon(event.type)}</div>
@@ -589,6 +790,7 @@ export function CalendarContent() {
                       <Star size={14} className="text-[#957D65] fill-current" />
                     )}
                   </div>
+
 
                   <div className="space-y-2 text-sm text-[#E3DCD4]/70">
                     <div className="flex items-center space-x-2">
@@ -605,12 +807,12 @@ export function CalendarContent() {
                     </div>
                   </div>
 
+
                   <div className="mt-3 pt-3 border-t border-[#957D65]/20">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
-                      event.status === 'confirmed' ? 'bg-[#957D65]/20 text-[#957D65]' :
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${event.status === 'confirmed' ? 'bg-[#957D65]/20 text-[#957D65]' :
                       event.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
-                      'bg-gray-500/20 text-gray-400'
-                    }`}>
+                        'bg-gray-500/20 text-gray-400'
+                      }`}>
                       {event.status}
                     </span>
                   </div>

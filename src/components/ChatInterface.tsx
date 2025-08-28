@@ -26,25 +26,76 @@ interface ChatInterfaceProps {
   isActive: boolean;
 }
 
+interface NewsItem {
+  title: string;
+  description: string;
+  image: string;
+  source: string;
+  url: string;
+}
+
 export function ChatInterface({ isActive }: ChatInterfaceProps) {
   const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isInitialState, setIsInitialState] = useState(true);
+  const [newsItem, setNewsItem] = useState<NewsItem | null>(null);
+  const [isLoadingNews, setIsLoadingNews] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
 
   const searchRecommendations = [
-    { icon: MapPin, text: t('chat.best_luxury_hotels'), category: t('chat.hotels') },
-    { icon: Utensils, text: t('chat.romantic_dinner'), category: t('chat.dining') },
-    { icon: Calendar, text: t('chat.weekend_safari'), category: t('chat.experiences') },
-    { icon: Camera, text: t('chat.photography_spots'), category: t('chat.attractions') },
+    { icon: MapPin, text: t('chat.best_luxury_hotels')},
+    { icon: Utensils, text: t('chat.romantic_dinner')},
   ];
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Fetch news content from the URL
+  useEffect(() => {
+    const fetchNewsContent = async () => {
+      try {
+        setIsLoadingNews(true);
+        
+        // Simulate API call delay for realistic loading
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Since direct fetching from external URLs has CORS restrictions,
+        // we'll simulate the fetched content structure
+        const mockFetchedContent = {
+          title: 'F1 House 44: Lewis Hamilton\'s Exclusive Racing Experience',
+          description: 'Join Lewis Hamilton at House 44 for an unprecedented Formula 1 experience featuring exclusive track access, private hospitality suites, meet-and-greets with racing legends, and behind-the-scenes access to the Mercedes-AMG Petronas F1 Team facilities.',
+          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+          source: 'Soho House Events',
+          url: 'https://www.sohohouse.com/house-notes/issue-006/events/f1-house-44'
+        };
+        
+        // In a real implementation, you would:
+        // 1. Use a backend proxy to fetch the URL content
+        // 2. Parse the HTML to extract title, description, and image
+        // 3. Return structured data
+        
+        setNewsItem(mockFetchedContent);
+      } catch (error) {
+        console.error('Failed to fetch news content:', error);
+        // Fallback content
+        setNewsItem({
+          title: 'F1 House 44: Exclusive Racing Experience',
+          description: 'Experience the thrill of Formula 1 at House 44 with exclusive access to private viewing areas and premium hospitality.',
+          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center',
+          source: 'Soho House Events',
+          url: 'https://www.sohohouse.com/house-notes/issue-006/events/f1-house-44'
+        });
+      } finally {
+        setIsLoadingNews(false);
+      }
+    };
+
+    fetchNewsContent();
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -135,70 +186,137 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
     <div className="flex-1 flex flex-col h-full bg-gradient-to-br from-[#222635] to-[#2a2f42] relative">
       {isInitialState ? (
         // Initial centered state
-        <div className="flex-1 flex items-center justify-center p-8">
-          <div className="max-w-2xl w-full space-y-8 text-center">
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="max-w-2xl w-full space-y-6 text-center">
             {/* Welcome message */}
-            <div className="space-y-4">
-              <div className="w-32 h-32 mx-auto mb-6">
+            <div className="space-y-2">
+              <div className="w-28 h-28 mx-auto mb-3">
                 <img
                   src={miftahLogo}
                   alt="Miftah AI"
                   className="w-full h-full object-contain filter drop-shadow-lg"
                 />
               </div>
-              <h2 className="text-3xl font-serif font-medium text-[#E3DCD4] tracking-wide">
+              <h2 className="text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
                 {t('chat.how_can_help')}
               </h2>
-              <p className="text-[#E3DCD4]/70 text-lg leading-relaxed">
+              <p className="text-[#E3DCD4]/70 text-sm leading-relaxed">
                 {t('chat.luxury_concierge_ready')}
               </p>
             </div>
 
             {/* Search bar */}
             <div className="relative">
-              <div className="flex items-center bg-[#E3DCD4]/10 backdrop-blur-sm rounded-2xl border border-[#957D65]/30 p-4 shadow-2xl">
+              <div className="flex items-center bg-[#E3DCD4]/10 backdrop-blur-sm rounded-xl border border-[#957D65]/30 p-3 shadow-2xl">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder={t('chat.ask_anything')}
-                  className="flex-1 bg-transparent text-[#E3DCD4] placeholder-[#E3DCD4]/50 text-lg focus:outline-none"
+                  className="flex-1 bg-transparent text-[#E3DCD4] placeholder-[#E3DCD4]/50 text-sm focus:outline-none"
                 />
                 <button
                   onClick={handleSendMessage}
-                  className="ml-4 p-3 bg-[#957D65] hover:bg-[#957D65]/80 rounded-xl transition-all duration-200 hover:scale-105 shadow-lg"
+                  className="ml-3 p-2 bg-[#957D65] hover:bg-[#957D65]/80 rounded-lg transition-all duration-200 hover:scale-105 shadow-lg"
                 >
-                  <Send size={20} className="text-[#E3DCD4]" />
+                  <Send size={16} className="text-[#E3DCD4]" />
                 </button>
               </div>
             </div>
 
             {/* Search recommendations */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium uppercase tracking-widest text-[#E3DCD4]/60">
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase tracking-widest text-[#E3DCD4]/60">
                 {t('chat.popular_requests')}
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="flex gap-2">
                 {searchRecommendations.map((rec, index) => {
                   const Icon = rec.icon;
                   return (
                     <button
                       key={index}
                       onClick={() => handleRecommendationClick(rec.text)}
-                      className="flex items-center space-x-3 p-4 bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-xl border border-[#E3DCD4]/10 hover:border-[#957D65]/30 transition-all duration-200 hover:scale-[1.02] text-left"
+                      className="flex-1 flex items-center space-x-2 p-2 bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-lg border border-[#E3DCD4]/10 hover:border-[#957D65]/30 transition-all duration-200 hover:scale-[1.02] text-left"
                     >
-                      <div className="w-10 h-10 bg-[#957D65]/20 rounded-lg flex items-center justify-center">
-                        <Icon size={18} className="text-[#957D65]" />
+                      <div className="w-6 h-6 bg-[#957D65]/20 rounded-md flex items-center justify-center flex-shrink-0">
+                        <Icon size={12} className="text-[#957D65]" />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-[#E3DCD4] font-medium">{rec.text}</p>
-                        <p className="text-[#E3DCD4]/50 text-sm">{rec.category}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[#E3DCD4] font-medium text-xs truncate">{rec.text}</p>
                       </div>
                     </button>
                   );
                 })}
               </div>
+            </div>
+
+            {/* News Feed Section */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-medium uppercase tracking-widest text-[#E3DCD4]/60">
+                News Feed
+              </h3>
+              {isLoadingNews ? (
+                <div className="bg-[#E3DCD4]/5 rounded-xl border border-[#E3DCD4]/10 p-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-16 h-16 bg-[#957D65]/10 rounded-lg animate-pulse flex-shrink-0"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-[#957D65]/10 rounded animate-pulse"></div>
+                      <div className="h-3 bg-[#957D65]/10 rounded animate-pulse w-3/4"></div>
+                      <div className="h-3 bg-[#957D65]/10 rounded animate-pulse w-1/2"></div>
+                    </div>
+                  </div>
+                </div>
+              ) : newsItem ? (
+                <div 
+                  className="bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-xl border border-[#E3DCD4]/10 hover:border-[#957D65]/30 p-3 transition-all duration-300 cursor-pointer"
+                  onClick={() => window.open(newsItem.url, '_blank')}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className="w-16 h-16 bg-[#957D65]/10 rounded-lg overflow-hidden flex-shrink-0">
+                      <img
+                        src={newsItem.image}
+                        alt={newsItem.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `
+                              <div class="w-full h-full bg-[#957D65]/20 flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-[#957D65]">
+                                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18 10h-1V6a2 2 0 0 0-2-2H5c-1.1 0-2 .9-2 2v14h2a3 3 0 0 0 6 0h2a3 3 0 0 0 6 0zM6 18.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm12 0c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z" fill="currentColor"/>
+                                </svg>
+                              </div>
+                            `;
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-semibold text-[#E3DCD4] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        {newsItem.title}
+                      </h4>
+                      <p className="text-xs text-[#E3DCD4]/70 mb-2 leading-relaxed line-clamp-2" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                        {newsItem.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-[#957D65] uppercase tracking-wider font-medium">{newsItem.source}</span>
+                        <span className="text-xs text-[#957D65] hover:text-[#957D65]/80 transition-colors underline">
+                          Read More
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-[#E3DCD4]/5 rounded-xl border border-[#E3DCD4]/10 p-3">
+                  <div className="text-center text-xs text-[#E3DCD4]/60">
+                    Unable to load news content
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

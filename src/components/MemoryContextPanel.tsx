@@ -11,7 +11,8 @@ import {
     Star,
     Users,
     MoreVertical,
-    Pin
+    Pin,
+    Wallet
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import miftahKeyLogo from '../assets/miftah_key_logo.png';
@@ -26,8 +27,7 @@ interface MemoryContextPanelProps {
 interface ChatHistoryItem {
     id: string;
     title: string;
-    lastMessage: string;
-    isPinned: boolean;
+
     isRecent: boolean;
     isCurrent: boolean;
 }
@@ -55,7 +55,7 @@ export function MemoryContextPanel({
         },
         {
             id: 'discover',
-            label: "What's HOT",
+            label: "My Life Feed",
             icon: Compass,
             description: t('memory.explore_experiences'),
             badge: null
@@ -80,6 +80,13 @@ export function MemoryContextPanel({
             icon: Users,
             description: 'Connect with fellow travelers',
             badge: null
+        },
+        {
+            id: 'wallet',
+            label: 'Miftah Wallet',
+            icon: Wallet,
+            description: 'Manage funds and payments',
+            badge: null
         }
     ];
 
@@ -87,40 +94,33 @@ export function MemoryContextPanel({
         {
             id: '1',
             title: 'Dubai Desert Safari Planning',
-            lastMessage: 'Perfect! I\'ve found some exclusive desert experiences for you.',
-            isPinned: true,
             isRecent: true,
             isCurrent: true
         },
         {
             id: '2',
             title: 'Nobu Dubai Reservation',
-            lastMessage: 'Your table for 2 is confirmed for tonight at 8 PM.',
-            isPinned: false,
+
             isRecent: false,
             isCurrent: false
         },
         {
             id: '3',
             title: 'Burj Khalifa VIP Experience',
-            lastMessage: 'I can arrange priority access to the Sky Lounge.',
-            isPinned: true,
+ 
             isRecent: false,
             isCurrent: false
         },
         {
             id: '4',
             title: 'Weekend Itinerary Planning',
-            lastMessage: 'Here\'s your curated weekend schedule with luxury experiences.',
-            isPinned: false,
             isRecent: false,
             isCurrent: false
         },
         {
             id: '5',
             title: 'Spa & Wellness Recommendations',
-            lastMessage: 'The Royal Suite at Burj Al Arab Spa would be perfect.',
-            isPinned: false,
+
             isRecent: false,
             isCurrent: false
         }
@@ -205,16 +205,9 @@ export function MemoryContextPanel({
                                                             }`}>
                                                             {chat.title}
                                                         </h4>
-                                                        {chat.isPinned && (
-                                                            <Pin size={10} className="text-[#957D65] flex-shrink-0" />
-                                                        )}
+                                                        
                                                     </div>
-                                                    {/* Only show last message for non-current chats */}
-                                                    {!chat.isCurrent && (
-                                                        <p className="text-xs text-[#222635]/60 truncate">
-                                                            {chat.lastMessage}
-                                                        </p>
-                                                    )}
+                                                    
                                                 </div>
                                             </div>
 
