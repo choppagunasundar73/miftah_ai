@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  User, 
-  CheckCircle, 
-  AlertCircle, 
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  User,
+  CheckCircle,
+  AlertCircle,
   XCircle,
   MoreVertical,
   Phone,
@@ -14,24 +14,26 @@ import {
   Trash2,
   Download,
   Filter,
-  Plus
+  Plus,
+  Search
 } from 'lucide-react';
 
 export function BookingContent() {
   const [activeTab, setActiveTab] = useState('upcoming');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const tabs = [
-    { id: 'upcoming', label: 'Current Reservations', count: 5 },
-    { id: 'past', label: 'Experience History', count: 12 },
-    { id: 'cancelled', label: 'Archived', count: 2 }
+    { id: 'upcoming', label: 'Upcoming', count: 5 },
+    { id: 'past', label: 'Past', count: 12 },
+    { id: 'cancelled', label: 'Cancelled', count: 2 }
   ];
 
   const statusFilters = [
-    { id: 'all', label: 'All Experiences' },
-    { id: 'confirmed', label: 'Reserved' },
-    { id: 'pending', label: 'By Invitation' },
-    { id: 'cancelled', label: 'Archived' }
+    { id: 'all', label: 'All Status' },
+    { id: 'confirmed', label: 'Confirmed' },
+    { id: 'pending', label: 'Pending' },
+    { id: 'cancelled', label: 'Cancelled' }
   ];
 
   const bookings = [
@@ -150,7 +152,14 @@ export function BookingContent() {
 
   const filteredBookings = bookings
     .filter(booking => booking.category === activeTab)
-    .filter(booking => filterStatus === 'all' || booking.status === filterStatus);
+    .filter(booking => filterStatus === 'all' || booking.status === filterStatus)
+    .filter(booking =>
+      booking.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.bookingRef.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (booking.specialRequests && booking.specialRequests.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -187,28 +196,42 @@ export function BookingContent() {
   return (
     <div className="h-full flex flex-col bg-[#222635]">
       {/* Luxury Header */}
-      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
-        <div className="flex items-start justify-between mb-6">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
+        <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4">
           <div className="max-w-2xl">
-            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-4" 
-                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
-              Reservation Management
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-4"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              Itinerary Management
             </h1>
-            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
-               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
-              Your curated collection of exclusive experiences and premium reservations
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Manage all your reservations and bookings in one place
             </p>
           </div>
-          <div className="flex items-center space-x-6">
-            <button className="p-4 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20 hover:border-[#957D65]/50">
-              <Filter size={24} />
+          <div className="flex items-center space-x-3 sm:space-x-6">
+            <button className="p-3 sm:p-4 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20 hover:border-[#957D65]/50">
+              <Filter size={20} className="sm:w-6 sm:h-6" />
             </button>
-            <button className="flex items-center space-x-2 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 hover:shadow-[#957D65]/40"
-                    style={{ fontFamily: "'Avenir Next', sans-serif", fontWeight: 500, letterSpacing: '0.5px' }}>
+            <button className="flex items-center space-x-2 px-4 sm:px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 hover:shadow-[#957D65]/40"
+              style={{ fontFamily: "'Avenir Next', sans-serif", fontWeight: 500, letterSpacing: '0.5px' }}>
               <Plus size={20} />
-              <span className="text-sm uppercase tracking-wider">Reserve Experience</span>
+              <span className="text-sm uppercase tracking-wider hidden sm:inline">New Booking</span>
+              <span className="text-sm uppercase tracking-wider sm:hidden">New</span>
             </button>
           </div>
+        </div>
+
+        {/* Luxury Search */}
+        <div className="relative mb-4">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#957D65] z-10" style={{ opacity: 1 }} />
+          <input
+            type="text"
+            placeholder="Search reservations, locations, or references..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-12 pr-6 py-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 rounded-2xl text-[#E3DCD4] placeholder-[#E3DCD4]/50 focus:outline-none focus:ring-2 focus:ring-[#957D65]/40 focus:border-[#957D65]/50 transition-all duration-400 backdrop-blur-sm text-sm"
+            style={{ fontFamily: "'Avenir Next', sans-serif" }}
+          />
         </div>
 
         {/* Luxury Navigation Tabs */}
@@ -217,41 +240,40 @@ export function BookingContent() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex items-center justify-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-400 ${
-                activeTab === tab.id
-                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-xl shadow-[#957D65]/20'
-                  : 'text-[#E3DCD4]/70 hover:text-[#E3DCD4] hover:bg-[#E3DCD4]/10'
-              }`}
+              className={`flex-1 flex items-center justify-center space-x-3 px-4 py-3 rounded-xl text-sm font-small transition-all duration-400 ${activeTab === tab.id
+                ? 'bg-[#957D65] text-[#E3DCD4] shadow-xl shadow-[#957D65]/20'
+                : 'text-[#E3DCD4]/70 hover:text-[#E3DCD4] hover:bg-[#E3DCD4]/10'
+                }`}
               style={{ fontFamily: "'Avenir Next', sans-serif" }}
             >
               <span className="tracking-wide">{tab.label}</span>
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                activeTab === tab.id 
-                  ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                  : 'bg-[#957D65]/20 text-[#957D65]'
-              }`}>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${activeTab === tab.id
+                ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]'
+                : 'bg-[#957D65]/20 text-[#957D65]'
+                }`}>
                 {tab.count}
               </span>
             </button>
           ))}
         </div>
 
+
+
         {/* Premium Status Filters */}
-        <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
+        <div className="flex space-x-2 sm:space-x-4 overflow-x-auto scrollbar-hide pb-2">
           {statusFilters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setFilterStatus(filter.id)}
-              className={`flex-shrink-0 px-6 py-3 rounded-full text-base font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
-                filterStatus === filter.id
-                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
-                  : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
-              }`}
-              style={{ 
-                fontFamily: "'Avenir Next', sans-serif", 
+              className={`flex-shrink-0 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${filterStatus === filter.id
+                ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
+                }`}
+              style={{
+                fontFamily: "'Avenir Next', sans-serif",
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase' as const,
-                fontSize: '14px'
+                fontSize: '12px'
               }}
             >
               {filter.label}
@@ -262,12 +284,12 @@ export function BookingContent() {
 
       {/* Luxury Reservations Gallery */}
       <div className="flex-1 overflow-y-auto bg-[#222635]">
-        <div className="px-8 py-6 space-y-6">
+        <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-6">
           {filteredBookings.map((booking) => (
             <div
               key={booking.id}
               className="group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-xl border-none transition-all duration-500 hover:scale-[1.005] shadow-lg hover:shadow-xl backdrop-blur-sm"
-              style={{ 
+              style={{
                 padding: '16px',
                 marginBottom: '12px',
                 boxShadow: '0px 4px 16px rgba(34, 38, 53, 0.08)',
@@ -291,27 +313,22 @@ export function BookingContent() {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors mb-2 leading-tight"
-                              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+                            style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
                             {booking.title}
                           </h3>
                           {(booking as any).exclusivity && (
                             <div className="flex items-center space-x-2 mb-2">
                               <span className="px-3 py-1 bg-[#957D65] text-[#E3DCD4] rounded-full text-xs font-medium uppercase tracking-wider"
-                                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                                style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
                                 {(booking as any).exclusivity}
                               </span>
                               <span className="px-3 py-1 bg-[#222635] text-[#E3DCD4] rounded-full text-xs font-medium uppercase tracking-wider"
-                                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                                style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
                                 {(booking as any).tier} Member
                               </span>
                             </div>
                           )}
                         </div>
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}
-                              style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.3px', textTransform: 'uppercase' as const }}>
-                          {getStatusIcon(booking.status)}
-                          <span>{booking.status === 'confirmed' ? 'Reserved' : booking.status === 'pending' ? 'By Invitation' : booking.status}</span>
-                        </span>
                       </div>
                       <p className="text-[#222635]/50 text-sm font-light" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                         Reservation Reference: {booking.bookingRef}
@@ -319,21 +336,20 @@ export function BookingContent() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Premium Pricing Display */}
                 <div className="flex items-center justify-end space-x-3 mb-4">
                   <div className="text-right">
-                    <div className="text-xl font-medium text-[#957D65] mb-1" 
-                         style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+                    <div className="text-xl font-medium text-[#957D65] mb-1"
+                      style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                       <span className="text-sm opacity-80 mr-1">AED</span>
                       {booking.totalAmount.toLocaleString()}
                     </div>
-                    <div className={`text-xs font-medium ${
-                      booking.paymentStatus === 'paid' ? 'text-[#957D65]' : 
+                    <div className={`text-xs font-medium ${booking.paymentStatus === 'paid' ? 'text-[#957D65]' :
                       booking.paymentStatus === 'pending' ? 'text-[#222635]/60' : 'text-[#222635]/60'
-                    }`} style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px', textTransform: 'uppercase' as const }}>
-                      {booking.paymentStatus === 'paid' ? '✓ Secured' : 
-                       booking.paymentStatus === 'pending' ? '⏳ Processing' : '↩ Refunded'}
+                      }`} style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px', textTransform: 'uppercase' as const }}>
+                      {booking.paymentStatus === 'paid' ? '✓ Secured' :
+                        booking.paymentStatus === 'pending' ? '⏳ Processing' : '↩ Refunded'}
                     </div>
                   </div>
                   <button className="p-2 opacity-0 group-hover:opacity-100 hover:bg-[#957D65]/10 rounded-xl transition-all duration-400">
@@ -347,10 +363,10 @@ export function BookingContent() {
                     <Calendar size={18} className="text-[#957D65]" />
                     <div>
                       <div className="text-sm font-medium text-[#222635] mb-1" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
-                        {new Date(booking.date).toLocaleDateString('en-US', { 
-                          weekday: 'short', 
-                          month: 'short', 
-                          day: 'numeric' 
+                        {new Date(booking.date).toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric'
                         })}
                       </div>
                       <div className="text-xs text-[#222635]/60 uppercase tracking-wider" style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
@@ -358,7 +374,7 @@ export function BookingContent() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3 p-3 bg-[#222635]/5 rounded-xl">
                     <Clock size={18} className="text-[#957D65]" />
                     <div>
@@ -370,7 +386,7 @@ export function BookingContent() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3 p-3 bg-[#222635]/5 rounded-xl">
                     <User size={18} className="text-[#957D65]" />
                     <div>
@@ -395,8 +411,8 @@ export function BookingContent() {
                 {/* Luxury Service Details */}
                 {booking.specialRequests && (
                   <div className="mb-4 p-3 bg-[#222635]/5 rounded-xl">
-                    <h4 className="text-sm font-semibold text-[#222635] mb-2 uppercase tracking-wider" 
-                        style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+                    <h4 className="text-sm font-semibold text-[#222635] mb-2 uppercase tracking-wider"
+                      style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
                       Experience Details
                     </h4>
                     <p className="text-sm text-[#222635]/80 leading-relaxed" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
@@ -417,7 +433,7 @@ export function BookingContent() {
                       <span>{booking.contactPhone}</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                     {booking.status !== 'cancelled' && booking.status !== 'completed' && (
                       <button className="p-2 hover:bg-[#957D65]/10 rounded-xl transition-all duration-400 hover:scale-110">
@@ -441,21 +457,22 @@ export function BookingContent() {
         </div>
 
         {filteredBookings.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-96 text-center px-16 py-20">
-            <div className="w-32 h-32 bg-[#957D65]/10 rounded-3xl flex items-center justify-center mb-12">
-              <Calendar size={48} className="text-[#957D65]" />
+          <div className="flex flex-col items-center justify-center h-96 text-center px-4 sm:px-8 lg:px-16 py-12 sm:py-20">
+            <div className="w-20 sm:w-32 h-20 sm:h-32 bg-[#957D65]/10 rounded-3xl flex items-center justify-center mb-8 sm:mb-12">
+              <Calendar size={32} className="text-[#957D65] sm:w-12 sm:h-12" />
             </div>
-            <h3 className="text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-6" 
-                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+            <h3 className="text-2xl sm:text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-4 sm:mb-6"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
               No Reservations Found
             </h3>
-            <p className="text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed mb-12" 
-               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
-              {activeTab === 'upcoming' ? 'Your exclusive experiences await curation' : 
-               activeTab === 'past' ? 'No experience history to display' : 'No archived reservations'}
+            <p className="text-base sm:text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed mb-8 sm:mb-12"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              {searchQuery ? 'Refine your search to find specific reservations' :
+                activeTab === 'upcoming' ? 'Your exclusive experiences await curation' :
+                  activeTab === 'past' ? 'No experience history to display' : 'No archived reservations'}
             </p>
-            <button className="px-12 py-6 bg-[#957D65] text-[#E3DCD4] rounded-2xl font-medium tracking-wider hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 text-lg uppercase"
-                    style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
+            <button className="px-8 sm:px-12 py-4 sm:py-6 bg-[#957D65] text-[#E3DCD4] rounded-2xl font-medium tracking-wider hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 text-base sm:text-lg uppercase"
+              style={{ fontFamily: "'Avenir Next', sans-serif", letterSpacing: '0.5px' }}>
               Curate New Experience
             </button>
           </div>

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { 
-  Star, 
-  MapPin, 
-  Clock, 
-  Filter, 
-  Heart, 
-  Share2, 
+import {
+  Star,
+  MapPin,
+  Clock,
+  Filter,
+  Heart,
+  Share2,
   Bookmark,
   TrendingUp,
   Sparkles,
@@ -44,7 +44,6 @@ export function RecommendationsContent() {
       confidence: 95,
       trending: true,
       saved: false,
-      views: 1240
     },
     {
       id: 2,
@@ -60,8 +59,7 @@ export function RecommendationsContent() {
       aiReason: 'Perfect match for your interest in authentic cultural experiences and adventure activities',
       confidence: 92,
       trending: false,
-      saved: true,
-      views: 856
+      saved: true
     },
     {
       id: 3,
@@ -77,8 +75,7 @@ export function RecommendationsContent() {
       aiReason: 'Recommended based on your shopping preferences and interest in cultural heritage sites',
       confidence: 88,
       trending: false,
-      saved: false,
-      views: 642
+      saved: false
     },
     {
       id: 4,
@@ -94,8 +91,7 @@ export function RecommendationsContent() {
       aiReason: 'Aligns with your appreciation for art, architecture, and exclusive cultural experiences',
       confidence: 94,
       trending: true,
-      saved: true,
-      views: 1120
+      saved: true
     },
     {
       id: 5,
@@ -111,8 +107,7 @@ export function RecommendationsContent() {
       aiReason: 'Matches your preference for luxury experiences and iconic Dubai landmarks',
       confidence: 90,
       trending: true,
-      saved: false,
-      views: 2100
+      saved: false
     },
     {
       id: 6,
@@ -128,13 +123,12 @@ export function RecommendationsContent() {
       aiReason: 'Perfect for your interest in authentic cultural experiences and culinary adventures',
       confidence: 87,
       trending: false,
-      saved: false,
-      views: 734
+      saved: false
     }
   ];
 
-  const filteredRecommendations = activeFilter === 'all' 
-    ? recommendations 
+  const filteredRecommendations = activeFilter === 'all'
+    ? recommendations
     : recommendations.filter(rec => rec.category === activeFilter);
 
   const getConfidenceColor = (confidence: number) => {
@@ -146,15 +140,15 @@ export function RecommendationsContent() {
   return (
     <div className="h-full flex flex-col bg-[#222635]">
       {/* Luxury Header */}
-      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2" 
-                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
-              Curated Recommendations
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              Miftah Recommendations
             </h1>
-            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
-               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}>
               Personally selected experiences tailored to your refined preferences
             </p>
           </div>
@@ -163,20 +157,18 @@ export function RecommendationsContent() {
               <Filter size={20} />
             </button>
             <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
-              <button 
+              <button
                 onClick={() => setViewMode('grid')}
-                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
-                  viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                  }`}
                 style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
                 Gallery
               </button>
-              <button 
+              <button
                 onClick={() => setViewMode('list')}
-                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${
-                  viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                  }`}
                 style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
                 Details
@@ -204,24 +196,22 @@ export function RecommendationsContent() {
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
-              className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
-                activeFilter === filter.id
-                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
-                  : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
-              }`}
-              style={{ 
-                fontFamily: "'Avenir Next', sans-serif", 
+              className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${activeFilter === filter.id
+                ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
+                }`}
+              style={{
+                fontFamily: "'Avenir Next', sans-serif",
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase' as const,
                 fontSize: '12px'
               }}
             >
               <span>{filter.label}</span>
-              <span className={`px-2 py-1 rounded-full text-xs ${
-                activeFilter === filter.id 
-                  ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                  : 'bg-[#957D65]/20 text-[#957D65]'
-              }`}>
+              <span className={`px-2 py-1 rounded-full text-xs ${activeFilter === filter.id
+                ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]'
+                : 'bg-[#957D65]/20 text-[#957D65]'
+                }`}>
                 {filter.count}
               </span>
             </button>
@@ -231,14 +221,13 @@ export function RecommendationsContent() {
 
       {/* Luxury Recommendations Gallery */}
       <div className="flex-1 overflow-y-auto bg-[#222635]">
-        <div className={`px-8 py-6 ${viewMode === 'grid' ? 'grid grid-cols-1 lg:grid-cols-2 gap-8' : 'space-y-6'}`}>
+        <div className={`px-4 sm:px-6 lg:px-8 py-6 ${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8' : 'space-y-6'}`}>
           {filteredRecommendations.map((recommendation) => (
             <div
               key={recommendation.id}
-              className={`group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-3xl border-none transition-all duration-500 hover:scale-[1.01] overflow-hidden shadow-2xl hover:shadow-3xl backdrop-blur-sm ${
-                viewMode === 'list' ? 'flex items-center space-x-8 p-8' : ''
-              }`}
-              style={{ 
+              className={`group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-3xl border-none transition-all duration-500 hover:scale-[1.01] overflow-hidden shadow-2xl hover:shadow-3xl backdrop-blur-sm ${viewMode === 'list' ? 'flex items-center space-x-8 p-8' : ''
+                }`}
+              style={{
                 boxShadow: '0px 12px 32px rgba(34, 38, 53, 0.12)',
                 transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               }}
@@ -252,11 +241,10 @@ export function RecommendationsContent() {
               }}
             >
               {/* Image */}
-              <div className={`relative bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden ${
-                viewMode === 'list' ? 'w-24 h-18 rounded-xl flex-shrink-0' : 'h-32'
-              }`}>
-                <img 
-                  src={recommendation.image} 
+              <div className={`relative bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden ${viewMode === 'list' ? 'w-32 h-24 rounded-xl flex-shrink-0' : 'h-48'
+                }`}>
+                <img
+                  src={recommendation.image}
                   alt={recommendation.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -264,7 +252,7 @@ export function RecommendationsContent() {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                
+
                 {/* Badges */}
                 <div className="absolute top-3 left-3 flex space-x-2">
                   {recommendation.trending && (
@@ -280,9 +268,8 @@ export function RecommendationsContent() {
 
                 {/* Actions */}
                 <div className="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <button className={`p-2 rounded-full hover:scale-110 transition-all duration-200 ${
-                    recommendation.saved ? 'bg-[#957D65] text-[#E3DCD4]' : 'bg-white/90 text-[#957D65]'
-                  }`}>
+                  <button className={`p-2 rounded-full hover:scale-110 transition-all duration-200 ${recommendation.saved ? 'bg-[#957D65] text-[#E3DCD4]' : 'bg-white/90 text-[#957D65]'
+                    }`}>
                     <Heart size={14} className={recommendation.saved ? 'fill-current' : ''} />
                   </button>
                   <button className="p-2 bg-white/90 rounded-full hover:scale-110 transition-all duration-200">
@@ -301,23 +288,18 @@ export function RecommendationsContent() {
                   </div>
                 </div>
 
-                {/* Views */}
-                <div className="absolute bottom-3 right-3 flex items-center space-x-1 bg-black/20 px-2 py-1 rounded-full">
-                  <Eye size={10} className="text-white" />
-                  <span className="text-xs text-white">{recommendation.views}</span>
-                </div>
               </div>
 
               {/* Content */}
               <div className={viewMode === 'list' ? 'flex-1 pl-4' : 'p-4'}>
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors leading-tight"
-                      style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+                    style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
                     {recommendation.title}
                   </h3>
-                  <img 
-                    src={miftahKeyLogo} 
-                    alt="Miftah Key Logo" 
+                  <img
+                    src={miftahKeyLogo}
+                    alt="Miftah Key Logo"
                     className="w-6 h-6 object-contain rounded-sm mt-1 flex-shrink-0 ml-2 bg-transparent mix-blend-multiply"
                   />
                 </div>
@@ -383,11 +365,11 @@ export function RecommendationsContent() {
         </div>
 
         {filteredRecommendations.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-64 text-center p-8">
+          <div className="flex flex-col items-center justify-center h-64 text-center p-4 sm:p-6 lg:p-8">
             <div className="w-20 h-20 bg-[#957D65]/10 rounded-2xl flex items-center justify-center mb-6">
-              <img 
-                src={miftahKeyLogo} 
-                alt="Miftah Key Logo" 
+              <img
+                src={miftahKeyLogo}
+                alt="Miftah Key Logo"
                 className="w-10 h-10 object-contain rounded-sm bg-transparent mix-blend-multiply"
               />
             </div>

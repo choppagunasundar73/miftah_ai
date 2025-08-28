@@ -251,3 +251,371 @@
         font-size: 24px;
     }
 }
+
+
+/* Advanced Luxury Animation Effects */
+
+/* Glassmorphic Animation Effect */
+@keyframes glassmorphic-pulse {
+  0%, 100% {
+    backdrop-filter: blur(10px);
+    background: rgba(227, 220, 212, 0.1);
+    box-shadow: 0 8px 32px rgba(149, 125, 101, 0.1);
+  }
+  50% {
+    backdrop-filter: blur(15px);
+    background: rgba(227, 220, 212, 0.15);
+    box-shadow: 0 12px 40px rgba(149, 125, 101, 0.15);
+  }
+}
+
+/* Liquid Motion Effects */
+@keyframes liquid-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+}
+
+@keyframes liquid-morph {
+  0%, 100% { border-radius: 20px; }
+  25% { border-radius: 25px 15px 20px 30px; }
+  50% { border-radius: 15px 25px 30px 20px; }
+  75% { border-radius: 30px 20px 15px 25px; }
+}
+
+/* Animated Gradient Effects */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Microinteraction Effects */
+@keyframes micro-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Self-Drawing Animation */
+@keyframes draw-line {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Morphing Animation */
+@keyframes morph-scale {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(2deg); }
+  50% { transform: scale(0.95) rotate(-1deg); }
+  75% { transform: scale(1.05) rotate(1deg); }
+}
+
+/* Neumorphic Animation Effect */
+@keyframes neumorphic-press {
+  0% {
+    box-shadow: 
+      8px 8px 16px rgba(34, 38, 53, 0.2),
+      -8px -8px 16px rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    box-shadow: 
+      inset 4px 4px 8px rgba(34, 38, 53, 0.2),
+      inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Loading Skeleton Animation */
+@keyframes skeleton-loading {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* Hover Animation Effects */
+@keyframes hover-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(149, 125, 101, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(149, 125, 101, 0.5); }
+}
+
+/* Breathing Animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Staggered Fade In */
+@keyframes staggered-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Magnetic Pull Effect */
+@keyframes magnetic-pull {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(3px, -3px); }
+}
+
+/* Utility Classes */
+.glassmorphic {
+  backdrop-filter: blur(10px);
+  background: rgba(227, 220, 212, 0.1);
+  border: 1px solid rgba(149, 125, 101, 0.2);
+}
+
+.glassmorphic-animated {
+  animation: glassmorphic-pulse 4s ease-in-out infinite;
+}
+
+.liquid-float {
+  animation: liquid-float 6s ease-in-out infinite;
+}
+
+.liquid-morph {
+  animation: liquid-morph 8s ease-in-out infinite;
+}
+
+.gradient-animated {
+  background: linear-gradient(-45deg, #957D65, #222635, #E3DCD4, #957D65);
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.micro-bounce {
+  animation: micro-bounce 0.6s ease-in-out;
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(149, 125, 101, 0.2),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.morph-scale {
+  animation: morph-scale 3s ease-in-out infinite;
+}
+
+.neumorphic {
+  background: #E3DCD4;
+  box-shadow: 
+    8px 8px 16px rgba(34, 38, 53, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.neumorphic:active {
+  animation: neumorphic-press 0.2s ease-in-out;
+}
+
+.skeleton-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(149, 125, 101, 0.1) 25%,
+    rgba(149, 125, 101, 0.2) 50%,
+    rgba(149, 125, 101, 0.1) 75%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.hover-glow:hover {
+  animation: hover-glow 2s ease-in-out infinite;
+}
+
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.magnetic:hover {
+  animation: magnetic-pull 0.3s ease-out forwards;
+}
+
+/* 3D Card Effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(5deg) rotateX(5deg) translateZ(20px);
+}
+
+/* Stagger Animation Delays */
+.stagger-1 { animation: staggered-fade-in 0.8s ease-out 0.1s both; }
+.stagger-2 { animation: staggered-fade-in 0.8s ease-out 0.2s both; }
+.stagger-3 { animation: staggered-fade-in 0.8s ease-out 0.3s both; }
+.stagger-4 { animation: staggered-fade-in 0.8s ease-out 0.4s both; }
+.stagger-5 { animation: staggered-fade-in 0.8s ease-out 0.5s both; }
+
+/* Parallax Effect */
+.parallax-slow {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(149, 125, 101, 0.1) 0%,
+    rgba(149, 125, 101, 0.3) 50%,
+    rgba(149, 125, 101, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Luxury Pulse Effect */
+@keyframes luxury-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(149, 125, 101, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(149, 125, 101, 0);
+  }
+}
+
+.luxury-pulse {
+  animation: luxury-pulse 2s infinite;
+}
+
+/* Floating Elements */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.float-gentle {
+  animation: float-gentle 3s ease-in-out infinite;
+}
+
+/* Typewriter Effect */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-cursor {
+  0%, 50% { border-color: #957D65; }
+  51%, 100% { border-color: transparent; }
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid #957D65;
+  white-space: nowrap;
+  animation: 
+    typewriter 2s steps(40, end),
+    blink-cursor 1s step-end infinite;
+  animation-fill-mode: forwards;
+}
+
+.typewriter:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typewriter:nth-child(2) {
+  animation-delay: 0.5s;
+  width: 0;
+}
+
+.typewriter:nth-child(3) {
+  animation-delay: 1s;
+  width: 0;
+}
+
+/* Reveal Animation */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-up {
+  animation: reveal-up 0.8s ease-out forwards;
+}
+
+/* Prevent overflow and dragging issues */
+html, body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+/* Prevent white space on drag */
+.conversation-canvas {
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Running Cursor Animation */
+@keyframes running-cursor {
+  0% { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: translateX(2px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.running-cursor::after {
+  content: '|';
+  color: #957D65;
+  animation: running-cursor 0.8s ease-in-out infinite;
+  margin-left: 2px;
+}
+
+/* Enhanced Typewriter with Running Cursor */
+.typewriter-enhanced {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: none;
+  animation: typewriter 2.5s steps(40, end) forwards;
+  width: 0;
+}
+
+.typewriter-enhanced::after {
+  content: '|';
+  color: #957D65;
+  animation: blink-cursor 1s step-end infinite;
+  margin-left: 2px;
+}

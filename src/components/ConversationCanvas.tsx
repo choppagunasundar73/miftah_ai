@@ -35,11 +35,13 @@ export function ConversationCanvas({ memoryOpen, activeSection }: ConversationCa
     };
 
     return (
-        <div className={`flex-1 flex flex-col bg-[#E3DCD4] transition-all duration-300 ${memoryOpen ? 'ml-80' : ''
+        <div className={`flex-1 flex flex-col bg-[#E3DCD4] transition-all duration-300 overflow-hidden conversation-canvas ${memoryOpen ? 'ml-80' : ''
             }`}>
 
             {/* Section Content */}
-            {renderSectionContent()}
+            <div className="flex-1 overflow-hidden">
+                {renderSectionContent()}
+            </div>
 
         </div>
     );

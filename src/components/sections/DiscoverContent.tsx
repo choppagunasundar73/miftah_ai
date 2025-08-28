@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { 
-  Compass, 
-  MapPin, 
-  Star, 
-  Clock, 
-  Users, 
-  Camera, 
+import {
+  Compass,
+  MapPin,
+  Star,
+  Clock,
+  Users,
+  Camera,
   Heart,
   Share2,
   Filter,
@@ -37,7 +37,6 @@ export function DiscoverContent() {
       description: 'A hidden oasis in the heart of Dubai\'s financial district, featuring rare plants, meditation spaces, and panoramic city views',
       location: 'Dubai International Financial Centre',
       duration: '1-2 hours',
-      difficulty: 'Easy',
       rating: 4.9,
       reviews: 127,
       price: 'Free',
@@ -57,7 +56,6 @@ export function DiscoverContent() {
       description: 'Contemporary art space in historic Dubai showcasing emerging Middle Eastern artists in converted traditional buildings',
       location: 'Al Fahidi Historical Neighbourhood',
       duration: '2-3 hours',
-      difficulty: 'Easy',
       rating: 4.7,
       reviews: 89,
       price: 'AED 25',
@@ -77,7 +75,6 @@ export function DiscoverContent() {
       description: 'Members-only beach club with pristine white sand, crystal waters, and world-class spa facilities',
       location: 'Saadiyat Island, Abu Dhabi',
       duration: 'Full Day',
-      difficulty: 'Easy',
       rating: 4.8,
       reviews: 234,
       price: 'AED 500',
@@ -97,7 +94,6 @@ export function DiscoverContent() {
       description: 'Learn the ancient art of dhow construction from master craftsmen in Dubai Creek\'s traditional boatyard',
       location: 'Dubai Creek',
       duration: '4 hours',
-      difficulty: 'Moderate',
       rating: 4.6,
       reviews: 56,
       price: 'AED 150',
@@ -117,7 +113,6 @@ export function DiscoverContent() {
       description: 'Winter-only falconry experience with Bedouin masters, featuring hunting demonstrations and traditional desert lunch',
       location: 'Dubai Desert Conservation Reserve',
       duration: '6 hours',
-      difficulty: 'Moderate',
       rating: 4.9,
       reviews: 178,
       price: 'AED 800',
@@ -137,7 +132,6 @@ export function DiscoverContent() {
       description: 'Guided night kayaking through bioluminescent waters in Abu Dhabi\'s protected mangrove forests',
       location: 'Eastern Mangroves, Abu Dhabi',
       duration: '3 hours',
-      difficulty: 'Moderate',
       rating: 4.8,
       reviews: 92,
       price: 'AED 200',
@@ -153,13 +147,13 @@ export function DiscoverContent() {
   ];
 
   const filteredDiscoveries = discoveries
-    .filter(item => activeCategory === 'trending' ? item.trending : 
-                   activeCategory === 'hidden-gems' ? item.category === 'hidden-gems' :
-                   activeCategory === 'local-favorites' ? item.localFavorite :
-                   activeCategory === 'seasonal' ? item.category === 'seasonal' :
-                   activeCategory === 'exclusive' ? item.exclusive :
-                   true)
-    .filter(item => 
+    .filter(item => activeCategory === 'trending' ? item.trending :
+      activeCategory === 'hidden-gems' ? item.category === 'hidden-gems' :
+        activeCategory === 'local-favorites' ? item.localFavorite :
+          activeCategory === 'seasonal' ? item.category === 'seasonal' :
+            activeCategory === 'exclusive' ? item.exclusive :
+              true)
+    .filter(item =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -187,16 +181,16 @@ export function DiscoverContent() {
   return (
     <div className="h-full flex flex-col bg-[#222635]">
       {/* Luxury Header */}
-      <div className="px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2" 
-                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
-              Exclusive Discoveries
+            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
+              What's HOT
             </h1>
-            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light" 
-               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
-              Uncover extraordinary experiences reserved for discerning travelers
+            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+              Uncover hidden gems and unique experiences curated by local experts
             </p>
           </div>
           <div className="flex items-center space-x-4">
@@ -230,13 +224,12 @@ export function DiscoverContent() {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${
-                  activeCategory === category.id
-                    ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
-                    : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
-                }`}
-                style={{ 
-                  fontFamily: "'Avenir Next', sans-serif", 
+                className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${activeCategory === category.id
+                  ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
+                  : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
+                  }`}
+                style={{
+                  fontFamily: "'Avenir Next', sans-serif",
                   letterSpacing: '0.5px',
                   textTransform: 'uppercase' as const,
                   fontSize: '12px'
@@ -244,11 +237,10 @@ export function DiscoverContent() {
               >
                 <Icon size={16} />
                 <span>{category.label}</span>
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                  activeCategory === category.id 
-                    ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]' 
-                    : 'bg-[#957D65]/20 text-[#957D65]'
-                }`}>
+                <span className={`px-2 py-1 rounded-full text-xs ${activeCategory === category.id
+                  ? 'bg-[#E3DCD4]/20 text-[#E3DCD4]'
+                  : 'bg-[#957D65]/20 text-[#957D65]'
+                  }`}>
                   {category.count}
                 </span>
               </button>
@@ -259,12 +251,12 @@ export function DiscoverContent() {
 
       {/* Luxury Discoveries Gallery */}
       <div className="flex-1 overflow-y-auto bg-[#222635]">
-        <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {filteredDiscoveries.map((discovery) => (
             <div
               key={discovery.id}
               className="group bg-[#E3DCD4] hover:bg-[#E3DCD4] rounded-3xl border-none transition-all duration-500 hover:scale-[1.01] overflow-hidden shadow-2xl hover:shadow-3xl backdrop-blur-sm"
-              style={{ 
+              style={{
                 boxShadow: '0px 12px 32px rgba(34, 38, 53, 0.12)',
                 transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               }}
@@ -278,9 +270,9 @@ export function DiscoverContent() {
               }}
             >
               {/* Image */}
-              <div className="relative h-32 bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden">
-                <img 
-                  src={discovery.image} 
+              <div className="relative h-48 bg-gradient-to-br from-[#957D65]/20 to-[#957D65]/10 overflow-hidden">
+                <img
+                  src={discovery.image}
                   alt={discovery.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -288,7 +280,7 @@ export function DiscoverContent() {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                
+
                 {/* Badges */}
                 <div className="absolute top-3 left-3 flex flex-col space-y-2">
                   {discovery.trending && (
@@ -348,7 +340,7 @@ export function DiscoverContent() {
               <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="text-lg font-serif font-semibold text-[#222635] group-hover:text-[#957D65] transition-colors line-clamp-2 leading-tight"
-                      style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+                    style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
                     {discovery.title}
                   </h3>
                   <Compass size={16} className="text-[#957D65] mt-1 flex-shrink-0 ml-2" />
@@ -368,11 +360,7 @@ export function DiscoverContent() {
                     <Clock size={12} />
                     <span>{discovery.duration}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(discovery.difficulty)}`}>
-                      {discovery.difficulty}
-                    </span>
-                  </div>
+ 
                   <div className="flex items-center space-x-2">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCrowdLevelColor(discovery.crowdLevel)}`}>
                       {discovery.crowdLevel} Crowd
@@ -414,16 +402,16 @@ export function DiscoverContent() {
         </div>
 
         {filteredDiscoveries.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-96 text-center px-16 py-20">
+          <div className="flex flex-col items-center justify-center h-96 text-center px-4 sm:px-8 lg:px-16 py-20">
             <div className="w-32 h-32 bg-[#957D65]/10 rounded-3xl flex items-center justify-center mb-12">
               <Compass size={48} className="text-[#957D65]" />
             </div>
-            <h3 className="text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-6" 
-                style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
+            <h3 className="text-3xl font-serif font-semibold text-[#E3DCD4]/80 mb-6"
+              style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.01em' }}>
               No Experiences Found
             </h3>
-            <p className="text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed" 
-               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
+            <p className="text-xl text-[#E3DCD4]/60 max-w-2xl leading-relaxed"
+              style={{ fontFamily: "'Avenir Next', sans-serif" }}>
               Refine your search to discover extraordinary experiences curated for discerning travelers
             </p>
           </div>
