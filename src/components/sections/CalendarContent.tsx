@@ -59,6 +59,39 @@ export function CalendarContent() {
   }, []);
 
 
+  // Simple fetch from ipapi.co (uses your current IP, HTTPS and CORS-friendly)
+  async function getLocationFromIP() {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      return {
+        latitude: parseFloat(data.latitude),
+        longitude: parseFloat(data.longitude),
+        city: data.city,
+        country: data.country_name,
+        region: data.region
+      };
+    } catch (error) {
+      console.error('IP location failed:', error);
+      // Fallback to ipinfo.io
+      try {
+        const fallbackResponse = await fetch('https://ipinfo.io/json');
+        const fallbackData = await fallbackResponse.json();
+        const [lat, lon] = fallbackData.loc.split(',');
+        return {
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lon),
+          city: fallbackData.city,
+          country: fallbackData.country,
+          region: fallbackData.region
+        };
+      } catch (fallbackError) {
+        console.error('Fallback IP location also failed:', fallbackError);
+        return null;
+      }
+    }
+  }
+
   // Get location and weather on component mount (only once)
   useEffect(() => {
     const initializeLocationAndWeather = async () => {
@@ -67,16 +100,13 @@ export function CalendarContent() {
       const cachedLocation = localStorage.getItem('calendarLocationData');
       const lastFetch = localStorage.getItem('calendarWeatherLastFetch');
 
-
       const now = Date.now();
       const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
-
 
       // If we have fresh cached data, use it
       if (cachedWeather && cachedLocation && lastFetch && (now - parseInt(lastFetch)) < thirtyMinutes) {
         const weatherData = JSON.parse(cachedWeather);
         const locationData = JSON.parse(cachedLocation);
-
 
         setWeather(weatherData);
         setUserLocation(locationData.location);
@@ -84,80 +114,27 @@ export function CalendarContent() {
         return;
       }
 
+      // Fetch location using IP-based service
+      const locationData = await getLocationFromIP();
+      if (locationData) {
+        const locationName = `${locationData.city}, ${locationData.country}`;
+        const coords = { lat: locationData.latitude, lon: locationData.longitude };
 
-      // Otherwise, fetch fresh data
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            const coords = { lat: latitude, lon: longitude };
-            setCoordinates(coords);
+        setUserLocation(locationName);
+        setCoordinates(coords);
 
+        // Cache location data
+        localStorage.setItem('calendarLocationData', JSON.stringify({
+          location: locationName,
+          coordinates: coords
+        }));
 
-            // Get location name using free BigDataCloud API
-            let locationName = 'Location found';
-            try {
-              const locationResponse = await fetch(
-                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-              );
-              const locationData = await locationResponse.json();
-              locationName = `${locationData.city || locationData.locality}, ${locationData.countryName}`;
-            } catch (error) {
-              console.error('Location name fetch failed:', error);
-            }
-
-
-            setUserLocation(locationName);
-
-
-            // Cache location data
-            localStorage.setItem('calendarLocationData', JSON.stringify({
-              location: locationName,
-              coordinates: coords
-            }));
-
-
-            // Get weather data
-            await fetchWeather(latitude, longitude);
-          },
-          async (error) => {
-            console.error('Geolocation failed:', error);
-            // Fallback to IP-based location
-            try {
-              const ipResponse = await fetch('http://ip-api.com/json/');
-              const ipData = await ipResponse.json();
-              const locationName = `${ipData.city}, ${ipData.country}`;
-              const coords = { lat: ipData.lat, lon: ipData.lon };
-
-
-              setUserLocation(locationName);
-              setCoordinates(coords);
-
-
-              // Cache location data
-              localStorage.setItem('calendarLocationData', JSON.stringify({
-                location: locationName,
-                coordinates: coords
-              }));
-
-
-              await fetchWeather(ipData.lat, ipData.lon);
-            } catch (err) {
-              console.error('IP location failed:', err);
-              setUserLocation('Location unavailable');
-            }
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 1800000 // Cache geolocation for 30 minutes
-          }
-        );
+        // Get weather data
+        await fetchWeather(locationData.latitude, locationData.longitude);
       } else {
-        setUserLocation('Geolocation not supported');
+        setUserLocation('Location unavailable');
       }
     };
-
 
     initializeLocationAndWeather();
   }, []);
