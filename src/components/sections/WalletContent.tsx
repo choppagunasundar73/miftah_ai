@@ -18,16 +18,16 @@ import {
 } from 'lucide-react';
 
 export function WalletContent() {
-    const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>(['AED']);
+    const [enabledCurrencies, setEnabledCurrencies] = useState<string[]>(['EUR', 'AED']);
     const [showBalances, setShowBalances] = useState(true);
 
     const currencies = [
-        { code: 'USD', name: 'US Dollar', flag: '🇺🇸', balance: 2500.00, enabled: false },
-        { code: 'EUR', name: 'Euro', flag: '🇪🇺', balance: 1800.50, enabled: true },
-        { code: 'GBP', name: 'British Pound', flag: '🇬🇧', balance: 950.25, enabled: false },
-        { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪', balance: 8750.00, enabled: true },
-        { code: 'JPY', name: 'Japanese Yen', flag: '🇯🇵', balance: 125000, enabled: false },
-        { code: 'CHF', name: 'Swiss Franc', flag: '🇨🇭', balance: 1200.75, enabled: false }
+        { code: 'USD', name: 'US Dollar', flag: '🇺🇸', balance: 2500.00 },
+        { code: 'EUR', name: 'Euro', flag: '🇪🇺', balance: 1800.50 },
+        { code: 'GBP', name: 'British Pound', flag: '🇬🇧', balance: 950.25 },
+        { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪', balance: 8750.00 },
+        { code: 'JPY', name: 'Japanese Yen', flag: '🇯🇵', balance: 125000 },
+        { code: 'CHF', name: 'Swiss Franc', flag: '🇨🇭', balance: 1200.75 }
     ];
 
     const recentTransactions = [
@@ -64,7 +64,7 @@ export function WalletContent() {
     ];
 
     const toggleCurrency = (currencyCode: string) => {
-        setSelectedCurrencies(prev =>
+        setEnabledCurrencies(prev =>
             prev.includes(currencyCode)
                 ? prev.filter(c => c !== currencyCode)
                 : [...prev, currencyCode]
@@ -196,7 +196,7 @@ export function WalletContent() {
                                         <div className="font-medium text-[#E3DCD4]" style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                                             {formatBalance(currency.balance, currency.code)}
                                         </div>
-                                        {currency.enabled && (
+                                        {enabledCurrencies.includes(currency.code) && (
                                             <div className="text-xs text-[#957D65] flex items-center space-x-1">
                                                 <Zap size={10} />
                                                 <span>Active</span>
@@ -206,12 +206,14 @@ export function WalletContent() {
 
                                     <button
                                         onClick={() => toggleCurrency(currency.code)}
-                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${currency.enabled ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                                            }`}
+                                        className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${
+                                            enabledCurrencies.includes(currency.code) ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                                        }`}
                                     >
                                         <span
-                                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${currency.enabled ? 'translate-x-6' : 'translate-x-1'
-                                                }`}
+                                            className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${
+                                                enabledCurrencies.includes(currency.code) ? 'translate-x-6' : 'translate-x-1'
+                                            }`}
                                         />
                                     </button>
                                 </div>

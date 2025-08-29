@@ -141,16 +141,14 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
               </div>
               <button
                 onClick={handleBambinoToggle}
-                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${
-                  bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                }`}
+                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                  }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${
-                    language === 'ar'
+                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${language === 'ar'
                       ? (bambinoMode ? 'translate-x-[-1.25rem]' : 'translate-x-[-0.25rem]')
                       : (bambinoMode ? 'translate-x-6' : 'translate-x-1')
-                  }`}
+                    }`}
                 />
               </button>
             </div>
@@ -184,16 +182,14 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                     setIncognitoMode(!incognitoMode);
                   }
                 }}
-                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${
-                  incognitoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                }`}
+                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${incognitoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                  }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${
-                    language === 'ar'
+                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${language === 'ar'
                       ? (incognitoMode ? 'translate-x-[-1.25rem]' : 'translate-x-[-0.25rem]')
                       : (incognitoMode ? 'translate-x-6' : 'translate-x-1')
-                  }`}
+                    }`}
                 />
               </button>
             </div>
