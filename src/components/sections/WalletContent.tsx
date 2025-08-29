@@ -91,29 +91,29 @@ export function WalletContent() {
     };
 
     return (
-        <div className="h-full flex flex-col bg-[#222635]">
+        <div className="h-full flex flex-col bg-[#222635] overflow-hidden">
             {/* Header */}
-            <div className="pl-16 pr-8 py-6 bg-[#222635]">
-                <div className="flex items-center justify-between mb-6">
+            <div className="px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6 bg-[#222635]">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
                     <div>
-                        <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+                        <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
                             style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
                             Miftah Wallet
                         </h1>
-                        <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+                        <p className="text-sm sm:text-base text-[#E3DCD4]/70 leading-relaxed font-light"
                             style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                             Manage your funds and payments for exclusive experiences
                         </p>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 sm:space-x-4">
                         <button
                             onClick={() => setShowBalances(!showBalances)}
-                            className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20"
+                            className="p-2 sm:p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20"
                         >
-                            {showBalances ? <Eye size={20} /> : <EyeOff size={20} />}
+                            {showBalances ? <Eye size={16} className="sm:w-5 sm:h-5" /> : <EyeOff size={16} className="sm:w-5 sm:h-5" />}
                         </button>
-                        <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
-                            <Settings size={20} />
+                        <button className="p-2 sm:p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
+                            <Settings size={16} className="sm:w-5 sm:h-5" />
                         </button>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ export function WalletContent() {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 overflow-y-auto pl-16 pr-8 py-6">
+            <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6">
                 {/* Total Balance Card */}
                 <div className="mb-8 p-6 glassmorphic glassmorphic-animated rounded-2xl border border-[#957D65]/20 bg-gradient-to-br from-[#957D65]/10 to-[#957D65]/5">
                     <div className="flex items-center justify-between mb-4">

@@ -183,31 +183,31 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
   if (!isActive) return null;
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-gradient-to-br from-[#222635] to-[#2a2f42] relative">
+    <div className="flex-1 flex flex-col h-full bg-gradient-to-br from-[#222635] to-[#2a2f42] relative overflow-hidden">
       {isInitialState ? (
         // Initial centered state
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-2xl w-full space-y-6 text-center">
+        <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
+          <div className="max-w-2xl w-full space-y-4 sm:space-y-6 text-center">
             {/* Welcome message */}
             <div className="space-y-2">
-              <div className="w-28 h-28 mx-auto mb-3">
+              <div className="w-20 h-20 sm:w-28 sm:h-28 mx-auto mb-3">
                 <img
                   src={miftahLogo}
                   alt="Miftah AI"
                   className="w-full h-full object-contain filter drop-shadow-lg"
                 />
               </div>
-              <h2 className="text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
+              <h2 className="text-lg sm:text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
                 {t('chat.how_can_help')}
               </h2>
-              <p className="text-[#E3DCD4]/70 text-sm leading-relaxed">
+              <p className="text-[#E3DCD4]/70 text-xs sm:text-sm leading-relaxed px-2">
                 {t('chat.luxury_concierge_ready')}
               </p>
             </div>
 
             {/* Search bar */}
-            <div className="relative">
-              <div className="flex items-center bg-[#E3DCD4]/10 backdrop-blur-sm rounded-xl border border-[#957D65]/30 p-3 shadow-2xl">
+            <div className="relative px-2 sm:px-0">
+              <div className="flex items-center bg-[#E3DCD4]/10 backdrop-blur-sm rounded-xl border border-[#957D65]/30 p-2 sm:p-3 shadow-2xl">
                 <input
                   type="text"
                   value={inputValue}
@@ -218,7 +218,7 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
                 />
                 <button
                   onClick={handleSendMessage}
-                  className="ml-3 p-2 bg-[#957D65] hover:bg-[#957D65]/80 rounded-lg transition-all duration-200 hover:scale-105 shadow-lg"
+                  className="ml-2 sm:ml-3 p-2 bg-[#957D65] hover:bg-[#957D65]/80 rounded-lg transition-all duration-200 hover:scale-105 shadow-lg"
                 >
                   <Send size={16} className="text-[#E3DCD4]" />
                 </button>
@@ -226,24 +226,24 @@ export function ChatInterface({ isActive }: ChatInterfaceProps) {
             </div>
 
             {/* Search recommendations */}
-            <div className="space-y-2">
+            <div className="space-y-2 px-2 sm:px-0">
               <h3 className="text-xs font-medium uppercase tracking-widest text-[#E3DCD4]/60">
                 {t('chat.popular_requests')}
               </h3>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 {searchRecommendations.map((rec, index) => {
                   const Icon = rec.icon;
                   return (
                     <button
                       key={index}
                       onClick={() => handleRecommendationClick(rec.text)}
-                      className="flex-1 flex items-center space-x-2 p-2 bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-lg border border-[#E3DCD4]/10 hover:border-[#957D65]/30 transition-all duration-200 hover:scale-[1.02] text-left"
+                      className="flex-1 flex items-center space-x-2 p-3 sm:p-2 bg-[#E3DCD4]/5 hover:bg-[#E3DCD4]/10 rounded-lg border border-[#E3DCD4]/10 hover:border-[#957D65]/30 transition-all duration-200 hover:scale-[1.02] text-left"
                     >
                       <div className="w-6 h-6 bg-[#957D65]/20 rounded-md flex items-center justify-center flex-shrink-0">
                         <Icon size={12} className="text-[#957D65]" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[#E3DCD4] font-medium text-xs truncate">{rec.text}</p>
+                        <p className="text-[#E3DCD4] font-medium text-xs sm:text-xs truncate">{rec.text}</p>
                       </div>
                     </button>
                   );

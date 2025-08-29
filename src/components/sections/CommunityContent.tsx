@@ -21,26 +21,26 @@ export function CommunityContent() {
   ];
 
   return (
-    <div className="h-full flex flex-col bg-[#222635]">
+    <div className="h-full flex flex-col bg-[#222635] overflow-hidden">
       {/* Luxury Header */}
-      <div className="pl-16 pr-8 py-6 bg-[#222635]">
-        <div className="flex items-center justify-between mb-6">
+      <div className="px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6 bg-[#222635]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
           <div>
-            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+            <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
               style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
               Exclusive Circle
             </h1>
-            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+            <p className="text-sm sm:text-base text-[#E3DCD4]/70 leading-relaxed font-light"
               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
               Connect with distinguished members and access insider experiences
             </p>
           </div>
-          <div className="flex items-center space-x-4">
-            <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
-              <Filter size={20} />
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <button className="p-2 sm:p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
+              <Filter size={16} className="sm:w-5 sm:h-5" />
             </button>
-            <button className="group p-4 bg-gradient-to-r from-[#957D65] to-[#957D65]/90 text-[#E3DCD4] rounded-2xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 hover:shadow-[#957D65]/40">
-              <Plus size={24} className="group-hover:rotate-90 transition-transform duration-400" />
+            <button className="group p-3 sm:p-4 bg-gradient-to-r from-[#957D65] to-[#957D65]/90 text-[#E3DCD4] rounded-2xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 hover:shadow-[#957D65]/40">
+              <Plus size={20} className="sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-400" />
             </button>
           </div>
         </div>

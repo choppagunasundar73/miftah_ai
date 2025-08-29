@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Bell, Settings, Wifi, Menu, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { User, Bell, Settings, ChevronRight } from 'lucide-react';
 import miftahLogo from '../assets/miftah_logo.png';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -16,7 +16,7 @@ export function AmbientStatusBar({
 }: AmbientStatusBarProps) {
   const { t, language } = useLanguage();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -66,13 +66,7 @@ export function AmbientStatusBar({
           </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setShowMobileMenu(!showMobileMenu)}
-          className="p-2 hover:bg-[#957D65]/10 rounded-lg transition-all duration-200 hover:scale-105 lg:hidden"
-        >
-          {showMobileMenu ? <X size={16} /> : <Menu size={16} />}
-        </button>
+
       </div>
 
 
@@ -114,26 +108,7 @@ export function AmbientStatusBar({
 
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {showMobileMenu && (
-        <div className="absolute top-full left-0 right-0 bg-[#222635] border-b border-[#957D65]/10 lg:hidden">
-          <div className="p-4 space-y-3">
-            <button
-              onClick={() => {
-                onMemoryToggle();
-                setShowMobileMenu(false);
-              }}
-              className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${memoryOpen
-                ? 'bg-[#957D65]/20 text-[#957D65]'
-                : 'text-[#E3DCD4]/80 hover:bg-[#957D65]/5'
-                }`}
-            >
-              {t('status.memory_panel')}
-            </button>
 
-          </div>
-        </div>
-      )}
     </div>
   );
 }

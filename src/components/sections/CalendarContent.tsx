@@ -467,7 +467,7 @@ export function CalendarContent() {
     // Day headers
     dayNames.forEach((day, index) => {
       days.push(
-        <div key={day} className={`p-3 text-center text-sm font-medium text-[#E3DCD4]/80 border-b border-[#957D65]/20 bg-[#222635] ${index === 0 ? 'pl-11' : ''}`}>
+        <div key={day} className={`p-3 text-center text-sm font-medium text-[#E3DCD4]/80 border-b border-[#957D65]/20 bg-[#222635] ${index === 0 ? 'lg:pl-11 pl-3' : ''}`}>
           {day}
         </div>
       );
@@ -476,7 +476,7 @@ export function CalendarContent() {
 
     // Empty cells for days before month starts
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className={`p-3 border-b border-r border-[#957D65]/20 bg-[#222635] ${i === 0 ? 'pl-11' : ''}`}></div>);
+      days.push(<div key={`empty-${i}`} className={`p-3 border-b border-r border-[#957D65]/20 bg-[#222635] ${i === 0 ? 'lg:pl-11 pl-3' : ''}`}></div>);
     }
 
 
@@ -498,7 +498,7 @@ export function CalendarContent() {
           key={day}
           onClick={() => setSelectedDate(date)}
           className={`p-3 border-b border-r border-[#957D65]/20 cursor-pointer hover:bg-[#957D65]/10 transition-all duration-200 min-h-[100px] bg-[#222635] ${isSelected ? 'bg-[#957D65]/20 border-[#957D65]/40' : ''
-            } ${isToday ? 'bg-[#957D65]/10' : ''} ${isFirstColumn ? 'pl-11' : ''}`}
+            } ${isToday ? 'bg-[#957D65]/10' : ''} ${isFirstColumn ? 'lg:pl-11 pl-3' : ''}`}
         >
           <div className={`text-sm font-medium mb-2 ${isToday ? 'text-[#957D65] font-bold' : 'text-[#E3DCD4]'
             }`}>
@@ -537,48 +537,48 @@ export function CalendarContent() {
 
 
   return (
-    <div className="h-full flex bg-[#222635]">
+    <div className="h-full flex flex-col lg:flex-row bg-[#222635]">
       {/* Calendar View */}
       <div className="flex-1 flex flex-col">
         {/* Your existing header remains the same */}
-        <div className="pl-16 pr-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
-          <div className="flex items-center justify-between mb-6">
+        <div className="px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6 border-b border-[#957D65]/20 bg-[#222635]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+              <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
                 style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
                 Calendar
               </h1>
-              <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+              <p className="text-sm sm:text-base text-[#E3DCD4]/70 leading-relaxed font-light"
                 style={{ fontFamily: "'Avenir Next', sans-serif" }}>
                 Your curated schedule of exclusive experiences and premium engagements
               </p>
             </div>
-            <div className="flex items-center space-x-4">
-              <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
-                <Filter size={20} />
+            <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
+              <button className="p-2 sm:p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
+                <Filter size={16} className="sm:w-5 sm:h-5" />
               </button>
               <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
                 <button
                   onClick={() => setViewMode('month')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                  className={`px-2 sm:px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'month' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                     }`}
                   style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
-                  <Grid3X3 size={16} />
+                  <Grid3X3 size={14} className="sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                  className={`px-2 sm:px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                     }`}
                   style={{ fontFamily: "'Avenir Next', sans-serif" }}
                 >
-                  <List size={16} />
+                  <List size={14} className="sm:w-4 sm:h-4" />
                 </button>
               </div>
-              <button className="flex items-center space-x-2 px-6 py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30"
+              <button className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-6 py-2 sm:py-3 bg-[#957D65] text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 shadow-2xl shadow-[#957D65]/30 flex-1 sm:flex-none justify-center"
                 style={{ fontFamily: "'Avenir Next', sans-serif", fontWeight: 500, letterSpacing: '0.5px' }}>
-                <Plus size={20} />
-                <span className="text-sm uppercase tracking-wider">Add Event</span>
+                <Plus size={16} className="sm:w-5 sm:h-5" />
+                <span className="text-xs sm:text-sm uppercase tracking-wider">Add Event</span>
               </button>
             </div>
           </div>
@@ -687,8 +687,8 @@ export function CalendarContent() {
 
 
       {/* Sidebar - Updated with Live Data */}
-      <div className="w-80 border-l border-[#957D65]/20 bg-[#222635]">
-        <div className="p-6">
+      <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-[#957D65]/20 bg-[#222635] lg:max-h-none max-h-96 overflow-y-auto">
+        <div className="p-4 sm:p-6">
           {/* Selected Date Events */}
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-serif font-medium text-[#E3DCD4]" style={{ fontFamily: "'Playfair Display', serif" }}>

@@ -7,6 +7,7 @@ import { SplashScreen } from './components/SplashScreen';
 import { PreferencesModal } from './components/PreferencesModal';
 import { IncognitoInterface } from './components/IncognitoInterface';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { useIsMobile } from './hooks/use-mobile';
 import './styles/rtl.css';
 
 function App() {
@@ -16,24 +17,17 @@ function App() {
   const [activeSection, setActiveSection] = useState('chats');
   const [showPreferences, setShowPreferences] = useState(false);
   const [incognitoMode, setIncognitoMode] = useState(false);
+  const isMobile = useIsMobile();
 
   // Handle responsive behavior
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setMemoryPanelOpen(false);
-      } else {
-        // Auto-open memory panel on desktop for better UX
-        setMemoryPanelOpen(true);
-      }
-    };
-
-    // Set initial state based on screen size
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    if (isMobile) {
+      setMemoryPanelOpen(false);
+    } else {
+      // Auto-open memory panel on desktop for better UX
+      setMemoryPanelOpen(true);
+    }
+  }, [isMobile]);
 
   // Handle keyboard shortcuts for conversation-centric experience
   useEffect(() => {
@@ -155,7 +149,7 @@ function App() {
       {/* <SmartContextDrawer /> */}
 
       {/* Overlay for mobile panel management */}
-      {memoryPanelOpen && window.innerWidth < 1024 && (
+      {memoryPanelOpen && isMobile && (
         <div
           className="fixed inset-0 bg-[#222635]/20 backdrop-blur-sm z-20 lg:hidden"
           onClick={() => {

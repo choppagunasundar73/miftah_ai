@@ -194,7 +194,7 @@ export function BookingContent() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#222635]">
+    <div className="h-full flex flex-col bg-[#222635] overflow-hidden">
       {/* Luxury Header */}
       <div className="px-4 sm:px-6 lg:px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
         <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4">

@@ -134,7 +134,7 @@ export function MemoryContextPanel({
 
     return (
         <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-[#E3DCD4] text-[#222635] transition-transform duration-300 z-30 shadow-2xl shadow-[#222635]/20 ${isOpen ? 'translate-x-0' : '-translate-x-full'
-            } w-80 flex flex-col backdrop-blur-sm`}>
+            } w-80 lg:w-80 sm:w-72 xs:w-64 flex flex-col backdrop-blur-sm`}>
 
             {/* Navigation */}
             <div className="p-6">

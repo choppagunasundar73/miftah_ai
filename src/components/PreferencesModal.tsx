@@ -61,11 +61,11 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#222635] rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-[#222635] rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden mx-4">
         {/* Header */}
-        <div className="p-6 border-b border-[#957D65]/20">
+        <div className="p-4 sm:p-6 border-b border-[#957D65]/20">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
+            <h2 className="text-lg sm:text-xl font-serif font-medium text-[#E3DCD4] tracking-wide">
               {t('preferences.title')}
             </h2>
             <button
@@ -78,7 +78,7 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto">
           {/* Language Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -141,19 +141,16 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
               </div>
               <button
                 onClick={handleBambinoToggle}
-                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                  }`}
+                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${
+                  bambinoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                }`}
               >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
-                  style={language === 'ar' ? {
-                    right: bambinoMode ? '0.25rem' : '1.75rem',
-                    left: 'auto',
-                    transition: 'right 0.2s ease-in-out'
-                  } : {
-                    transform: bambinoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
-                    transition: 'transform 0.2s ease-in-out'
-                  }}
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${
+                    language === 'ar'
+                      ? (bambinoMode ? 'translate-x-[-1.25rem]' : 'translate-x-[-0.25rem]')
+                      : (bambinoMode ? 'translate-x-6' : 'translate-x-1')
+                  }`}
                 />
               </button>
             </div>
@@ -187,19 +184,16 @@ export function PreferencesModal({ isOpen, onClose, onActivateIncognito }: Prefe
                     setIncognitoMode(!incognitoMode);
                   }
                 }}
-                className={`relative w-12 h-6 rounded-full transition-all duration-200 ${incognitoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
-                  }`}
+                className={`relative inline-flex items-center h-7 w-12 min-h-[28px] min-w-[48px] shrink-0 rounded-[14px] p-0 appearance-none [-webkit-appearance:none] overflow-hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#957D65] focus:ring-offset-2 focus:ring-offset-[#222635] ${
+                  incognitoMode ? 'bg-[#957D65]' : 'bg-[#E3DCD4]/20'
+                }`}
               >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200`}
-                  style={language === 'ar' ? {
-                    right: incognitoMode ? '0.25rem' : '1.75rem',
-                    left: 'auto',
-                    transition: 'right 0.2s ease-in-out'
-                  } : {
-                    transform: incognitoMode ? 'translateX(1.75rem)' : 'translateX(0.25rem)',
-                    transition: 'transform 0.2s ease-in-out'
-                  }}
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform transition-transform duration-200 ${
+                    language === 'ar'
+                      ? (incognitoMode ? 'translate-x-[-1.25rem]' : 'translate-x-[-0.25rem]')
+                      : (incognitoMode ? 'translate-x-6' : 'translate-x-1')
+                  }`}
                 />
               </button>
             </div>

@@ -11,7 +11,7 @@ export const colors = {
   canvas: '#E3DCD4',        // White - Primary background, message bubbles
   canvasLight: '#E3DCD4',   // Same as canvas (no variations)
   canvasDark: '#E3DCD4',    // Same as canvas (no variations)
-  
+
   // Structural Depth
   navy: '#222635',          // Navy Blue - Text, structural elements, user messages
   navyLight: 'rgba(34, 38, 53, 0.8)',   // Navy with 80% opacity
@@ -20,7 +20,7 @@ export const colors = {
   navyFaint: 'rgba(34, 38, 53, 0.2)',   // Navy with 20% opacity
   navyGhost: 'rgba(34, 38, 53, 0.1)',   // Navy with 10% opacity
   navyWhisper: 'rgba(34, 38, 53, 0.05)', // Navy with 5% opacity
-  
+
   // Accent & Indicators
   sand: '#957D65',          // Sand - Accents, chips, indicators, Memory panel
   sandLight: 'rgba(149, 125, 101, 0.8)',   // Sand with 80% opacity
@@ -29,7 +29,7 @@ export const colors = {
   sandFaint: 'rgba(149, 125, 101, 0.2)',   // Sand with 20% opacity
   sandGhost: 'rgba(149, 125, 101, 0.1)',   // Sand with 10% opacity
   sandWhisper: 'rgba(149, 125, 101, 0.05)', // Sand with 5% opacity
-  
+
   // Contextual States (derived from brand palette)
   success: '#957D65',       // Use sand for positive states
   warning: 'rgba(149, 125, 101, 0.8)',  // Sand light for warnings
@@ -42,7 +42,7 @@ export const typography = {
   // Font Families
   serif: "'Crimson Text', serif",      // Editorial serif for conversational headings
   sans: "'Inter', sans-serif",         // Modern sans for UI and body text
-  
+
   // Font Sizes (Large, airy scale)
   sizes: {
     xs: '0.75rem',      // 12px - Timestamps, metadata
@@ -54,7 +54,7 @@ export const typography = {
     '3xl': '1.875rem',  // 30px - Page titles
     '4xl': '2.25rem',   // 36px - Hero text
   },
-  
+
   // Font Weights
   weights: {
     light: 300,         // Light text, elegant feel
@@ -63,7 +63,7 @@ export const typography = {
     semibold: 600,      // Strong emphasis
     bold: 700,          // Headers, important text
   },
-  
+
   // Line Heights (Generous for elevated feel)
   lineHeights: {
     tight: 1.25,        // Compact text
@@ -71,7 +71,7 @@ export const typography = {
     relaxed: 1.625,     // Comfortable reading
     loose: 2,           // Very spacious
   },
-  
+
   // Letter Spacing
   tracking: {
     tighter: '-0.05em',
@@ -111,7 +111,7 @@ export const shadows = {
   lg: '0 10px 15px -3px rgba(34, 38, 53, 0.1), 0 4px 6px -2px rgba(34, 38, 53, 0.05)',
   xl: '0 20px 25px -5px rgba(34, 38, 53, 0.1), 0 10px 10px -5px rgba(34, 38, 53, 0.04)',
   '2xl': '0 25px 50px -12px rgba(34, 38, 53, 0.25)',
-  
+
   // Colored shadows for brand elements
   sandSm: '0 1px 2px 0 rgba(149, 125, 101, 0.1)',
   sandBase: '0 1px 3px 0 rgba(149, 125, 101, 0.2), 0 1px 2px 0 rgba(149, 125, 101, 0.12)',
@@ -191,20 +191,20 @@ export const interactiveStates = {
   // Focus rings (Navy for accessibility)
   focusRing: `0 0 0 2px ${colors.navyFaint}`,
   focusRingVisible: `0 0 0 2px ${colors.navySubtle}`,
-  
+
   // Hover states
   hover: {
     scale: 'scale(1.02)',
     scaleSmall: 'scale(1.01)',
     scaleLarge: 'scale(1.05)',
   },
-  
+
   // Active states
   active: {
     background: colors.sandFaint,
     border: `1px solid ${colors.sandSubtle}`,
   },
-  
+
   // Disabled states
   disabled: {
     opacity: '0.5',
@@ -218,7 +218,7 @@ export const animations = {
   base: '200ms',
   slow: '300ms',
   slower: '500ms',
-  
+
   // Easing functions
   easeOut: 'cubic-bezier(0.0, 0.0, 0.2, 1)',
   easeIn: 'cubic-bezier(0.4, 0.0, 1, 1)',
@@ -258,12 +258,12 @@ export const a11y = {
     aa: 4.5,      // WCAG AA standard
     aaa: 7,       // WCAG AAA standard
   },
-  
+
   // Focus indicators
   focusWidth: '2px',
   focusStyle: 'solid',
   focusColor: colors.navySubtle,
-  
+
   // Screen reader text
   srOnly: {
     position: 'absolute',
@@ -289,15 +289,15 @@ export const conversationCanvas = {
   maxWidth: '64rem', // 1024px - Optimal reading width
   padding: `${spacing[6]} ${spacing[8]}`,
   messageSpacing: spacing[6],
-  
+
   // Message alignment
   userMessageAlign: 'flex-end',
   conciergeMessageAlign: 'flex-start',
-  
+
   // Service card specifications
   serviceCardSpacing: spacing[3],
   serviceCardMaxWidth: '100%',
-  
+
   // Suggestion chips
   suggestionChip: {
     background: colors.sandGhost,
@@ -320,7 +320,7 @@ export const inputArea = {
   backdropBlur: 'blur(12px)',
   border: `1px solid ${colors.sandFaint}`,
   padding: spacing[6],
-  
+
   // Input field
   input: {
     background: 'rgba(255, 255, 255, 0.6)',
@@ -329,21 +329,21 @@ export const inputArea = {
     padding: `${spacing[4]} ${spacing[6]}`,
     fontSize: typography.sizes.base,
     fontWeight: typography.weights.light,
-    
+
     focus: {
       outline: 'none',
       ring: `2px solid ${colors.navyFaint}`,
       border: `1px solid ${colors.navySubtle}`,
     },
   },
-  
+
   // Quick action buttons
   quickAction: {
     background: colors.sandGhost,
     text: colors.sand,
     borderRadius: borderRadius.full,
     padding: spacing[3],
-    
+
     hover: {
       background: colors.sandFaint,
       transform: interactiveStates.hover.scaleLarge,

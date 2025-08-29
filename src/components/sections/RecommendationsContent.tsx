@@ -138,28 +138,28 @@ export function RecommendationsContent() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#222635]">
+    <div className="h-full flex flex-col bg-[#222635] overflow-hidden">
       {/* Luxury Header */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6 border-b border-[#957D65]/20 bg-[#222635]">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
+      <div className="px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6 border-b border-[#957D65]/20 bg-[#222635]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+          <div className="flex-1 max-w-2xl">
+            <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[#E3DCD4] tracking-tight leading-tight mb-2"
               style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '-0.02em' }}>
               Miftah Recommendations
             </h1>
-            <p className="text-base text-[#E3DCD4]/70 leading-relaxed font-light"
+            <p className="text-sm sm:text-base text-[#E3DCD4]/70 leading-relaxed font-light"
               style={{ fontFamily: "'Avenir Next', sans-serif" }}>
               Personally selected experiences tailored to your refined preferences
             </p>
           </div>
-          <div className="flex items-center space-x-4">
-            <button className="p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
-              <Filter size={20} />
+          <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto flex-shrink-0">
+            <button className="p-2 sm:p-3 bg-[#E3DCD4]/10 border border-[#957D65]/30 text-[#E3DCD4] rounded-xl hover:scale-102 transition-all duration-400 hover:bg-[#E3DCD4]/20">
+              <Filter size={16} className="sm:w-5 sm:h-5" />
             </button>
-            <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20">
+            <div className="flex bg-[#E3DCD4]/5 rounded-xl p-1 border border-[#957D65]/20 flex-1 sm:flex-none">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-all duration-400 ${viewMode === 'grid' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                   }`}
                 style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
@@ -167,7 +167,7 @@ export function RecommendationsContent() {
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`px-4 py-2 rounded-lg text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
+                className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-all duration-400 ${viewMode === 'list' ? 'bg-[#957D65] text-[#E3DCD4]' : 'text-[#E3DCD4]/60 hover:text-[#E3DCD4]'
                   }`}
                 style={{ fontFamily: "'Avenir Next', sans-serif" }}
               >
@@ -178,8 +178,8 @@ export function RecommendationsContent() {
         </div>
 
         {/* Luxury Search Bar */}
-        <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={18} style={{ opacity: 1 }} />
+        <div className="relative mb-4 sm:mb-6">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#957D65] z-10" size={16} style={{ opacity: 1 }} />
           <input
             type="text"
             placeholder="Discover exclusive experiences..."
@@ -191,12 +191,12 @@ export function RecommendationsContent() {
         </div>
 
         {/* Premium Filters */}
-        <div className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
+        <div className="flex space-x-2 sm:space-x-3 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
-              className={`flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${activeFilter === filter.id
+              className={`flex-shrink-0 flex items-center space-x-2 sm:space-x-3 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-400 hover:scale-102 ${activeFilter === filter.id
                 ? 'bg-[#957D65] text-[#E3DCD4] shadow-lg shadow-[#957D65]/30'
                 : 'bg-[#E3DCD4]/10 text-[#E3DCD4]/70 hover:bg-[#E3DCD4]/20 hover:text-[#E3DCD4] border border-[#957D65]/20'
                 }`}
@@ -221,7 +221,7 @@ export function RecommendationsContent() {
 
       {/* Luxury Recommendations Gallery */}
       <div className="flex-1 overflow-y-auto bg-[#222635]">
-        <div className={`px-4 sm:px-6 lg:px-8 py-6 ${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8' : 'space-y-6'}`}>
+        <div className={`px-4 sm:px-6 lg:pl-16 lg:pr-8 py-4 sm:py-6 ${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8' : 'space-y-4 sm:space-y-6'}`}>
           {filteredRecommendations.map((recommendation) => (
             <div
               key={recommendation.id}
